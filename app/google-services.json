@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "682123926658",
+    "firebase_url": "https://medproject-d78df.firebaseio.com",
+    "project_id": "medproject-d78df",
+    "storage_bucket": "medproject-d78df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682123926658:android:84d9909f32f6f282d2289b",
+        "android_client_info": {
+          "package_name": "com.example.medproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682123926658-uc2np4j6o89h2n46bj5j5mn3r1i3pn1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdgtwLOZvcNUcPxYPUTmmlsKkHXjbnU18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682123926658-uc2np4j6o89h2n46bj5j5mn3r1i3pn1f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
