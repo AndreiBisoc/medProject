@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ListActivity">
 
-    <TextView
-        android:id="@+id/tvDrugs"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDrugs"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
