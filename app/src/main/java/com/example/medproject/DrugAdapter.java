@@ -88,15 +88,27 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         return drugs.size();
     }
 
-    public class DrugViewHolder extends RecyclerView.ViewHolder {
+    public class DrugViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvNume;
+        TextView tvScop;
+        TextView tvUnitate;
         public DrugViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNume = (TextView) itemView.findViewById(R.id.tvNume);
+            tvScop = (TextView) itemView.findViewById(R.id.tvScop);
+            tvUnitate = (TextView) itemView.findViewById(R.id.tvUnitate);
         }
 
         public void bind(Drug drug){
             tvNume.setText(drug.getNume());
+            tvScop.setText(drug.getScop());
+            tvUnitate.setText(drug.getUnitate());
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Log.d("Click", String.valueOf(position));
         }
     }
 
