@@ -3,6 +3,7 @@ package com.example.medproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ public class DrugActivity extends AppCompatActivity {
     EditText txtScop;
     EditText txtUnitate;
     EditText txtDescriere;
+    Drug drug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,17 @@ public class DrugActivity extends AppCompatActivity {
         txtScop = (EditText) findViewById(R.id.txtScop);
         txtUnitate = (EditText) findViewById(R.id.txtUnitate);
         txtDescriere = (EditText) findViewById(R.id.txtDescriere);
+
+        Intent intent = getIntent();
+        Drug drug = (Drug) intent.getSerializableExtra("Drug");
+        if(drug == null){
+            drug = new Drug();
+        }
+        this.drug = drug;
+        txtNume.setText(drug.getNume());
+        txtScop.setText(drug.getScop());
+        txtUnitate.setText(drug.getUnitate());
+        txtDescriere.setText(drug.getDescriere());
     }
 
     @Override
@@ -51,6 +64,13 @@ public class DrugActivity extends AppCompatActivity {
                 saveDrug();
                 Toast.makeText(this, "Medicamentul a fost salvat", Toast.LENGTH_LONG).show();
                 clean();
+                backtoList();
+                return true;
+            case R.id.delete_menu:
+                deleteDrug();
+                Toast.makeText(this, "Medicamentul a fost șters", Toast.LENGTH_LONG).show();
+                clean();
+                backtoList();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -58,12 +78,29 @@ public class DrugActivity extends AppCompatActivity {
     }
 
     private void saveDrug(){
-        String nume = txtNume.getText().toString();
-        String scop = txtScop.getText().toString();
-        String unitate = txtUnitate.getText().toString();
-        String descriere = txtDescriere.getText().toString();
-        Drug drug =  new Drug(nume, scop, unitate, descriere);
-        mDatabaseReference.push().setValue(drug);
+        drug.setNume(txtNume.getText().toString());
+        drug.setScop(txtScop.getText().toString());
+        drug.setUnitate(txtUnitate.getText().toString());
+        drug.setDescriere(txtDescriere.getText().toString());
+        if(drug.getId() == null) {
+            mDatabaseReference.push().setValue(drug);
+        }
+        else{
+            mDatabaseReference.child(drug.getId()).setValue(drug);
+        }
+    }
+
+    private void deleteDrug(){
+        if(drug == null){
+            Toast.makeText(this,"Vă rugăm salvați medicamentul înainte să îl ștergeți!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mDatabaseReference.child(drug.getId()).removeValue();
+    }
+
+    private void backtoList(){
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
     }
 
     private void clean() {

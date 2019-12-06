@@ -1,6 +1,7 @@
 package com.example.medproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,6 +98,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             tvNume = (TextView) itemView.findViewById(R.id.tvNume);
             tvScop = (TextView) itemView.findViewById(R.id.tvScop);
             tvUnitate = (TextView) itemView.findViewById(R.id.tvUnitate);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Drug drug){
@@ -106,9 +108,13 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
             int position = getAdapterPosition();
             Log.d("Click", String.valueOf(position));
+            Drug selectedDrug = drugs.get(position);
+            Intent intent = new Intent(view.getContext(),DrugActivity.class);
+            intent.putExtra("Drug", selectedDrug);
+            view.getContext().startActivity(intent);
         }
     }
 
