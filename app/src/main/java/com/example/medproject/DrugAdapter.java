@@ -30,7 +30,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     private ChildEventListener mChildListener;
 
     public DrugAdapter(){
-        FirebaseUtil.openFbReference("Drugs");
+        //FirebaseUtil.openFbReference("Drugs");
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         drugs = FirebaseUtil.mDrugs;
