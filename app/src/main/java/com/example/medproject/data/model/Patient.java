@@ -1,4 +1,4 @@
-package com.example.medproject;
+package com.example.medproject.data.model;
 
 import java.util.Date;
 

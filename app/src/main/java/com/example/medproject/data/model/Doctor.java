@@ -1,21 +1,19 @@
-package com.example.medproject;
+package com.example.medproject.data.model;
 
 public class Doctor {
 
     private String id;
+    private String email;
+    private String password;
     private String firstName;
     private String lastName;
-    private String specialisation;
-    private String username;
-    private String password;
-    private String email;
+    private String specialization;
     private String phone;
 
-    public Doctor(String firstName, String lastName, String specialisation, String username, String password, String email, String phone) {
+    public Doctor(String email, String password, String firstName, String lastName, String specialization, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.specialisation = specialisation;
-        this.username = username;
+        this.specialization = specialization;
         this.password = password;
         this.email = email;
         this.phone = phone;
@@ -45,20 +43,12 @@ public class Doctor {
         this.lastName = lastName;
     }
 
-    public String getSpecialisation() {
-        return specialisation;
+    public String getSpecialization() {
+        return specialization;
     }
 
-    public void setSpecialisation(String specialisation) {
-        this.specialisation = specialisation;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setSpecialization(String specialisation) {
+        this.specialization = specialization;
     }
 
     public String getPassword() {
@@ -73,9 +63,7 @@ public class Doctor {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public String getPhone() {
         return phone;

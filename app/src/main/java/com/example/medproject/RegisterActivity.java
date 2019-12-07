@@ -2,87 +2,77 @@ package com.example.medproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.RadioGroup;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.medproject.ui.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    private EditText txtFistName;
-    private EditText txtLastName;
-    private Spinner spinnerSpecialisation;
-    private EditText txtUsername;
     private EditText txtPassword;
     private EditText txtEmail;
-    private EditText txtPhone;
-    private Button registerButton;
-    Doctor doctor;
+    private RadioGroup radioGroup;
+    private Button nextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("Doctors");
 
-        txtFistName = findViewById(R.id.firstName);
-        txtLastName = findViewById(R.id.lastName);
-        spinnerSpecialisation = findViewById(R.id.specialisation);
-        txtUsername = findViewById(R.id.username);
-        txtPassword = findViewById(R.id.password);
         txtEmail = findViewById(R.id.email);
-        txtPhone = findViewById(R.id.phone);
+        txtPassword = findViewById(R.id.password);
 
-        registerButton = findViewById(R.id.registerButton);
-        registerButton.setEnabled(true);
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        radioGroup = findViewById(R.id.radioUserTypeGroup);
+        radioGroup.clearCheck();
+        nextButton = findViewById(R.id.registerButton);
+
+        nextButton.setEnabled(true);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v){
-                saveDoctorToDatabase();
+
+                int checkedId = radioGroup.getCheckedRadioButtonId();
+                switch (checkedId) {
+                    case R.id.isDoctorButton:
+                        goToNextRegisterPage("doctor");
+                        break;
+                    case R.id.isPacientButton:
+                        goToNextRegisterPage("patient");
+                        break;
+                    default:
+                        break;
+                }
                 clean();
             }
         });
     }
 
-    public void addListenerOnSpinnerItemSelection() {
-        spinnerSpecialisation = (Spinner) findViewById(R.id.specialisation);
-        spinnerSpecialisation.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-    }
-
-    public void saveDoctorToDatabase(){
-        String firstName = txtFistName.getText().toString();
-        String lastName = txtLastName.getText().toString();
-        String specialisation = spinnerSpecialisation.getSelectedItem().toString();
-        String username = txtUsername.getText().toString();
-        String password = txtPassword.getText().toString();
-        String email = txtEmail.getText().toString();
-        String phone = txtPhone.getText().toString();
-
-        doctor = new Doctor(firstName, lastName, specialisation, username, password, email, phone);
-
-        if(doctor.getId() == null) {
-            mDatabaseReference.push().setValue(doctor);
-        }
-        else{
-            mDatabaseReference.child(doctor.getId()).setValue(doctor);
-        }
-
-    }
 
     public void clean(){
-        txtFistName.setText("");
-        txtFistName.requestFocus();
-        txtLastName.setText("");
-        txtUsername.setText("");
         txtPassword.setText("");
         txtEmail.setText("");
-        txtPhone.setText("");
+        radioGroup.clearCheck();
+    }
+
+    public void goToNextRegisterPage(String type){
+        String email = txtEmail.getText().toString();
+        String password = txtPassword.getText().toString();
+        Class nextPage;
+
+        switch(type){
+            case "doctor": nextPage = DoctorRegisterActivity.class;
+                           break;
+            default: nextPage = LoginActivity.class;
+        }
+
+        Intent intent = new Intent(this, nextPage);
+        intent.putExtra("EMAIL", email);
+        intent.putExtra("PASSWORD", password);
+        startActivity(intent);
     }
 }

@@ -1,13 +1,11 @@
 package com.example.medproject;
 
-import android.app.Activity;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.medproject.data.model.Drug;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
