@@ -4,19 +4,19 @@ import java.util.Date;
 
 public class Patient {
     private String id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private Date birthDate;
     private String profession;
     private Number phone;
     private String address;
     private String imageUrl;
 
-    public Patient(String id, String firstname, String lastname, String profession, Date birthDate,
+    public Patient(String id, String firstName, String lastname, String profession, Date birthDate,
                    Number phone, String address, String imageUrl) {
         this.setId(id);
-        this.setFirstname(firstname);
-        this.setLastname(lastname);
+        this.setFirstName(firstName);
+        this.setLastName(lastname);
         this.setProfession(profession);
         this.setBirthDate(birthDate);
         this.setPhone(phone);
@@ -32,20 +32,20 @@ public class Patient {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getProfession() {

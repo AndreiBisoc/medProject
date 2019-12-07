@@ -2,11 +2,17 @@
     <string name="save_menu">save</string>
     <string name="logo">Logo</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="phone">Telefon</string>
+    <string name="password">Password</string>
+    <string name="first_name">Prenume</string>
+    <string name="last_name">Nume</string>
+    <string name="specialisation">Specializare</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Don\'t have an account?</string>
+    <string name="register_doctor">Registrează-te ca doctor!</string>
     <string name="action_register_short">Register</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
@@ -14,4 +20,19 @@
     <string name="login_failed">"Login failed"</string>
     <string name="app_name">"Med App"</string>
     <string name="delete_drug">Delete Drug</string>
+
+    <string name="country_prompt">Alege specializare</string>
+    <string-array name="doctors_specialisations">
+        <item>cardiolog</item>
+        <item>chirurg</item>
+        <item>dermatolog</item>
+        <item>endocrinolog</item>
+        <item>hematolog</item>
+        <item>medic de familie</item>
+        <item>neurolog</item>
+        <item>oncolog</item>
+        <item>pediatru</item>
+        <item>psiholog</item>
+        <item>psihiatru</item>
+    </string-array>
 </resources>
