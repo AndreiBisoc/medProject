@@ -7,19 +7,24 @@
     <string name="cont_doctor">Doctor</string>
     <string name="cont_pacient">Pacient</string>
     <string name="email">Email</string>
-    <string name="register_doctor">Registrează-te ca doctor!</string>
     <string name="password">Password</string>
+
+    <string name="register_doctor">Înregistrează-te ca doctor!</string>
     <string name="first_name">Prenume</string>
     <string name="last_name">Nume</string>
     <string name="phone">Telefon</string>
     <string name="specialisation">Specializare</string>
 
+    <string name="register_patient">Înregistrează-te ca pacient!</string>
+    <string name="birthDate">Data nașterii</string>
+    <string name="address">Adresa</string>
+
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Don\'t have an account?</string>
 
-    
-    <string name="action_register_short">Register</string>
+
+    <string name="action_register_short">Crează cont</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>

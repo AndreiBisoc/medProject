@@ -11,11 +11,11 @@ public class Doctor {
     private String phone;
 
     public Doctor(String email, String password, String firstName, String lastName, String specialization, String phone) {
+        this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.specialization = specialization;
-        this.password = password;
-        this.email = email;
         this.phone = phone;
     }
 

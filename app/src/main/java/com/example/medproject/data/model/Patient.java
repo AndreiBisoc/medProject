@@ -4,24 +4,22 @@ import java.util.Date;
 
 public class Patient {
     private String id;
+    private String email;
+    private String password;
     private String firstName;
     private String lastName;
     private Date birthDate;
-    private String profession;
-    private Number phone;
+    private String phone;
     private String address;
-    private String imageUrl;
 
-    public Patient(String id, String firstName, String lastname, String profession, Date birthDate,
-                   Number phone, String address, String imageUrl) {
-        this.setId(id);
-        this.setFirstName(firstName);
-        this.setLastName(lastname);
-        this.setProfession(profession);
-        this.setBirthDate(birthDate);
-        this.setPhone(phone);
-        this.setAddress(address);
-        this.setImageUrl(imageUrl);
+    public Patient(String email, String password, String firstName, String lastName, Date birthDate, String phone, String address) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.address = address;
     }
 
     public String getId() {
@@ -30,6 +28,22 @@ public class Patient {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -48,14 +62,6 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public String getProfession() {
-        return profession;
-    }
-
-    public void setProfession(String profession) {
-        this.profession = profession;
-    }
-
     public Date getBirthDate() {
         return birthDate;
     }
@@ -64,11 +70,11 @@ public class Patient {
         this.birthDate = birthDate;
     }
 
-    public Number getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Number phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -78,13 +84,5 @@ public class Patient {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }

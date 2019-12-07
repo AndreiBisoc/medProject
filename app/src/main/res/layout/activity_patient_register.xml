@@ -14,18 +14,16 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context=".RegisterActivity"
+        tools:context=".PatientRegisterActivity"
         android:background="@drawable/background">
 
         <ImageView
             android:id="@+id/appLogo"
-            android:layout_width="114dp"
-            android:layout_height="132dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_width="126dp"
+            android:layout_height="127dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/logo"
-            android:src="@drawable/newaccount"
+            android:src="@drawable/patient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,34 +34,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/register_title"
+            android:text="@string/register_patient"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/firstName"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:background="@drawable/input_field"
-            android:hint="@string/email"
-            android:imeActionLabel="@string/email"
-            android:inputType="textEmailAddress"
+            android:hint="@string/first_name"
+            android:imeActionLabel="@string/first_name"
+            android:selectAllOnFocus="true"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.775"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appName" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/lastName"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -72,56 +68,77 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:background="@drawable/input_field"
-            android:hint="@string/password"
-            android:imeActionLabel="@string/password"
-            android:inputType="textPassword"
+            android:hint="@string/last_name"
+            android:imeActionLabel="@string/last_name"
+            android:selectAllOnFocus="true"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email" />
+            app:layout_constraintTop_toBottomOf="@+id/firstName" />
+
+        <EditText
+            android:id="@+id/birthDate"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/input_field"
+            android:hint="@string/birthDate"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lastName" />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/input_field"
+            android:hint="@string/phone"
+            android:imeActionLabel="@string/phone"
+            android:inputType="phone"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/birthDate" />
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/input_field"
+            android:inputType="textPostalAddress"
+            android:hint="@string/address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone" />
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/button"
             android:enabled="false"
             android:text="@string/action_register_short"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/radioUserTypeGroup"
-            app:layout_constraintTop_toBottomOf="@+id/radioUserTypeGroup" />
-
-        <RadioGroup
-            android:id="@+id/radioUserTypeGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:orientation="vertical"
-            android:paddingLeft="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password">
-
-            <RadioButton
-                android:id="@+id/isDoctorButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cont_doctor"
-                android:textSize="20sp"/>
-
-            <RadioButton
-                android:id="@+id/isPacientButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cont_pacient"
-                android:textSize="20sp" />
-        </RadioGroup>
+            app:layout_constraintTop_toBottomOf="@+id/address" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

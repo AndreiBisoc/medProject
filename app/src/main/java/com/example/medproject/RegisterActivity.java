@@ -66,7 +66,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         switch(type){
             case "doctor": nextPage = DoctorRegisterActivity.class;
-                           break;
+                break;
+            case "patient": nextPage = PatientRegisterActivity.class;
+                break;
             default: nextPage = LoginActivity.class;
         }
 
