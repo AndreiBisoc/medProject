@@ -11,8 +11,11 @@ public class Patient {
     private Date birthDate;
     private String phone;
     private String address;
+    private String CNP;
 
-    public Patient(String email, String password, String firstName, String lastName, Date birthDate, String phone, String address) {
+    public Patient(){}
+
+    public Patient(String email, String password, String firstName, String lastName, Date birthDate, String phone, String address, String CNP) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -20,6 +23,7 @@ public class Patient {
         this.birthDate = birthDate;
         this.phone = phone;
         this.address = address;
+        this.CNP = CNP;
     }
 
     public String getId() {
@@ -85,4 +89,13 @@ public class Patient {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getCNP() {
+        return CNP;
+    }
+
+    public void setCNP(String CNP) {
+        this.CNP = CNP;
+    }
+
 }

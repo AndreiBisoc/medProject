@@ -1,5 +1,11 @@
 package com.example.medproject.data.model;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Doctor {
 
     private String id;
@@ -9,6 +15,7 @@ public class Doctor {
     private String lastName;
     private String specialization;
     private String phone;
+    private List<Patient> patientList;
 
     public Doctor(String email, String password, String firstName, String lastName, String specialization, String phone) {
         this.email = email;
@@ -17,6 +24,7 @@ public class Doctor {
         this.lastName = lastName;
         this.specialization = specialization;
         this.phone = phone;
+        this.patientList = new ArrayList<>();
     }
 
     public String getId() {
@@ -72,5 +80,9 @@ public class Doctor {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public List<Patient> getPatientList() { return patientList; }
+
+    public void addPatient(Patient patient) { this.patientList.add(patient); }
 
 }
