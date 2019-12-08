@@ -27,6 +27,7 @@ public class PatientRegisterActivity extends AppCompatActivity {
     private EditText txtBirthDate;
     private EditText txtAddress;
     private EditText txtPhone;
+    private EditText txtCNP;
     private Button registerButton;
     Patient patient;
 
@@ -46,6 +47,7 @@ public class PatientRegisterActivity extends AppCompatActivity {
         txtBirthDate = findViewById(R.id.birthDate);
         txtAddress = findViewById(R.id.address);
         txtPhone = findViewById(R.id.phone);
+        txtCNP = findViewById(R.id.CNP);
 
         registerButton = findViewById(R.id.registerButton);
         registerButton.setEnabled(true);
@@ -73,7 +75,8 @@ public class PatientRegisterActivity extends AppCompatActivity {
         }
 
         String address = txtAddress.getText().toString();
-        patient = new Patient(email, password, firstName, lastName, birthDate, phone, address);
+        String CNP = txtCNP.getText().toString();
+        patient = new Patient(email, password, firstName, lastName, birthDate, phone, address, CNP);
 
         if(patient.getId() == null) {
             mDatabaseReference.push().setValue(patient);
@@ -88,6 +91,7 @@ public class PatientRegisterActivity extends AppCompatActivity {
         txtFistName.setText("");
         txtFistName.requestFocus();
         txtLastName.setText("");
+        txtCNP.setText("");
         txtPhone.setText("");
         txtAddress.setText("");
         txtBirthDate.setText("");

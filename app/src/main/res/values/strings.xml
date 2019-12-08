@@ -18,11 +18,13 @@
     <string name="register_patient">Înregistrează-te ca pacient!</string>
     <string name="birthDate">Data nașterii</string>
     <string name="address">Adresa</string>
+    <string name="CNP">CNP</string>
 
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_register">Don\'t have an account?</string>
+    <string name="action_sign_in">Loghează-te</string>
+    <string name="action_sign_in_short">Loghează-te</string>
+    <string name="action_register">Nu ai cont?</string>
 
+    <string name="add_patient">Adaugă pacient</string>
 
     <string name="action_register_short">Crează cont</string>
     <string name="welcome">"Welcome !"</string>

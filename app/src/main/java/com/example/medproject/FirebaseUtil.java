@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.medproject.data.model.Drug;
+import com.example.medproject.data.model.Patient;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -25,6 +26,7 @@ public class FirebaseUtil {
     public static FirebaseAuth mFirebaseAuth;
     public static FirebaseAuth.AuthStateListener mAuthListener;
     public static ArrayList<Drug> mDrugs;
+    public static ArrayList<Patient> mPatients;
     private static final int RC_SIGN_IN = 123;
     private static ListActivity caller;
     public static boolean isAdmin;
@@ -53,6 +55,7 @@ public class FirebaseUtil {
         }
 
         mDrugs = new ArrayList<Drug>();
+        mPatients = new ArrayList<Patient>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
     }
 
