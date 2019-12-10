@@ -76,24 +76,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/firstName" />
 
-        <Spinner
-            android:id="@+id/specialization"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@drawable/input_field"
-            android:entries="@array/doctors_specializations"
-            android:prompt="@string/introdu_spec"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.375"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phone" />
-
         <EditText
             android:id="@+id/phone"
             android:layout_width="0dp"
@@ -112,6 +94,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lastName" />
 
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/input_field"
+            android:hint="@string/adresa_cabinet"
+            android:imeActionLabel="@string/adresa_cabinet"
+            android:selectAllOnFocus="true"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone" />
+
+        <Spinner
+            android:id="@+id/specialization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/input_field"
+            android:entries="@array/doctors_specializations"
+            android:hint="pulaaa"
+            android:prompt="@string/introdu_spec"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.375"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+
         <Button
             android:id="@+id/registerButton"
             android:layout_width="wrap_content"
@@ -125,6 +144,17 @@
             app:layout_constraintEnd_toEndOf="@+id/specialization"
             app:layout_constraintStart_toStartOf="@+id/specialization"
             app:layout_constraintTop_toBottomOf="@+id/specialization" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="69dp"
+            android:layout_height="69dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
