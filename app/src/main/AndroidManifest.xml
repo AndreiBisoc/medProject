@@ -10,16 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MyPatientsActivity">
+        </activity>
+        <activity android:name=".PatientRegisterActivity" />
+        <activity android:name=".DoctorRegisterActivity" />
+        <activity android:name=".auth.RegisterPacientActivity" />
+        <activity android:name=".RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".PatientRegisterActivity" />
-        <activity android:name=".DoctorRegisterActivity" />
-        <activity android:name=".RegisterActivity">
-
+            </intent-filter>+
         </activity>
         <activity
             android:name=".ui.login.LoginActivity"
