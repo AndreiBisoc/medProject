@@ -5,7 +5,7 @@
 
     <string name="register_title">Crează un cont nou!</string>
     <string name="cont_doctor">Doctor</string>
-    <string name="cont_pacient">Pacient</string>
+    <string name="cont_patient">Pacient</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
 
@@ -25,6 +25,7 @@
     <string name="action_register">Nu ai cont?</string>
 
     <string name="add_patient">Adaugă pacient</string>
+    <string name="delete_patient">Șterge pacient</string>
 
     <string name="action_register_short">Crează cont</string>
     <string name="welcome">"Welcome !"</string>

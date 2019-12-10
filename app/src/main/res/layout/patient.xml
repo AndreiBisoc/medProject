@@ -27,12 +27,9 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:layout_weight="1"
         android:text="TextView"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/patientIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,14 +48,27 @@
         android:id="@+id/patientPhoneNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
         app:layout_constraintStart_toEndOf="@+id/patientDateOfBirth"
-        app:layout_constraintTop_toBottomOf="@+id/patientName"
-        app:layout_constraintHorizontal_bias="1.0"/>
+        app:layout_constraintTop_toBottomOf="@+id/patientName" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="29dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toEndOf="@+id/patientName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.457" />
 </androidx.constraintlayout.widget.ConstraintLayout>

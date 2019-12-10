@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
                     case R.id.isDoctorButton:
                         goToNextRegisterPage("doctor");
                         break;
-                    case R.id.isPacientButton:
+                    case R.id.isPatientButton:
                         goToNextRegisterPage("patient");
                         break;
                     default:

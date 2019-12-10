@@ -31,7 +31,7 @@ public class FirebaseUtil {
     private static ListActivity caller;
     public static boolean isAdmin;
 
-    private FirebaseUtil(){};
+    private FirebaseUtil(){}
 
     public static void openFbReference(String ref, final ListActivity callerActivity){
         if(firebaseUtil == null) {
@@ -54,8 +54,8 @@ public class FirebaseUtil {
             };
         }
 
-        mDrugs = new ArrayList<Drug>();
-        mPatients = new ArrayList<Patient>();
+        mDrugs = new ArrayList<>();
+        mPatients = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
     }
 
@@ -76,7 +76,7 @@ public class FirebaseUtil {
 
     private static void checkAdmin(String uid){
         FirebaseUtil.isAdmin = false;
-        DatabaseReference ref = mFirebaseDatabase.getReference().child("administrators")
+        DatabaseReference ref = mFirebaseDatabase.getReference().child("Administrators")
                 .child(uid);
         ChildEventListener listener = new ChildEventListener() {
             @Override
