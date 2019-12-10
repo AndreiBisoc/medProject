@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.example.medproject.auth.RegisterPacientActivity;
 import com.example.medproject.ui.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -67,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         switch(type){
             case "doctor": nextPage = DoctorRegisterActivity.class;
                 break;
-            case "patient": nextPage = PatientRegisterActivity.class;
+            case "patient": nextPage = RegisterPacientActivity.class;
                 break;
             default: nextPage = LoginActivity.class;
         }

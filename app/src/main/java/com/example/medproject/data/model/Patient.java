@@ -8,16 +8,15 @@ public class Patient {
     private String password;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private String birthDate;
     private String phone;
     private String address;
     private String CNP;
 
     public Patient(){}
 
-    public Patient(String email, String password, String firstName, String lastName, Date birthDate, String phone, String address, String CNP) {
+    public Patient(String email, String firstName, String lastName, String birthDate, String phone, String address, String CNP) {
         this.email = email;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -66,11 +65,11 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
