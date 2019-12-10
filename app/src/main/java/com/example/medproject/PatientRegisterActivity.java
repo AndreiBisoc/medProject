@@ -76,7 +76,7 @@ public class PatientRegisterActivity extends AppCompatActivity {
 
         String address = txtAddress.getText().toString();
         String CNP = txtCNP.getText().toString();
-        patient = new Patient(email, password, firstName, lastName, birthDate, phone, address, CNP);
+        //patient = new Patient(email, password, firstName, lastName, birthDate, phone, address, CNP);
 
         if(patient.getId() == null) {
             mDatabaseReference.push().setValue(patient);
