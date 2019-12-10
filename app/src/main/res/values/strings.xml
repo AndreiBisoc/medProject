@@ -35,17 +35,18 @@
     <string name="delete_drug">Delete Drug</string>
 
     <string name="introdu_spec">Alege specializare</string>
+    <string name="adresa_cabinet">Adresă cabinet</string>
     <string-array name="doctors_specializations">
-        <item>cardiolog</item>
-        <item>chirurg</item>
-        <item>dermatolog</item>
-        <item>endocrinolog</item>
-        <item>hematolog</item>
-        <item>medic de familie</item>
-        <item>neurolog</item>
-        <item>oncolog</item>
-        <item>pediatru</item>
-        <item>psiholog</item>
-        <item>psihiatru</item>
+        <item>Cardiolog</item>
+        <item>Chirurg</item>
+        <item>Dermatolog</item>
+        <item>Endocrinolog</item>
+        <item>Hematolog</item>
+        <item>Medic de familie</item>
+        <item>Neurolog</item>
+        <item>Oncolog</item>
+        <item>Pediatru</item>
+        <item>Psiholog</item>
+        <item>Psihiatru</item>
     </string-array>
 </resources>

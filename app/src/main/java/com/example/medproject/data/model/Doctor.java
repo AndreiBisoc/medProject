@@ -10,20 +10,21 @@ public class Doctor {
 
     private String id;
     private String email;
-    private String password;
     private String firstName;
     private String lastName;
     private String specialization;
     private String phone;
+
+    private String adresaCabinet;
     private List<Patient> patientList;
 
-    public Doctor(String email, String password, String firstName, String lastName, String specialization, String phone) {
+    public Doctor(String email, String firstName, String lastName, String specialization, String phone, String adresaCabinet) {
         this.email = email;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.specialization = specialization;
         this.phone = phone;
+        this.adresaCabinet = adresaCabinet;
         this.patientList = new ArrayList<>();
     }
 
@@ -59,14 +60,6 @@ public class Doctor {
         this.specialization = specialization;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -80,6 +73,15 @@ public class Doctor {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getAdresaCabinet() {
+        return adresaCabinet;
+    }
+
+    public void setAdresaCabinet(String adresaCabinet) {
+        this.adresaCabinet = adresaCabinet;
+    }
+
 
     public List<Patient> getPatientList() { return patientList; }
 
