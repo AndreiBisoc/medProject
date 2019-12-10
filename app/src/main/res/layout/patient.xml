@@ -54,17 +54,18 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintEnd_toStartOf="@+id/deleteIcon"
         app:layout_constraintStart_toEndOf="@+id/patientDateOfBirth"
         app:layout_constraintTop_toBottomOf="@+id/patientName" />
 
     <Button
-        android:id="@+id/deleteButton"
+        android:id="@+id/deleteIcon"
         android:layout_width="29dp"
         android:layout_height="31dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/delete"
+        android:onClick="ShowPopup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
