@@ -17,6 +17,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/auth',
+                            'src/main/res/layouts/diverse',
+                            'src/main/res/layouts/doctors',
+                            'src/main/res/layouts/drugs',
+                            'src/main/res/layouts/medications',
+                            'src/main/res/layouts/patients',
+                            'src/main/res/layouts/QR',
+                            'src/main/res/layouts/wayOfAdministration',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
+    }
 }
 
 dependencies {
