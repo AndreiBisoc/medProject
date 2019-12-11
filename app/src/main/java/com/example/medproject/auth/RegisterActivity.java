@@ -12,9 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import com.example.medproject.R;
-import com.example.medproject.auth.RegisterDoctorActivity;
-import com.example.medproject.auth.RegisterPacientActivity;
-import com.example.medproject.ui.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 

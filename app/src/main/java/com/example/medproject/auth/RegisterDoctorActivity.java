@@ -3,7 +3,6 @@ package com.example.medproject.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -16,14 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
-import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Calendar;
 
 public class RegisterDoctorActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText txtPrenume, txtNume, txtTelefon, txtAdresaCabinet;
@@ -37,8 +34,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_register);
 
-        txtPrenume = findViewById(R.id.firstName);
-        txtNume = findViewById(R.id.lastName);
+        txtPrenume = findViewById(R.id.email);
+        txtNume = findViewById(R.id.password);
         txtTelefon = findViewById(R.id.phone);
         txtAdresaCabinet = findViewById(R.id.address);
         txtSpinnerSpecialization = findViewById(R.id.specialization);
@@ -103,8 +100,11 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
                                     }
+                                    if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
+                                        Toast.makeText(RegisterDoctorActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
+                                    }
                                     else{
-                                        Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea nu a putut avea loc", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -115,6 +115,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                     }
                 });
 
+        Intent intentNextPage = new Intent(this, LoginActivity.class);
+        startActivity(intentNextPage);
     }
 
     private boolean validareRegisterPacient(String prenume, String nume, String telefon, String adresaCabinet){
