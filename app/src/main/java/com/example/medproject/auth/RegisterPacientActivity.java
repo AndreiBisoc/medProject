@@ -71,8 +71,6 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                 picker.show();
             }
         });
-
-
     }
 
     @Override
