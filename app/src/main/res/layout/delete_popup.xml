@@ -10,7 +10,7 @@
         android:id="@+id/closePopup"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:onClick="onClick"
+        android:onClick="closePopup"
         android:layout_gravity="end"
         android:gravity="center"
         android:background="@drawable/close"/>
@@ -107,7 +107,6 @@
         android:layout_marginTop="25dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button"
-        android:textColor="@color/white"
-        android:onClick="ShowPopup"/>
+        android:textColor="@color/white"/>
 
 </LinearLayout>

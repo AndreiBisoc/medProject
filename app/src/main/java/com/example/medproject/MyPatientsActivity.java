@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.example.medproject.data.model.Patient;
 
-import java.io.Console;
 import java.util.List;
 
 public class MyPatientsActivity extends AppCompatActivity {
@@ -44,28 +43,30 @@ public class MyPatientsActivity extends AppCompatActivity {
     }
 
     public void ShowPopup(View v) {
-        closePopup = findViewById(R.id.closePopup);
-        deleteIcon = findViewById(R.id.deleteIcon);
-        deletebtn = findViewById(R.id.deletebtn);
 
         deletePatientPopup.setContentView(R.layout.delete_popup);
         deletePatientPopup.show();
 
-        closePopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deletePatientPopup.dismiss();
-            }
-        });
+//        Toast.makeText(this, "Sterg", Toast.LENGTH_LONG).show();
+    }
 
-//        deletebtn.setOnClickListener(new View.OnClickListener() {
+    public void closePopup(View v) {
+
+//        deletePatientPopup.setContentView(R.layout.delete_popup);
+        deletePatientPopup.dismiss();
+
+//        closePopup = findViewById(R.id.closePopup);
+
+//        deleteIcon = findViewById(R.id.deleteIcon);
+//        deletebtn = findViewById(R.id.deletebtn);
+
+//        closePopup.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Log.println(Log.VERBOSE, "tag", "alooo");
+//                deletePatientPopup.dismiss();
 //            }
 //        });
 
-        Toast.makeText(this, "Sterg", Toast.LENGTH_LONG).show();
     }
 
 
