@@ -11,8 +11,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MyPatientsActivity">
         </activity>
-        <activity android:name=".PatientRegisterActivity" />
-        <activity android:name=".DoctorRegisterActivity" />
         <activity android:name=".auth.RegisterPacientActivity">
         </activity>
         <activity android:name=".auth.RegisterDoctorActivity" >
