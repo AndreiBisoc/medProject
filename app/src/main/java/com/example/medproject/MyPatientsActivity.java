@@ -5,14 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.medproject.data.model.Patient;
 
@@ -20,11 +19,7 @@ import java.util.List;
 
 public class MyPatientsActivity extends AppCompatActivity {
 
-    private List<Patient> patients;
     private RecyclerView rvPatients;
-    private Button deletebtn, deleteIcon;
-    private Dialog deletePatientPopup;
-    private TextView closePopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,35 +34,14 @@ public class MyPatientsActivity extends AppCompatActivity {
                 new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvPatients.setLayoutManager(patientsLayoutManager);
 
-        deletePatientPopup = new Dialog(this);
     }
 
     public void ShowPopup(View v) {
 
-        deletePatientPopup.setContentView(R.layout.delete_popup);
-        deletePatientPopup.show();
+        Intent intent = new Intent(this, DeletePacientPopupActivity.class);
+        startActivity(intent);
 
-//        Toast.makeText(this, "Sterg", Toast.LENGTH_LONG).show();
+        // activitate cu theme: dialog in manifest
     }
-
-    public void closePopup(View v) {
-
-//        deletePatientPopup.setContentView(R.layout.delete_popup);
-        deletePatientPopup.dismiss();
-
-//        closePopup = findViewById(R.id.closePopup);
-
-//        deleteIcon = findViewById(R.id.deleteIcon);
-//        deletebtn = findViewById(R.id.deletebtn);
-
-//        closePopup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                deletePatientPopup.dismiss();
-//            }
-//        });
-
-    }
-
 
 }

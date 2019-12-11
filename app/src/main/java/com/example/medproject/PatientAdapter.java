@@ -98,7 +98,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         }
 
         public void bind(Patient patient){
-            name.setText(patient.getFirstName() + " " + patient.getLastName());
+            name.setText(patient.getName());
 //            dateOfBirth.setText(patient.getBirthDate().toString());
             dateOfBirth.setText("25 Jan 1998");
             phoneNumber.setText(patient.getPhone());
