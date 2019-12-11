@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="400dp"
+    android:background="@drawable/background"
+    android:padding="5dp"
+    android:layout_gravity="center"
+    android:theme="@android:style/Theme.Dialog">
+
+    <TextView
+        android:id="@+id/closePopup"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:onClick="closePopup"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:background="@drawable/close"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="167dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/patient" />
+
+        <TextView
+            android:id="@+id/patientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="gfhgf"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/CNP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="198012535"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:background="@color/button"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="100dp">
+
+            <TextView
+                android:id="@+id/birthDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25/01/1998"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Followers"
+                android:textSize="18sp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="@color/red"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="100dp">
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0746765358"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Posts"
+                android:textSize="18sp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/deletebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_patient"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

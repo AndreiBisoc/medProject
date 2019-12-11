@@ -2,16 +2,52 @@
     <string name="save_menu">save</string>
     <string name="logo">Logo</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_register">Don\'t have an account?</string>
-    <string name="action_register_short">Register</string>
+
+    <string name="register_title">Crează un cont nou!</string>
+    <string name="cont_doctor">Doctor</string>
+    <string name="cont_patient">Pacient</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="register_doctor">Înregistrează-te ca doctor!</string>
+    <string name="first_name">Prenume</string>
+    <string name="last_name">Nume</string>
+    <string name="phone">Telefon</string>
+    <string name="specialisation">Specializare</string>
+
+    <string name="register_patient">Înregistrează-te ca pacient!</string>
+    <string name="birthDate">Data nașterii</string>
+    <string name="address">Adresa</string>
+    <string name="CNP">CNP</string>
+
+    <string name="action_sign_in">Loghează-te</string>
+    <string name="action_sign_in_short">Loghează-te</string>
+    <string name="action_register">Nu ai cont?</string>
+
+    <string name="add_patient">Adaugă pacient</string>
+    <string name="delete_patient">Șterge pacient</string>
+
+    <string name="action_register_short">Crează cont</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="app_name">"Med App"</string>
     <string name="delete_drug">Delete Drug</string>
+
+    <string name="introdu_spec">Alege specializare</string>
+    <string name="adresa_cabinet">Adresă cabinet</string>
+    <string-array name="doctors_specializations">
+        <item>Cardiolog</item>
+        <item>Chirurg</item>
+        <item>Dermatolog</item>
+        <item>Endocrinolog</item>
+        <item>Hematolog</item>
+        <item>Medic de familie</item>
+        <item>Neurolog</item>
+        <item>Oncolog</item>
+        <item>Pediatru</item>
+        <item>Psiholog</item>
+        <item>Psihiatru</item>
+    </string-array>
 </resources>

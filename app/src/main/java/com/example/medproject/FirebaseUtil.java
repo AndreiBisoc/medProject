@@ -1,13 +1,12 @@
 package com.example.medproject;
 
-import android.app.Activity;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.medproject.data.model.Drug;
+import com.example.medproject.data.model.Patient;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -27,11 +26,12 @@ public class FirebaseUtil {
     public static FirebaseAuth mFirebaseAuth;
     public static FirebaseAuth.AuthStateListener mAuthListener;
     public static ArrayList<Drug> mDrugs;
+    public static ArrayList<Patient> mPatients;
     private static final int RC_SIGN_IN = 123;
     private static ListActivity caller;
     public static boolean isAdmin;
 
-    private FirebaseUtil(){};
+    private FirebaseUtil(){}
 
     public static void openFbReference(String ref, final ListActivity callerActivity){
         if(firebaseUtil == null) {
@@ -54,7 +54,8 @@ public class FirebaseUtil {
             };
         }
 
-        mDrugs = new ArrayList<Drug>();
+        mDrugs = new ArrayList<>();
+        mPatients = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
     }
 
@@ -75,7 +76,7 @@ public class FirebaseUtil {
 
     private static void checkAdmin(String uid){
         FirebaseUtil.isAdmin = false;
-        DatabaseReference ref = mFirebaseDatabase.getReference().child("administrators")
+        DatabaseReference ref = mFirebaseDatabase.getReference().child("Administrators")
                 .child(uid);
         ChildEventListener listener = new ChildEventListener() {
             @Override
