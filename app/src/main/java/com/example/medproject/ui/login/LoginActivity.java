@@ -23,9 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.medproject.R;
-import com.example.medproject.ui.login.LoginViewModel;
-import com.example.medproject.ui.login.LoginViewModelFactory;
-import com.example.medproject.RegisterActivity;
+import com.example.medproject.auth.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
