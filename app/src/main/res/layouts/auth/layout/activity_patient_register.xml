@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
         <EditText
-            android:id="@+id/firstName"
+            android:id="@+id/email"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -59,7 +59,7 @@
             app:layout_constraintTop_toBottomOf="@+id/appName" />
 
         <EditText
-            android:id="@+id/lastName"
+            android:id="@+id/password"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -74,7 +74,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstName" />
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <EditText
             android:id="@+id/CNP"
@@ -94,7 +94,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.937"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lastName" />
+            app:layout_constraintTop_toBottomOf="@+id/password" />
 
         <EditText
             android:id="@+id/birthDate"
