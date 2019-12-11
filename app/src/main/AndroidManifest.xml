@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DeletePacientPopupActivity"></activity>
         <activity android:name=".MyPatientsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,10 +19,9 @@
         </activity>
         <activity android:name=".PatientRegisterActivity" />
         <activity android:name=".DoctorRegisterActivity" />
-        <activity android:name=".auth.RegisterPacientActivity"/>
-        <activity android:name=".auth.RegisterDoctorActivity" >
-        </activity>
-        <activity android:name=".RegisterActivity">        </activity>
+        <activity android:name=".auth.RegisterPacientActivity" />
+        <activity android:name=".auth.RegisterDoctorActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
