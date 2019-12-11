@@ -20,12 +20,11 @@
         <activity android:name=".auth.RegisterActivity"></activity>
         <activity android:name=".auth.RegisterPacientActivity"></activity>
         <activity android:name=".auth.RegisterDoctorActivity" ></activity>
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
         <activity android:name=".ListActivity" />
         <activity android:name=".DrugActivity" />
+        <activity android:name=".Details">
+
+        </activity>
     </application>
 
 </manifest>

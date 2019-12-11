@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.Details;
+import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -123,6 +125,8 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                                     progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterPacientActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
+                                        finish();
+                                        startActivity(new Intent(RegisterPacientActivity.this, Details.class));
                                     }
                                     else{
                                         if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
@@ -140,8 +144,6 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                         }
                     }
                 });
-        Intent intentNextPage = new Intent(this, LoginActivity.class);
-        startActivity(intentNextPage);
     }
 
     private boolean validareRegisterPacient(String prenume, String nume, String CNP, String dataNastere, String telefon, String adresa){

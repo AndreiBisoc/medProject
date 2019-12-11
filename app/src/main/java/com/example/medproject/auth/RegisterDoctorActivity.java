@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.Details;
+import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -99,6 +101,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                     progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
+                                        finish();
+                                        startActivity(new Intent(RegisterDoctorActivity.this, Details.class));
                                     }
                                     if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
                                         Toast.makeText(RegisterDoctorActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
@@ -114,9 +118,6 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                         }
                     }
                 });
-
-        Intent intentNextPage = new Intent(this, LoginActivity.class);
-        startActivity(intentNextPage);
     }
 
     private boolean validareRegisterPacient(String prenume, String nume, String telefon, String adresaCabinet){
