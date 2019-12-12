@@ -1,9 +1,12 @@
 package com.example.medproject;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -86,15 +89,18 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         return patients.size();
     }
 
-    public class PatientViewHolder extends RecyclerView.ViewHolder {
+    public class PatientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView name, dateOfBirth, phoneNumber;
+        private Button deleteIcon;
 
         public PatientViewHolder(View itemView){
             super(itemView);
             name = itemView.findViewById(R.id.patientName);
             dateOfBirth = itemView.findViewById(R.id.patientDateOfBirth);
             phoneNumber = itemView.findViewById(R.id.patientPhoneNumber);
+            deleteIcon = itemView.findViewById(R.id.deleteIcon);
+            deleteIcon.setOnClickListener(this);
         }
 
         public void bind(Patient patient){
@@ -102,6 +108,17 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 //            dateOfBirth.setText(patient.getBirthDate().toString());
             dateOfBirth.setText("25 Jan 1998");
             phoneNumber.setText(patient.getPhone());
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            int position = getAdapterPosition();
+            Log.d("Click", String.valueOf(position));
+            Patient selectedPatient = patients.get(position);
+            Intent intent = new Intent(view.getContext(), DeletePacientPopupActivity.class);
+            intent.putExtra("Patient", selectedPatient);
+            view.getContext().startActivity(intent);
         }
     }
 }

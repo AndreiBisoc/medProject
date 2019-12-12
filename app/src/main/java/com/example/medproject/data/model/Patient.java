@@ -1,8 +1,8 @@
 package com.example.medproject.data.model;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Patient {
+public class Patient implements Serializable {
     private String id;
     private String email;
     private String password;

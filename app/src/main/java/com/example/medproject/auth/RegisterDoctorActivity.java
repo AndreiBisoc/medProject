@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.Details;
-import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,7 +37,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
 
         txtPrenume = findViewById(R.id.email);
         txtNume = findViewById(R.id.password);
-        txtTelefon = findViewById(R.id.phone);
+        txtTelefon = findViewById(R.id.patientPhoneNumber);
         txtAdresaCabinet = findViewById(R.id.address);
         txtSpinnerSpecialization = findViewById(R.id.specialization);
         progressBar = findViewById(R.id.progressBar);

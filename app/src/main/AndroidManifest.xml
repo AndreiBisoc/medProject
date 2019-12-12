@@ -24,10 +24,9 @@
         <activity android:name=".auth.RegisterDoctorActivity" ></activity>
         <activity android:name=".ListActivity" />
         <activity android:name=".DrugActivity" />
-        <activity android:name=".DeletePacientPopupActivity" />
-        <activity android:name=".Details">
-
-        </activity>
+        <activity android:name=".DeletePacientPopupActivity"
+            android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".Details" />
     </application>
 
 </manifest>

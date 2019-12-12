@@ -77,7 +77,7 @@
             app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <EditText
-            android:id="@+id/CNP"
+            android:id="@+id/patientCNP"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -112,10 +112,10 @@
             android:focusableInTouchMode="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CNP" />
+            app:layout_constraintTop_toBottomOf="@+id/patientCNP" />
 
         <EditText
-            android:id="@+id/phone"
+            android:id="@+id/patientPhoneNumber"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -146,7 +146,7 @@
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phone" />
+            app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumber" />
 
         <Button
             android:id="@+id/registerButton"

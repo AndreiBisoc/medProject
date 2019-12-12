@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder>{
 
-    ArrayList<Drug> drugs;
+    private ArrayList<Drug> drugs;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
@@ -94,9 +94,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         TextView tvUnitate;
         public DrugViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNume = (TextView) itemView.findViewById(R.id.tvNume);
-            tvScop = (TextView) itemView.findViewById(R.id.tvScop);
-            tvUnitate = (TextView) itemView.findViewById(R.id.tvUnitate);
+            tvNume = itemView.findViewById(R.id.tvNume);
+            tvScop = itemView.findViewById(R.id.tvScop);
+            tvUnitate = itemView.findViewById(R.id.tvUnitate);
             itemView.setOnClickListener(this);
         }
 
