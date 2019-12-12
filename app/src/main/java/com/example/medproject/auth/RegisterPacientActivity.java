@@ -3,7 +3,6 @@ package com.example.medproject.auth;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
@@ -37,8 +37,8 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_register);
 
-        txtPrenume = findViewById(R.id.firstName);
-        txtNume = findViewById(R.id.lastName);
+        txtPrenume = findViewById(R.id.email);
+        txtNume = findViewById(R.id.password);
         txtCNP = findViewById(R.id.CNP);
         txtTelefon = findViewById(R.id.phone);
         txtDataNastere = findViewById(R.id.birthDate);
@@ -71,8 +71,6 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                 picker.show();
             }
         });
-
-
     }
 
     @Override
@@ -127,7 +125,12 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                                         Toast.makeText(RegisterPacientActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
                                     }
                                     else{
-                                        Toast.makeText(RegisterPacientActivity.this, "Înregistrarea nu a putut avea loc", Toast.LENGTH_LONG).show();
+                                        if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
+                                            Toast.makeText(RegisterPacientActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
                             });
@@ -137,7 +140,8 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                         }
                     }
                 });
-
+        Intent intentNextPage = new Intent(this, LoginActivity.class);
+        startActivity(intentNextPage);
     }
 
     private boolean validareRegisterPacient(String prenume, String nume, String CNP, String dataNastere, String telefon, String adresa){
