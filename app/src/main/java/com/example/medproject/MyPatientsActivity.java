@@ -49,10 +49,4 @@ public class MyPatientsActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
-
-    public void ShowPopup(View v){
-
-        Intent intent = new Intent(this, DeletePacientPopupActivity.class);
-        startActivity(intent);
-    }
 }
