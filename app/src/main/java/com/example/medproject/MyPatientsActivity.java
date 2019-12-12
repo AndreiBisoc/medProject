@@ -29,20 +29,29 @@ public class MyPatientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_patients);
 
+        mAuth = FirebaseAuth.getInstance();
+
         rvPatients = findViewById(R.id.rvPatients);
         final PatientAdapter adapter = new PatientAdapter();
         rvPatients.setAdapter(adapter);
 
         LinearLayoutManager patientsLayoutManager =
-                new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvPatients.setLayoutManager(patientsLayoutManager);
 
-    }}
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() == null){
+        if (mAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
+
+    public void ShowPopup(View v){
+        Intent intent = new Intent(this, DeletePacientPopupActivity.class);
+        startActivity(intent);
+    }
+}
