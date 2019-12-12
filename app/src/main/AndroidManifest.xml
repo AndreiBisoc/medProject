@@ -9,19 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyPatientsActivity"></activity>
-        <activity android:name=".auth.LoginActivity">
+        <activity android:name=".MyPatientsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".auth.LoginActivity">
+        </activity>
         <activity android:name=".auth.RegisterActivity"></activity>
         <activity android:name=".auth.RegisterPacientActivity"></activity>
         <activity android:name=".auth.RegisterDoctorActivity" ></activity>
         <activity android:name=".ListActivity" />
         <activity android:name=".DrugActivity" />
+        <activity android:name=".DeletePacientPopupActivity" />
         <activity android:name=".Details">
 
         </activity>

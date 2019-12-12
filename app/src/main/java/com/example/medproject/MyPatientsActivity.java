@@ -5,7 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Patient;
@@ -15,7 +21,7 @@ import java.util.List;
 
 public class MyPatientsActivity extends AppCompatActivity {
 
-    private List<Patient> patients;
+    private RecyclerView rvPatients;
     private FirebaseAuth mAuth;
 
     @Override
@@ -23,21 +29,29 @@ public class MyPatientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_patients);
 
-        RecyclerView rvPatients = findViewById(R.id.rvPatients);
+        mAuth = FirebaseAuth.getInstance();
+
+        rvPatients = findViewById(R.id.rvPatients);
         final PatientAdapter adapter = new PatientAdapter();
         rvPatients.setAdapter(adapter);
 
         LinearLayoutManager patientsLayoutManager =
-                new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvPatients.setLayoutManager(patientsLayoutManager);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() == null){
+        if (mAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+    }
+
+    public void ShowPopup(View v){
+        Intent intent = new Intent(this, DeletePacientPopupActivity.class);
+        startActivity(intent);
     }
 }

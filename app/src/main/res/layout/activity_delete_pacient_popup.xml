@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="350dp"
-    android:layout_height="475dp"
-    android:background="@color/colorPrimaryDark"
+    android:layout_height="400dp"
+    android:background="@drawable/background"
     android:padding="5dp"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:theme="@android:style/Theme.Dialog">
+
     <TextView
-        android:id="@+id/txtclose"
+        android:id="@+id/closePopup"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:textColor="@color/white"
-        android:text="X"
-        android:textStyle="bold"
+        android:onClick="closePopup"
         android:layout_gravity="end"
         android:gravity="center"
         android:background="@drawable/close"/>
@@ -24,18 +24,19 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="167dp"
+            android:layout_height="65dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:src="@drawable/patient" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/patientName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:text="gfhgf"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -78,7 +79,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/white"
+            android:background="@color/red"
             android:gravity="center"
             android:orientation="vertical"
             android:layout_weight="1"
@@ -102,7 +103,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnfollow"
+        android:id="@+id/deletebtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete_patient"

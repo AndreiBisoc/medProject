@@ -49,6 +49,8 @@ public class Patient {
         this.password = password;
     }
 
+    public String getName() { return firstName + " " + lastName; }
+
     public String getFirstName() {
         return firstName;
     }
