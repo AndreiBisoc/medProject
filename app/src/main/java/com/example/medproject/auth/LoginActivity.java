@@ -12,7 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.Details;
 import com.example.medproject.ListActivity;
+import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +43,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
         findViewById(R.id.registerButton).setOnClickListener(this);
-
     }
 
     private void userLogin(){
@@ -58,8 +59,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"Bine ațti venit!",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+                    finish();
+                    Toast.makeText(getApplicationContext(),"Bine ați venit!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, Details.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
@@ -72,6 +74,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+            Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
+
+            finish();
+            Intent intent = new Intent(LoginActivity.this, Details.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Logare placută",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.loginButton:
@@ -79,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.registerButton:
+                finish();
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
         }

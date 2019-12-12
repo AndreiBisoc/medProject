@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("EMAIL", email);
         intent.putExtra("PASSWORD", password);
         startActivity(intent);
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 
     private boolean authValidation(String email, String password){
