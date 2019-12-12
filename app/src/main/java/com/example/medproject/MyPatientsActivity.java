@@ -21,7 +21,7 @@ import java.util.List;
 
 public class MyPatientsActivity extends AppCompatActivity {
 
-    private RecyclerView rvPatients;
+    RecyclerView rvPatients;
     private FirebaseAuth mAuth;
 
     @Override
@@ -51,6 +51,7 @@ public class MyPatientsActivity extends AppCompatActivity {
     }
 
     public void ShowPopup(View v){
+
         Intent intent = new Intent(this, DeletePacientPopupActivity.class);
         startActivity(intent);
     }
