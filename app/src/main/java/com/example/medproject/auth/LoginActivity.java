@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.Details;
@@ -20,9 +21,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
+    FirebaseDatabase mDatabasse = FirebaseDatabase.getInstance();
     FirebaseAuth mAuth;
     EditText txtEmail, txtPassword;
     ProgressBar progressBar;
@@ -33,7 +41,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         mAuth = FirebaseAuth.getInstance();
+
 
         txtEmail = findViewById(R.id.email);
         txtPassword = findViewById(R.id.password);
@@ -76,13 +86,51 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
+
         if(mAuth.getCurrentUser() != null){
             Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
+            final String userID = mAuth.getCurrentUser().getUid();
+            final DatabaseReference database = mDatabasse.getReference();
+            database.child("Doctors")
+                    .child(userID)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.exists()){ //este doctor
+                                finish();
+                                Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                            else{ //este pacient sau administrator
+                                database.child("Pacients")
+                                        .child(userID)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if(dataSnapshot.exists()){ //este pacient
+                                                    finish();
+                                                    Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(intent);
+                                                }
+                                                else{
+                                                    Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            finish();
-            Intent intent = new Intent(LoginActivity.this, Details.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
         }
         else{
             Toast.makeText(getApplicationContext(),"Logare placută",Toast.LENGTH_SHORT).show();
