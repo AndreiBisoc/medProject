@@ -39,8 +39,7 @@ public class DeletePacientPopupActivity extends Activity {
 
     public void closePopup(View v) {
 
-        Intent intent = new Intent(this, MyPatientsActivity.class);
-        startActivity(intent);
+        finish();
 
     }
 }
