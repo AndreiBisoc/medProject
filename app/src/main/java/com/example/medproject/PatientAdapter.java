@@ -52,7 +52,10 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+                Patient patient = dataSnapshot.getValue(Patient.class);
+                int position = patients.indexOf(patient);
+                patients.remove(patient);
+                notifyItemRemoved(position);
             }
 
             @Override
@@ -105,8 +108,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
         public void bind(Patient patient){
             name.setText(patient.getName());
-//            dateOfBirth.setText(patient.getBirthDate().toString());
-            dateOfBirth.setText("25 Jan 1998");
+            dateOfBirth.setText(patient.getBirthDate());
             phoneNumber.setText(patient.getPhone());
         }
 
