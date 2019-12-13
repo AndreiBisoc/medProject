@@ -23,6 +23,7 @@ public class MyPatientsActivity extends AppCompatActivity {
 
     RecyclerView rvPatients;
     private FirebaseAuth mAuth;
+    private final PatientAdapter adapter = new PatientAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class MyPatientsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         rvPatients = findViewById(R.id.rvPatients);
-        final PatientAdapter adapter = new PatientAdapter();
+
         rvPatients.setAdapter(adapter);
 
         LinearLayoutManager patientsLayoutManager =
