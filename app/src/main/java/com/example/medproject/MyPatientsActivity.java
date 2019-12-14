@@ -33,13 +33,24 @@ public class MyPatientsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         rvPatients = findViewById(R.id.rvPatients);
-
         rvPatients.setAdapter(adapter);
 
         LinearLayoutManager patientsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvPatients.setLayoutManager(patientsLayoutManager);
 
+        Button addPatientToDoctor = findViewById(R.id.addPatientToDoctorButton);
+        addPatientToDoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAddPatientPage();
+            }
+        });
+
+    }
+
+    public void goToAddPatientPage(){
+        startActivity(new Intent(this, AddPatient.class));
     }
 
     @Override
