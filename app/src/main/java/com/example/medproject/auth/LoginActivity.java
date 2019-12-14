@@ -10,18 +10,15 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.Details;
-import com.example.medproject.ListActivity;
 import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    FirebaseDatabase mDatabasse = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     FirebaseAuth mAuth;
     EditText txtEmail, txtPassword;
     ProgressBar progressBar;
@@ -63,17 +60,51 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    finish();
-                    Toast.makeText(getApplicationContext(),"Bine ați venit!",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, Details.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    final String userID = mAuth.getCurrentUser().getUid();
+                    databaseReference.child("Doctors")
+                            .child(userID)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){ //este doctor
+                                        finish();
+                                        Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    }
+                                    else{ //este pacient sau administrator
+                                        databaseReference.child("Patients")
+                                                .child(userID)
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        if(dataSnapshot.exists()){ //este pacient
+                                                            finish();
+                                                            Intent intent = new Intent(LoginActivity.this, Details.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            startActivity(intent);
+                                                        }
+                                                        else{
+                                                            Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                 }
                 else{
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
@@ -90,8 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(mAuth.getCurrentUser() != null){
             Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
             final String userID = mAuth.getCurrentUser().getUid();
-            final DatabaseReference database = mDatabasse.getReference();
-            database.child("Doctors")
+            databaseReference.child("Doctors")
                     .child(userID)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -103,14 +133,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 startActivity(intent);
                             }
                             else{ //este pacient sau administrator
-                                database.child("Pacients")
+                                databaseReference.child("Patients")
                                         .child(userID)
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if(dataSnapshot.exists()){ //este pacient
                                                     finish();
-                                                    Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                                    Intent intent = new Intent(LoginActivity.this, Details.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                     startActivity(intent);
                                                 }
