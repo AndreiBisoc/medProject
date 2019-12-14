@@ -25,14 +25,12 @@ import java.util.ArrayList;
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
 
     ArrayList<Patient> patients;
-    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
 
     public PatientAdapter(){
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("Patients", l);
-        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         patients = FirebaseUtil.mPatients;
         mChildListener = new ChildEventListener() {

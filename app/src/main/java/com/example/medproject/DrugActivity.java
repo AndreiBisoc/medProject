@@ -34,10 +34,10 @@ public class DrugActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
 
-        txtNume = (EditText) findViewById(R.id.txtNume);
-        txtScop = (EditText) findViewById(R.id.txtScop);
-        txtUnitate = (EditText) findViewById(R.id.txtUnitate);
-        txtDescriere = (EditText) findViewById(R.id.txtDescriere);
+        txtNume = findViewById(R.id.txtNume);
+        txtScop = findViewById(R.id.txtScop);
+        txtUnitate = findViewById(R.id.txtUnitate);
+        txtDescriere = findViewById(R.id.txtDescriere);
 
         Intent intent = getIntent();
         Drug drug = (Drug) intent.getSerializableExtra("Drug");

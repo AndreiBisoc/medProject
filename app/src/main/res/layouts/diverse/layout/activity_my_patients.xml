@@ -26,11 +26,11 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addPatientToDoctorButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/add_patient"
+        android:text="@string/add_patient_button"
         app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
