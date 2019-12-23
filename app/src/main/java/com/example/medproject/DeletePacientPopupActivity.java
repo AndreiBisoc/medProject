@@ -53,7 +53,7 @@ public class DeletePacientPopupActivity extends Activity {
             return;
         }
 
-        Toast.makeText(this,"Îți șterg pacientul, bă!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Îți șterg medicația, bă!", Toast.LENGTH_LONG).show();
 
         mdatabaseReference = FirebaseUtil.mDatabaseReference;
         mdatabaseReference.child(patient.getId()).removeValue();
