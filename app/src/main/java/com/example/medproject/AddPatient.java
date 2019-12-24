@@ -17,8 +17,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.Doctor;
+import com.example.medproject.data.model.DoctorToPatientLink;
+import com.example.medproject.data.model.MyCallBack;
 import com.example.medproject.data.model.Patient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -27,11 +33,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddPatient extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference firebaseReferenceToPacients, firebaseReferenceToDoctors;
     private List<String> CNPs = new ArrayList<>();
     private AutoCompleteTextView searchForCNP;
 
@@ -42,8 +51,9 @@ public class AddPatient extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference firebaseReferenceToPacients = mFirebaseDatabase.getReference("Patients");
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseReferenceToDoctors = mFirebaseDatabase.getReference("Doctors");
+        firebaseReferenceToPacients = mFirebaseDatabase.getReference("Patients");
         firebaseReferenceToPacients.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -74,7 +84,7 @@ public class AddPatient extends AppCompatActivity {
             }
         });
 
-        //Creating the instance of ArrayAdapter containing list of fruit names
+        //Creating the instance of ArrayAdapter containing list of CNPs
         ArrayAdapter < String > adapter = new ArrayAdapter<String>
                         (this, android.R.layout.select_dialog_item, CNPs);
 
@@ -106,17 +116,62 @@ public class AddPatient extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String searchedCNP = searchForCNP.getText().toString();
+                final String searchedCNP = searchForCNP.getText().toString().trim();
                 addPatientToDoctor(searchedCNP);
             }
         });
     }
 
-    public void addPatientToDoctor(String searchedCNP) {
-        FirebaseUser o = mAuth.getCurrentUser();
-        String mail = o.getEmail();
-        // asta e mailul doctorului ce adauga pacientul cu searchedCNP -- cum obtin lista cu doctori? la fel ca cea cu pacienti? 1000 de linii duplicate ca mai sus?!!
-        Toast.makeText(this, searchedCNP, Toast.LENGTH_LONG).show();
+    public void addPatientToDoctor(final String searchedCNP) {
+
+        final String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        firebaseReferenceToPacients.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Patient patient = dataSnapshot.getValue(Patient.class);
+                if(patient.getCNP().equals(searchedCNP)) { // && patientToAdd == null) {
+                    DoctorToPatientLink link = new DoctorToPatientLink(doctorUid, patient.getId(), new Date().toString());
+                    String s = patient.getId();
+                    // trebuie rezolvat cu Id-ul pacientului
+                    link.setPatientId(patient.getId());
+                    FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(link).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+//                            progressBar.setVisibility(View.GONE);
+                            if(task.isSuccessful()){
+                                Toast.makeText(AddPatient.this, "Pacientul a fost adăugat cu succes", Toast.LENGTH_LONG).show();
+                                finish();
+//                                startActivity(new Intent(RegisterPacientActivity.this, Details.class)); - se va crea legatura spre lista de medicatii a noului pacient
+                            }
+                            // trebuie lucrat la cazurile de eroare pe else
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void hideKeyboard(){
