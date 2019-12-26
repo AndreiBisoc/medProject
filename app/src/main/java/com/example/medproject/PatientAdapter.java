@@ -13,34 +13,45 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
 
-    ArrayList<Patient> patients;
+    public boolean noPatientToDisplay = true;
+    private ArrayList<Patient> patients;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
 
     public PatientAdapter(){
+
+        String loggedDoctorUid = FirebaseAuth.getInstance().getUid();
+
         final ListActivity l = new ListActivity();
-        FirebaseUtil.openFbReference("Patients", l);
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
+        FirebaseUtil.openFbReference("DoctorsToPatients", l);
+        mDatabaseReference = FirebaseUtil.mDatabaseReference.child(loggedDoctorUid);
         patients = FirebaseUtil.mPatients;
         mChildListener = new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Patient patient = dataSnapshot.getValue(Patient.class);
-                patient.setId(dataSnapshot.getKey());
-                patients.add(patient);
-                notifyItemInserted(patients.size()-1);
+
+                DoctorToPatientLink doctorToPatientLink = dataSnapshot.getValue(DoctorToPatientLink.class);
+                if(doctorToPatientLink.getPatient() != null) {
+                    Patient patient = doctorToPatientLink.getPatient();
+                    patient.setId(dataSnapshot.getKey());
+                    patients.add(patient);
+                    notifyItemInserted(patients.size() - 1);
+                    noPatientToDisplay = false;
+                    MyPatientsActivity.displayMessageOrPatientsList();
+                }
             }
 
             @Override
@@ -50,10 +61,15 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Patient patient = dataSnapshot.getValue(Patient.class);
+                DoctorToPatientLink doctorToPatientLink = dataSnapshot.getValue(DoctorToPatientLink.class);
+                Patient patient = doctorToPatientLink.getPatient();
                 int position = patients.indexOf(patient);
                 patients.remove(patient);
                 notifyItemRemoved(position);
+                if(patients.size() == 0) {
+                    noPatientToDisplay = true;
+                    MyPatientsActivity.displayMessageOrPatientsList();
+                }
             }
 
             @Override

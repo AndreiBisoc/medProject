@@ -17,6 +17,14 @@ public class Patient implements Serializable {
 
     public Patient(){}
 
+    public Patient(String firstName, String lastName, String birthDate, String phone, String CNP) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.CNP = CNP;
+    }
+
     public Patient(String email, String firstName, String lastName, String birthDate, String phone, String address, String CNP) {
         this.email = email;
         this.firstName = firstName;

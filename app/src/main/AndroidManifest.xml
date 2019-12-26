@@ -13,15 +13,17 @@
 
         </activity>
         <activity android:name=".MyPatientsActivity">
-
-        </activity>
-        <activity android:name=".auth.LoginActivity"></activity>
-        <activity android:name=".auth.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".auth.LoginActivity">
+
+        </activity>
+        <activity android:name=".auth.RegisterActivity">
+
         </activity>
         <activity android:name=".auth.RegisterPacientActivity" />
         <activity android:name=".auth.RegisterDoctorActivity" />

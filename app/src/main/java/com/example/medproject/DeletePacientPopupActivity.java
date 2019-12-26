@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.medproject.data.model.Patient;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 public class DeletePacientPopupActivity extends Activity {
@@ -55,7 +56,8 @@ public class DeletePacientPopupActivity extends Activity {
 
         Toast.makeText(this,"Îți șterg pacientul, bă!", Toast.LENGTH_LONG).show();
 
-        mdatabaseReference = FirebaseUtil.mDatabaseReference;
+        String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mdatabaseReference = FirebaseUtil.mDatabaseReference.child(doctorUid);
         mdatabaseReference.child(patient.getId()).removeValue();
         finish();
     }

@@ -4,13 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -125,11 +123,13 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
-                if(patient.getCNP().equals(searchedCNP)) { // && patientToAdd == null) {
+                Patient patientToAdd = new Patient(patient.getFirstName(), patient.getLastName(), patient.getBirthDate(), patient.getPhone(),patient.getCNP());
+                if(patient.getCNP().equals(searchedCNP)) {
                     String registerDate = new SimpleDateFormat("dd/MM/YYYY").format(new Date());
-                    DoctorToPatientLink link = new DoctorToPatientLink(doctorUid, patient.getId(), registerDate);
+                    DoctorToPatientLink link = new DoctorToPatientLink(patientToAdd, registerDate);
                     FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child(doctorUid)
+                            .child(patient.getId())
                             .setValue(link).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
