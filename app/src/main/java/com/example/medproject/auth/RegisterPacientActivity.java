@@ -3,6 +3,8 @@ package com.example.medproject.auth;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.Details;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Patient;
@@ -38,22 +41,51 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_register);
 
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
+
         txtPrenume = findViewById(R.id.email);
         txtNume = findViewById(R.id.password);
+
         txtCNP = findViewById(R.id.patientCNP);
+        txtCNP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 12)
+                    hideKeyboard();
+            }
+        });
+
         txtTelefon = findViewById(R.id.patientPhoneNumber);
-        txtDataNastere = findViewById(R.id.birthDate);
-        txtAdresa = findViewById(R.id.address);
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
+        txtTelefon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        mAuth = FirebaseAuth.getInstance();
+            }
 
-        registerButton = findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(this);
-        registerButton.setEnabled(true);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        txtDataNastere.setOnClickListener(new View.OnClickListener() {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 10)
+                    hideKeyboard();
+            }
+        });
+
+        txtDataNastere = findViewById(R.id.birthDate);txtDataNastere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -72,6 +104,16 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                 picker.show();
             }
         });
+
+        txtAdresa = findViewById(R.id.address);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        registerButton = findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(this);
+        registerButton.setEnabled(true);
     }
 
     @Override
@@ -114,11 +156,11 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
-                            Patient pacient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
-
+                            Patient patient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
+                            patient.setId(mAuth.getUid());
                             FirebaseDatabase.getInstance().getReference("Patients")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(pacient).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .child(mAuth.getUid())
+                                    .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     progressBar.setVisibility(View.GONE);
@@ -193,5 +235,9 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
             return true;
         }
         return false;
+    }
+
+    public void hideKeyboard() {
+        BasicActions.hideKeyboard(this);
     }
 }

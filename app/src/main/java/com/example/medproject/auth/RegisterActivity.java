@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
@@ -24,6 +26,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         txtEmail = findViewById(R.id.email);
         txtPassword = findViewById(R.id.password);
@@ -105,4 +110,5 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         return false;
     }
+
 }

@@ -17,26 +17,23 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.medproject.auth.LoginActivity;
-import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.DoctorToPatientLink;
-import com.example.medproject.data.model.MyCallBack;
 import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AddPatient extends AppCompatActivity {
+public class AddPatientToDoctorActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseDatabase;
@@ -105,8 +102,7 @@ public class AddPatient extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String cnp = s.toString();
-                if (cnp.length() > 12)
+                if (s.toString().length() > 12)
                     hideKeyboard();
             }
         });
@@ -130,10 +126,8 @@ public class AddPatient extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
                 if(patient.getCNP().equals(searchedCNP)) { // && patientToAdd == null) {
-                    DoctorToPatientLink link = new DoctorToPatientLink(doctorUid, patient.getId(), new Date().toString());
-                    String s = patient.getId();
-                    // trebuie rezolvat cu Id-ul pacientului
-                    link.setPatientId(patient.getId());
+                    String registerDate = new SimpleDateFormat("dd/MM/YYYY").format(new Date());
+                    DoctorToPatientLink link = new DoctorToPatientLink(doctorUid, patient.getId(), registerDate);
                     FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(link).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -141,7 +135,7 @@ public class AddPatient extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
 //                            progressBar.setVisibility(View.GONE);
                             if(task.isSuccessful()){
-                                Toast.makeText(AddPatient.this, "Pacientul a fost adăugat cu succes", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AddPatientToDoctorActivity.this, "Pacientul a fost adăugat cu succes", Toast.LENGTH_LONG).show();
                                 finish();
 //                                startActivity(new Intent(RegisterPacientActivity.this, Details.class)); - se va crea legatura spre lista de medicatii a noului pacient
                             }
@@ -174,17 +168,6 @@ public class AddPatient extends AppCompatActivity {
 
     }
 
-    public void hideKeyboard(){
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = this.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(this);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -192,5 +175,9 @@ public class AddPatient extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+    }
+
+    public void hideKeyboard() {
+        BasicActions.hideKeyboard(this);
     }
 }
