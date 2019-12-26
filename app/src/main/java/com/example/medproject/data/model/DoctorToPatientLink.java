@@ -2,34 +2,25 @@ package com.example.medproject.data.model;
 
 public class DoctorToPatientLink {
 
-    private String id;
-
-    private String doctorId;
-
-    private String patientId;
+    private Patient patient;
 
     private String date;
 
-    public DoctorToPatientLink(String doctorId, String patientId, String date) {
-        this.doctorId = doctorId;
-        this.patientId = patientId;
+    public DoctorToPatientLink(){
+
+    }
+
+    public DoctorToPatientLink(Patient patient, String date) {
+        this.patient = patient;
         this.date = date;
     }
 
-    public String getDoctorId() {
-        return doctorId;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public String getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public String getDate() {
@@ -39,4 +30,5 @@ public class DoctorToPatientLink {
     public void setDate(String date) {
         this.date = date;
     }
+
 }
