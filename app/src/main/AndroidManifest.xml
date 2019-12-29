@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.medproject">
+    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
     <application
         android:allowBackup="true"
@@ -9,27 +13,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddPatientToDoctorActivity">
-
-        </activity>
-        <activity android:name=".MyPatientsActivity">
+        <activity android:name=".GenerateQRCode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.LoginActivity">
+        <activity android:name=".AddPatientToDoctorActivity"></activity>
+        <activity android:name=".MyPatientsActivity">
 
         </activity>
-        <activity android:name=".auth.RegisterActivity">
-
-        </activity>
+        <activity android:name=".auth.LoginActivity"></activity>
+        <activity android:name=".auth.RegisterActivity"></activity>
         <activity android:name=".auth.RegisterPacientActivity" />
         <activity android:name=".auth.RegisterDoctorActivity" />
         <activity android:name=".ListActivity" />
         <activity android:name=".DrugActivity" />
-        <activity android:name=".DeletePacientPopupActivity"
+        <activity
+            android:name=".DeletePacientPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".Details" />
     </application>
