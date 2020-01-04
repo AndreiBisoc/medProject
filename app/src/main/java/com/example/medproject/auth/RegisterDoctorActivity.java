@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.Details;
+import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +36,9 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_register);
+
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         txtPrenume = findViewById(R.id.email);
         txtNume = findViewById(R.id.password);
@@ -91,9 +96,9 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                         progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
                             Doctor doctor = new Doctor(email, prenume, nume, specialization, telefon, adresaCabinet);
-
+                            doctor.setId(mAuth.getUid());
                             FirebaseDatabase.getInstance().getReference("Doctors")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child(mAuth.getUid())
                                     .setValue(doctor).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -101,8 +106,10 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
                                         finish();
-                                        startActivity(new Intent(RegisterDoctorActivity.this, Details.class));
+                                        // aici ar trebui sa te duca la pagina de Details, dar inca nu e UI pt ea, deci am redirectat direct la lista de pacienti
+                                        startActivity(new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class));
                                     }
+                                    // aici nu lipseste un else?
                                     if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
                                         Toast.makeText(RegisterDoctorActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
                                     }

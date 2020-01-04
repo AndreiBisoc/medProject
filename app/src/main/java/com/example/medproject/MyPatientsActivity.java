@@ -5,25 +5,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.medproject.auth.LoginActivity;
-import com.example.medproject.data.model.Patient;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
+import org.w3c.dom.Text;
 
 public class MyPatientsActivity extends AppCompatActivity {
 
-    RecyclerView rvPatients;
+
     private FirebaseAuth mAuth;
-    private final PatientAdapter adapter = new PatientAdapter();
+    private static RecyclerView rvPatients;
+    private static TextView emptyView;
+    private static final PatientAdapter adapter = new PatientAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +32,9 @@ public class MyPatientsActivity extends AppCompatActivity {
 
         rvPatients = findViewById(R.id.rvPatients);
         rvPatients.setAdapter(adapter);
+        emptyView = findViewById(R.id.empty_view);
+
+        displayMessageOrPatientsList();
 
         LinearLayoutManager patientsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -50,7 +51,19 @@ public class MyPatientsActivity extends AppCompatActivity {
     }
 
     public void goToAddPatientPage(){
-        startActivity(new Intent(this, AddPatient.class));
+        startActivity(new Intent(this, AddPatientToDoctorActivity.class));
+    }
+
+    public static void displayMessageOrPatientsList() {
+        if(adapter.noPatientToDisplay)
+        {
+            rvPatients.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            rvPatients.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override
