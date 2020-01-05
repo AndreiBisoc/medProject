@@ -14,7 +14,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context=".PatientRegisterActivity"
+        tools:context=".auth.RegisterPacientActivity"
         android:background="@drawable/background">
 
         <ImageView
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
         <EditText
-            android:id="@+id/firstName"
+            android:id="@+id/email"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -59,7 +59,7 @@
             app:layout_constraintTop_toBottomOf="@+id/appName" />
 
         <EditText
-            android:id="@+id/lastName"
+            android:id="@+id/password"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -74,10 +74,10 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/firstName" />
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <EditText
-            android:id="@+id/CNP"
+            android:id="@+id/patientCNP"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -94,7 +94,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.937"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lastName" />
+            app:layout_constraintTop_toBottomOf="@+id/password" />
 
         <EditText
             android:id="@+id/birthDate"
@@ -112,10 +112,10 @@
             android:focusableInTouchMode="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CNP" />
+            app:layout_constraintTop_toBottomOf="@+id/patientCNP" />
 
         <EditText
-            android:id="@+id/phone"
+            android:id="@+id/patientPhoneNumber"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
@@ -146,7 +146,7 @@
             android:inputType="textPostalAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phone" />
+            app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumber" />
 
         <Button
             android:id="@+id/registerButton"

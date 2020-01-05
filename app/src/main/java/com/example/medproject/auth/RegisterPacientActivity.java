@@ -3,7 +3,8 @@ package com.example.medproject.auth;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,12 +16,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.BasicActions;
+import com.example.medproject.Details;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
@@ -37,22 +41,51 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_register);
 
-        txtPrenume = findViewById(R.id.firstName);
-        txtNume = findViewById(R.id.lastName);
-        txtCNP = findViewById(R.id.CNP);
-        txtTelefon = findViewById(R.id.phone);
-        txtDataNastere = findViewById(R.id.birthDate);
-        txtAdresa = findViewById(R.id.address);
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
-        mAuth = FirebaseAuth.getInstance();
+        txtPrenume = findViewById(R.id.email);
+        txtNume = findViewById(R.id.password);
 
-        registerButton = findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(this);
-        registerButton.setEnabled(true);
+        txtCNP = findViewById(R.id.patientCNP);
+        txtCNP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        txtDataNastere.setOnClickListener(new View.OnClickListener() {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 12)
+                    hideKeyboard();
+            }
+        });
+
+        txtTelefon = findViewById(R.id.patientPhoneNumber);
+        txtTelefon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 10)
+                    hideKeyboard();
+            }
+        });
+
+        txtDataNastere = findViewById(R.id.birthDate);txtDataNastere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -72,7 +105,15 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
             }
         });
 
+        txtAdresa = findViewById(R.id.address);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
+        mAuth = FirebaseAuth.getInstance();
+
+        registerButton = findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(this);
+        registerButton.setEnabled(true);
     }
 
     @Override
@@ -115,19 +156,26 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
-                            Patient pacient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
-
+                            Patient patient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
+                            patient.setId(mAuth.getUid());
                             FirebaseDatabase.getInstance().getReference("Patients")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(pacient).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .child(mAuth.getUid())
+                                    .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterPacientActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
+                                        finish();
+                                        startActivity(new Intent(RegisterPacientActivity.this, Details.class));
                                     }
                                     else{
-                                        Toast.makeText(RegisterPacientActivity.this, "Înregistrarea nu a putut avea loc", Toast.LENGTH_LONG).show();
+                                        if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
+                                            Toast.makeText(RegisterPacientActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
                             });
@@ -137,7 +185,6 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                         }
                     }
                 });
-
     }
 
     private boolean validareRegisterPacient(String prenume, String nume, String CNP, String dataNastere, String telefon, String adresa){
@@ -188,5 +235,9 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
             return true;
         }
         return false;
+    }
+
+    public void hideKeyboard() {
+        BasicActions.hideKeyboard(this);
     }
 }

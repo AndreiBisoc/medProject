@@ -1,8 +1,10 @@
 package com.example.medproject.data.model;
 
-import java.util.Date;
+import androidx.annotation.Nullable;
 
-public class Patient {
+import java.io.Serializable;
+
+public class Patient implements Serializable {
     private String id;
     private String email;
     private String password;
@@ -15,6 +17,14 @@ public class Patient {
 
     public Patient(){}
 
+    public Patient(String firstName, String lastName, String birthDate, String phone, String CNP) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.CNP = CNP;
+    }
+
     public Patient(String email, String firstName, String lastName, String birthDate, String phone, String address, String CNP) {
         this.email = email;
         this.firstName = firstName;
@@ -23,6 +33,13 @@ public class Patient {
         this.phone = phone;
         this.address = address;
         this.CNP = CNP;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof Patient)
+            return ((Patient) obj).CNP == this.CNP;
+        return false;
     }
 
     public String getId() {

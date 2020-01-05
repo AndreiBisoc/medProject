@@ -3,7 +3,6 @@ package com.example.medproject.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -14,16 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.BasicActions;
+import com.example.medproject.Details;
+import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
-import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Calendar;
 
 public class RegisterDoctorActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText txtPrenume, txtNume, txtTelefon, txtAdresaCabinet;
@@ -37,9 +37,12 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_register);
 
-        txtPrenume = findViewById(R.id.firstName);
-        txtNume = findViewById(R.id.lastName);
-        txtTelefon = findViewById(R.id.phone);
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
+
+        txtPrenume = findViewById(R.id.email);
+        txtNume = findViewById(R.id.password);
+        txtTelefon = findViewById(R.id.patientPhoneNumber);
         txtAdresaCabinet = findViewById(R.id.address);
         txtSpinnerSpecialization = findViewById(R.id.specialization);
         progressBar = findViewById(R.id.progressBar);
@@ -93,18 +96,25 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                         progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
                             Doctor doctor = new Doctor(email, prenume, nume, specialization, telefon, adresaCabinet);
-
+                            doctor.setId(mAuth.getUid());
                             FirebaseDatabase.getInstance().getReference("Doctors")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child(mAuth.getUid())
                                     .setValue(doctor).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
+                                        finish();
+                                        // aici ar trebui sa te duca la pagina de Details, dar inca nu e UI pt ea, deci am redirectat direct la lista de pacienti
+                                        startActivity(new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class));
+                                    }
+                                    // aici nu lipseste un else?
+                                    if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
+                                        Toast.makeText(RegisterDoctorActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
                                     }
                                     else{
-                                        Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea nu a putut avea loc", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -114,7 +124,6 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                         }
                     }
                 });
-
     }
 
     private boolean validareRegisterPacient(String prenume, String nume, String telefon, String adresaCabinet){

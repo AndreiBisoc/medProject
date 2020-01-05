@@ -28,7 +28,6 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/patientIcon"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +52,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:text="TextView"
         app:layout_constraintEnd_toStartOf="@+id/deleteIcon"
         app:layout_constraintStart_toEndOf="@+id/patientDateOfBirth"
         app:layout_constraintTop_toBottomOf="@+id/patientName" />

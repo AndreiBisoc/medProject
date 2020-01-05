@@ -14,9 +14,10 @@ public class Doctor {
     private String lastName;
     private String specialization;
     private String phone;
-
     private String adresaCabinet;
     private List<Patient> patientList;
+
+    public Doctor() {}
 
     public Doctor(String email, String firstName, String lastName, String specialization, String phone, String adresaCabinet) {
         this.email = email;

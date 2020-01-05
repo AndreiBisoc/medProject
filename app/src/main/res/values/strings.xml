@@ -1,4 +1,8 @@
 <resources>
+    <string name="title_activity_my_medications">MyMedications</string>
+    <string name="adaug_medicatie">Adaugâ medicație</string>
+    <string name="delete_medication">Șterge medicație</string>
+
     <string name="save_menu">save</string>
     <string name="logo">Logo</string>
     <string name="title_activity_login">Sign in</string>
@@ -24,8 +28,11 @@
     <string name="action_sign_in_short">Loghează-te</string>
     <string name="action_register">Nu ai cont?</string>
 
-    <string name="add_patient">Adaugă pacient</string>
+    <string name="add_patient_button">Adaugă pacient</string>
+    <string name="no_patient_to_display">Momentan nu aveți niciun pacient conectat contului dumneavoastră. Vă rugăm adăugați pacienți.</string>
     <string name="delete_patient">Șterge pacient</string>
+
+    <string name="add_patient_to_doctor">Introdu CNPul pacientului pe care dorești să îl adaugi la tine în listă.</string>
 
     <string name="action_register_short">Crează cont</string>
     <string name="welcome">"Welcome !"</string>
