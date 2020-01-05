@@ -12,8 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.Details;
 import com.example.medproject.MyPatientsActivity;
+import com.example.medproject.PatientWorkflow.MyMedications;
 import com.example.medproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                         if(dataSnapshot.exists()){ //este pacient
                                                             finish();
-                                                            Intent intent = new Intent(LoginActivity.this, Details.class);
+                                                            Intent intent = new Intent(LoginActivity.this, MyMedications.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                             startActivity(intent);
                                                         }
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if(dataSnapshot.exists()){ //este pacient
                                                     finish();
-                                                    Intent intent = new Intent(LoginActivity.this, Details.class);
+                                                    Intent intent = new Intent(LoginActivity.this, MyMedications.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                     startActivity(intent);
                                                 }

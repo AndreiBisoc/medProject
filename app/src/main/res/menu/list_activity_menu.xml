@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/insert_menu"
-        android:title="New drug"
-        app:showAsAction="never" />
     <item android:id="@+id/logout_menu"
-        android:title="Logout"
+        android:title="Deloghează-te"
         app:showAsAction="never" />
 </menu>
