@@ -1,4 +1,8 @@
 <resources>
+    <string name="title_activity_my_medications">MyMedications</string>
+    <string name="adaug_medicatie">Adaugâ medicație</string>
+    <string name="delete_medication">Șterge medicație</string>
+
     <string name="save_menu">save</string>
     <string name="logo">Logo</string>
     <string name="title_activity_login">Sign in</string>
