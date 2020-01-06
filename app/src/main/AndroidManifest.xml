@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.medproject">
-    
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera2" />
+    <uses-feature android:name="android.hardware.camera2.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -13,35 +16,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GenerateQRCode"/>
-        <activity
-            android:name=".PatientWorkflow.MyMedications.MyMedications"
-            android:label="@string/title_activity_my_medications">
-        </activity>
-        <activity android:name=".AddPatientToDoctorActivity"></activity>
-        <activity android:name=".MyPatientsActivity">
-
-        </activity>
-        <activity
-            android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".auth.LoginActivity">
+        <activity android:name=".ScanQR">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.RegisterActivity">
+        <activity android:name=".GenerateQRCode" />
+        <activity
+            android:name=".PatientWorkflow.MyMedications.MyMedications"
+            android:label="@string/title_activity_my_medications">
 
         </activity>
+        <activity android:name=".AddPatientToDoctorActivity" />
+        <activity android:name=".MyPatientsActivity" />
+        <activity
+            android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".auth.LoginActivity" />
+        <activity android:name=".auth.RegisterActivity" />
         <activity android:name=".auth.RegisterPacientActivity" />
         <activity android:name=".auth.RegisterDoctorActivity" />
+        <activity android:name=".ListActivity" />
         <activity android:name=".DrugActivity" />
         <activity
             android:name=".DeletePacientPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".Details"></activity>
+        <activity android:name=".Details" />
         <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs">
 
         </activity>
