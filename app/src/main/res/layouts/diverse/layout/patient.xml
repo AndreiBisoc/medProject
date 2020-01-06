@@ -61,13 +61,22 @@
         android:layout_width="29dp"
         android:layout_height="31dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:background="@drawable/delete"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:onClick="ShowPopup"
+        app:layout_constraintBottom_toTopOf="@+id/seeMoreIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toEndOf="@+id/patientName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.457"
-        android:onClick="ShowPopup"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/seeMoreIcon"
+        android:layout_width="29dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/see_more"
+        android:onClick="ShowPopup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/deleteIcon"
+        app:layout_constraintStart_toStartOf="@+id/deleteIcon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

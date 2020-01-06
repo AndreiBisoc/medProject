@@ -2,7 +2,6 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +30,12 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     private ArrayList<Medication> medications;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
-    private String currentUsrr = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-    public MedicationAdapter() {
+    public MedicationAdapter(String patientId) {
+        String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idToSearchMedication = patientId != null ? patientId : currentUser;
         final ListActivity l = new ListActivity();
-        FirebaseUtil.openFbReference("PatientToMedications/" + currentUsrr, l);
+        FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medications = FirebaseUtil.mMedications;
         mChildListener = new ChildEventListener() {
@@ -117,16 +117,18 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
         @Override
         public void onClick(View view) {
+            int position = getAdapterPosition();
+            Medication selectedMedication = medications.get(position);
+
             switch (view.getId()) {
                 case R.id.deleteIcon:
-                    int position = getAdapterPosition();
-                    Medication selectedMedication = medications.get(position);
                     Intent intent = new Intent(view.getContext(), DeleteMedicationPopupActivity.class);
                     intent.putExtra("Medication", selectedMedication);
                     view.getContext().startActivity(intent);
+                    break;
+
                 default:
-                    position = getAdapterPosition();
-                    String medicationID = medications.get(position).getId();
+                    String medicationID = selectedMedication.getId();
                     intent = new Intent(view.getContext(), MyDrugs.class);
                     intent.putExtra("MedicationID", medicationID);
                     view.getContext().startActivity(intent);

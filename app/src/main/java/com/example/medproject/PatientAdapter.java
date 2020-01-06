@@ -2,17 +2,18 @@ package com.example.medproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,15 +110,19 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     public class PatientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView name, dateOfBirth, phoneNumber;
-        private Button deleteIcon;
+        private Button deleteIcon, seeMedication;
 
         public PatientViewHolder(View itemView){
             super(itemView);
+
             name = itemView.findViewById(R.id.patientName);
             dateOfBirth = itemView.findViewById(R.id.patientDateOfBirth);
             phoneNumber = itemView.findViewById(R.id.patientPhoneNumber);
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(this);
+
+            seeMedication = itemView.findViewById(R.id.seeMoreIcon);
+            seeMedication.setOnClickListener(this);
         }
 
         public void bind(Patient patient){
@@ -128,12 +133,25 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
         @Override
         public void onClick(View view) {
+
             int position = getAdapterPosition();
-            Log.d("Click", String.valueOf(position));
             Patient selectedPatient = patients.get(position);
-            Intent intent = new Intent(view.getContext(), DeletePacientPopupActivity.class);
-            intent.putExtra("Patient", selectedPatient);
-            view.getContext().startActivity(intent);
+
+            switch (view.getId()) {
+                case R.id.deleteIcon:
+                    Intent intent = new Intent(view.getContext(), DeletePacientPopupActivity.class);
+                    intent.putExtra("Patient", selectedPatient);
+                    view.getContext().startActivity(intent);
+                    break;
+
+                default:
+                    Toast.makeText(view.getContext(), "Ai clickuit aici", Toast.LENGTH_LONG).show();
+                    intent = new Intent(view.getContext(), MyMedications.class);
+                    intent.putExtra("patientId", selectedPatient.getId());
+                    view.getContext().startActivity(intent);
+
+            }
         }
+
     }
 }

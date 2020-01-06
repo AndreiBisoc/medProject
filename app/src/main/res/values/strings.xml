@@ -1,6 +1,6 @@
 <resources>
-    <string name="title_activity_my_medications">MyMedications</string>
-    <string name="adaug_medicatie">Adaugâ medicație</string>
+    <string name="title_activity_my_medications">Medicațiile mele</string>
+    <string name="adaug_medicatie">Adaugă medicație</string>
     <string name="delete_medication">Șterge medicație</string>
 
     <string name="save_menu">save</string>
