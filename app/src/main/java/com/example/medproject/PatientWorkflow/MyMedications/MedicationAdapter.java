@@ -1,4 +1,4 @@
-package com.example.medproject.PatientWorkflow;
+package com.example.medproject.PatientWorkflow.MyMedications;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
+import com.example.medproject.PatientWorkflow.MyDrugs.MyDrugs;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Medication;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,13 +29,11 @@ import java.util.ArrayList;
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
 
     private ArrayList<Medication> medications;
-
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
+    private String currentUsrr = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-    String currentUsrr = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-    public MedicationAdapter(){
+    public MedicationAdapter() {
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("PatientToMedications/" + currentUsrr, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
@@ -46,7 +45,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                 Medication medication = dataSnapshot.getValue(Medication.class);
                 medication.setId(dataSnapshot.getKey());
                 medications.add(medication);
-                notifyItemInserted(medications.size()-1);
+                notifyItemInserted(medications.size() - 1);
             }
 
             @Override
@@ -75,7 +74,6 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         mDatabaseReference.addChildEventListener(mChildListener);
     }
 
-
     @NonNull
     @Override
     public MedicationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -98,32 +96,42 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     }
 
 
-    public class MedicationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MedicationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView diagnostic, numeDoctor;
         private Button deleteIcon;
 
-        public MedicationViewHolder(View itemView){
+        public MedicationViewHolder(View itemView) {
             super(itemView);
             diagnostic = itemView.findViewById(R.id.medicationDiagnostic);
             numeDoctor = itemView.findViewById(R.id.doctorName);
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
-        public void bind(Medication medication){
+        public void bind(Medication medication) {
             diagnostic.setText(medication.getDiagnostic());
             numeDoctor.setText(medication.getDoctorName());
         }
 
         @Override
         public void onClick(View view) {
-            int position = getAdapterPosition();
-            Log.d("Click", String.valueOf(position));
-            Medication selectedMedication = medications.get(position);
-            Intent intent = new Intent(view.getContext(), DeleteMedicationPopupActivity.class);
-            intent.putExtra("Medication", selectedMedication);
-            view.getContext().startActivity(intent);
+            switch (view.getId()) {
+                case R.id.deleteIcon:
+                    int position = getAdapterPosition();
+                    Medication selectedMedication = medications.get(position);
+                    Intent intent = new Intent(view.getContext(), DeleteMedicationPopupActivity.class);
+                    intent.putExtra("Medication", selectedMedication);
+                    view.getContext().startActivity(intent);
+                default:
+                    position = getAdapterPosition();
+                    String medicationID = medications.get(position).getId();
+                    intent = new Intent(view.getContext(), MyDrugs.class);
+                    intent.putExtra("MedicationID", medicationID);
+                    view.getContext().startActivity(intent);
+
+            }
         }
     }
 }

@@ -1,47 +1,43 @@
-package com.example.medproject.PatientWorkflow;
+package com.example.medproject.PatientWorkflow.MyDrugs;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.medproject.auth.LoginActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
 import com.example.medproject.R;
+import com.example.medproject.auth.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MyMedications extends AppCompatActivity implements View.OnClickListener {
-
+public class MyDrugs extends AppCompatActivity implements View.OnClickListener  {
     private FirebaseAuth mAuth;
-    private RecyclerView rvMedications;
-    private final MedicationAdapter adapter = new MedicationAdapter();
+    private RecyclerView rvDrugs;
+    private DrugAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_medications);
+        setContentView(R.layout.activity_my_drugs);
 
         mAuth = FirebaseAuth.getInstance();
 
-        rvMedications = findViewById(R.id.rvMedications);
-        rvMedications.setAdapter(adapter);
+        adapter = new DrugAdapter(getIntent().getStringExtra("MedicationID"));
 
-        LinearLayoutManager medicationsLayoutManager =
+        rvDrugs = findViewById(R.id.rvDrugs);
+        rvDrugs.setAdapter(adapter);
+
+        LinearLayoutManager drugsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvMedications.setLayoutManager(medicationsLayoutManager);
+        rvDrugs.setLayoutManager(drugsLayoutManager);
 
-        Button button = findViewById(R.id.addMedicationButton);
-        button.setOnClickListener(this);
     }
 
     @Override
@@ -58,7 +54,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this,LoginActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
                 break;
         }

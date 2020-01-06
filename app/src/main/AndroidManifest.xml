@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".GenerateQRCode"/>
         <activity
-            android:name=".PatientWorkflow.MyMedications"
+            android:name=".PatientWorkflow.MyMedications.MyMedications"
             android:label="@string/title_activity_my_medications">
         </activity>
         <activity android:name=".AddPatientToDoctorActivity"></activity>
@@ -23,7 +23,7 @@
 
         </activity>
         <activity
-            android:name=".PatientWorkflow.DeleteMedicationPopupActivity"
+            android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".auth.LoginActivity">
             <intent-filter>
@@ -42,6 +42,9 @@
             android:name=".DeletePacientPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".Details"></activity>
+        <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs">
+
+        </activity>
     </application>
 
 </manifest>
