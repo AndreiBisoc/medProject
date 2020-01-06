@@ -18,8 +18,6 @@ import android.widget.Toast;
 import com.example.medproject.auth.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.w3c.dom.Text;
-
 public class MyPatientsActivity extends AppCompatActivity {
 
 

@@ -3,7 +3,6 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.medproject.FirebaseUtil;
 import com.example.medproject.auth.LoginActivity;
 
 import androidx.annotation.NonNull;
@@ -25,12 +24,15 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth mAuth;
     private RecyclerView rvMedications;
-    private final MedicationAdapter adapter = new MedicationAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_medications);
+
+        String patientId = getIntent().getStringExtra("patientId");
+
+        final MedicationAdapter adapter = new MedicationAdapter(patientId);
 
         mAuth = FirebaseAuth.getInstance();
 
