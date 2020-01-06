@@ -128,7 +128,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
         @Override
         public void onClick(View view) {
-
             int position = getAdapterPosition();
             Log.d("Click", String.valueOf(position));
             Patient selectedPatient = patients.get(position);

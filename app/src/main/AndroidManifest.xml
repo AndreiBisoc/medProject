@@ -25,14 +25,14 @@
         </activity>
         <activity android:name=".GenerateQRCode" />
         <activity
-            android:name=".PatientWorkflow.MyMedications"
+            android:name=".PatientWorkflow.MyMedications.MyMedications"
             android:label="@string/title_activity_my_medications">
 
         </activity>
         <activity android:name=".AddPatientToDoctorActivity" />
         <activity android:name=".MyPatientsActivity" />
         <activity
-            android:name=".PatientWorkflow.DeleteMedicationPopupActivity"
+            android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".auth.LoginActivity" />
         <activity android:name=".auth.RegisterActivity" />
@@ -44,6 +44,9 @@
             android:name=".DeletePacientPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".Details" />
+        <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs">
+
+        </activity>
     </application>
 
 </manifest>

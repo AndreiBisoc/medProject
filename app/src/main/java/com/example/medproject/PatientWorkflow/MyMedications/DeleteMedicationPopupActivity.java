@@ -1,4 +1,4 @@
-package com.example.medproject.PatientWorkflow;
+package com.example.medproject.PatientWorkflow.MyMedications;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -38,12 +38,12 @@ public class DeleteMedicationPopupActivity extends Activity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deletePatient();
+                deleteMedication();
             }
         });
     }
 
-    public void deletePatient(){
+    public void deleteMedication(){
         if(medication == null){
             Toast.makeText(this,"Vă rugăm salvați medicația înainte să o ștergeți!", Toast.LENGTH_SHORT).show();
             return;

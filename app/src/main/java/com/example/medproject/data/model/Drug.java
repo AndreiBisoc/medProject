@@ -11,6 +11,11 @@ public class Drug implements Serializable {
 
     public Drug(){}
 
+    public Drug(String nume){
+        this.setId(id);
+        this.setNume(nume);
+    }
+
     public Drug(String nume, String scop, String unitate, String descriere) {
         this.setId(id);
         this.setNume(nume);
