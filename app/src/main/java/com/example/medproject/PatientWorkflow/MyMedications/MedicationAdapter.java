@@ -27,13 +27,16 @@ import java.util.ArrayList;
 
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
 
+    public boolean noMedicationsToDisplay = true;
+    public boolean loggedAsDoctor;
     private ArrayList<Medication> medications;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
 
     public MedicationAdapter(String patientId) {
+        loggedAsDoctor = patientId != null;
         String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String idToSearchMedication = patientId != null ? patientId : currentUser;
+        String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
@@ -44,6 +47,10 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
                 medication.setId(dataSnapshot.getKey());
+                if(medication != null) {
+                    noMedicationsToDisplay = false;
+                    MyMedications.displayMessageOrMedicationsList();
+                }
                 medications.add(medication);
                 notifyItemInserted(medications.size() - 1);
             }
@@ -56,9 +63,14 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
+                medication.setId(dataSnapshot.getKey());
                 int position = medications.indexOf(medication);
                 medications.remove(medication);
                 notifyItemRemoved(position);
+                if(medications.size() == 0) {
+                    noMedicationsToDisplay = true;
+                    MyMedications.displayMessageOrMedicationsList();
+                }
             }
 
             @Override
@@ -88,6 +100,8 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     public void onBindViewHolder(@NonNull MedicationViewHolder holder, int position) {
         Medication medication = medications.get(position);
         holder.bind(medication);
+        if(!loggedAsDoctor)
+            holder.deleteIcon.setVisibility(View.GONE);
     }
 
     @Override
