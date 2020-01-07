@@ -14,8 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.Details;
-import com.example.medproject.MyPatientsActivity;
+import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.google.android.gms.tasks.OnCompleteListener;

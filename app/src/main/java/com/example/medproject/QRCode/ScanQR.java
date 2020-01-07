@@ -1,17 +1,14 @@
-package com.example.medproject;
+package com.example.medproject.QRCode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.UserHandle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.medproject.PatientWorkflow.MyMedications.MedicationAdapter;
+import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;

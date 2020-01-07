@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.MyPatientsActivity;
+import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;

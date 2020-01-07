@@ -1,4 +1,4 @@
-package com.example.medproject;
+package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.FirebaseUtil;
+import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
+import com.example.medproject.R;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.google.firebase.auth.FirebaseAuth;

@@ -1,4 +1,4 @@
-package com.example.medproject;
+package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Patient;
 import com.google.firebase.auth.FirebaseAuth;

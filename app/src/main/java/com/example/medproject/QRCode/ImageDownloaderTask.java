@@ -1,4 +1,4 @@
-package com.example.medproject;
+package com.example.medproject.QRCode;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

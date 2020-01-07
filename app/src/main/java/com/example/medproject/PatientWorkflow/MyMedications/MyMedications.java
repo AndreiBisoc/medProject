@@ -3,7 +3,7 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.medproject.ScanQR;
+import com.example.medproject.QRCode.ScanQR;
 import com.example.medproject.auth.LoginActivity;
 
 import androidx.annotation.NonNull;

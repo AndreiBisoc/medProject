@@ -1,4 +1,4 @@
-package com.example.medproject;
+package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.medproject.BasicActions;
+import com.example.medproject.FirebaseUtil;
+import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;

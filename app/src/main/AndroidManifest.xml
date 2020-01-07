@@ -17,6 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--  QR Codes-->
+        <activity android:name=".QRCode.ScanQR" />
+        <activity android:name=".QRCode.GenerateQRCode"/>
+
         <!--  Auth workflow-->
         <activity android:name=".auth.LoginActivity">
             <intent-filter>
@@ -33,7 +37,7 @@
         <activity android:name=".auth.RegisterDoctorActivity" />
 
 
-        <!--  Patient workflow-->
+        <!--  Patient workflow -->
         <activity android:name=".PatientWorkflow.MyMedications.MyMedications"/>
 
 
@@ -45,20 +49,17 @@
 
 
         <!--  Doctor workflow  -->
-        <activity android:name=".MyPatientsActivity" />
+        <activity android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity" />
 
-        <activity android:name=".PatientDetails"/>
+        <activity android:name=".DoctorWorkflow.MyPacients.PatientDetails"/>
 
-        <activity android:name=".ScanQR"/>
-
-        <activity android:name=".GenerateQRCode" />
-
-        <activity android:name=".AddPatientToDoctorActivity" />
+        <activity android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity" />
 
         <activity android:name=".ListActivity" />
 
         <activity android:name=".DrugActivity" />
-        <activity android:name=".DeletePacientPopupActivity" android:theme="@android:style/Theme.Dialog" />
+        
+        <activity android:name=".DoctorWorkflow.MyPacients.DeletePacientPopupActivity" android:theme="@android:style/Theme.Dialog" />
 
         <activity android:name=".Details" />
 
