@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Patient;
@@ -22,20 +23,18 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class PatientDetails extends AppCompatActivity {
-    private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtEmail, txtAddress;
+    private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
     private DatabaseReference mDatabaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.patient_details);
 
-
         txtLastname = findViewById(R.id.txtLastname);
-        txtFirstname = findViewById(R.id.txtFirstname);
+        txtFirstname = findViewById(R.id.txtFirstName);
         txtCNP = findViewById(R.id.txtCNP);
         txtBirthDate = findViewById(R.id.txtBirthDate);
         txtPhone = findViewById(R.id.txtPhone);
-        txtEmail = findViewById(R.id.txtEmail);
         txtAddress = findViewById(R.id.txtAddress);
 
         Intent intent = getIntent();
@@ -48,14 +47,12 @@ public class PatientDetails extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
-                txtLastname.setText("Nume: " + patient.getLastName());
-                txtFirstname.setText("Prenume: " +patient.getFirstName());
-                txtCNP.setText("CNP: " +patient.getCNP());
-                txtBirthDate.setText("Data nasterii: " + patient.getBirthDate());
-                txtPhone.setText("Telefon: " + patient.getPhone());
-                txtEmail.setText("Email: " + patient.getEmail());
-                txtAddress.setText("Adresa: " + patient.getAddress());
-
+                txtLastname.setText(patient.getLastName());
+                txtFirstname.setText(patient.getFirstName());
+                txtCNP.setText(patient.getCNP());
+                txtBirthDate.setText(patient.getBirthDate());
+                txtPhone.setText(patient.getPhone());
+                txtAddress.setText(patient.getAddress());
                 enableEditTexts(false);
             }
 
@@ -72,7 +69,6 @@ public class PatientDetails extends AppCompatActivity {
         txtCNP.setEnabled(isEnabled);
         txtBirthDate.setEnabled(isEnabled);
         txtPhone.setEnabled(isEnabled);
-        txtEmail.setEnabled(isEnabled);
         txtAddress.setEnabled(isEnabled);
     }
 
@@ -80,13 +76,16 @@ public class PatientDetails extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
-
+        menu.removeItem(R.id.insert_menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
+            case R.id.edit_account:
+                startActivity(new Intent(this, DoctorDetails.class));
+                break;
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();

@@ -53,12 +53,14 @@
 
         <activity android:name=".DoctorWorkflow.MyPacients.PatientDetails"/>
 
+        <activity android:name=".DoctorWorkflow.DoctorDetails"/>
+
         <activity android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity" />
 
         <activity android:name=".ListActivity" />
 
         <activity android:name=".DrugActivity" />
-        
+
         <activity android:name=".DoctorWorkflow.MyPacients.DeletePacientPopupActivity" android:theme="@android:style/Theme.Dialog" />
 
         <activity android:name=".Details" />
