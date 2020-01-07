@@ -3,6 +3,7 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.medproject.ScanQR;
 import com.example.medproject.auth.LoginActivity;
 
 import androidx.annotation.NonNull;
@@ -51,10 +52,17 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         rvMedications.setLayoutManager(medicationsLayoutManager);
 
         Button addMedicationButton = findViewById(R.id.addMedicationButton);
+        Button scanMedicationButton = findViewById(R.id.scanMedicationButton);
         addMedicationButton.setOnClickListener(this);
+        scanMedicationButton.setOnClickListener(this);
 
-        if(!secondAdapter.loggedAsDoctor)
+        if(!secondAdapter.loggedAsDoctor) {
             addMedicationButton.setVisibility(View.GONE);
+            scanMedicationButton.setVisibility(View.VISIBLE);
+        } else {
+            addMedicationButton.setVisibility(View.VISIBLE);
+            scanMedicationButton.setVisibility(View.GONE);
+        }
 
     }
 
@@ -80,8 +88,20 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
 
+        switch (view.getId()) {
+            case R.id.addMedicationButton:
+                break;
+
+            case R.id.scanMedicationButton:
+                Intent intent = new Intent(view.getContext(), ScanQR.class);
+                view.getContext().startActivity(intent);
+                break;
+
+            default:
+
+        }
     }
 
     public static void displayMessageOrMedicationsList() {
