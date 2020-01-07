@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Medication;
-import com.example.medproject.data.model.Patient;
 import com.google.firebase.database.DatabaseReference;
 
 public class DeleteMedicationPopupActivity extends Activity {
@@ -49,7 +48,7 @@ public class DeleteMedicationPopupActivity extends Activity {
             return;
         }
 
-        Toast.makeText(this,"Îți șterg medicașia, bă!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Îți șterg medicația, bă!", Toast.LENGTH_LONG).show();
 
         mdatabaseReference = FirebaseUtil.mDatabaseReference;
         mdatabaseReference.child(medication.getId()).removeValue();

@@ -18,8 +18,6 @@ import android.widget.Toast;
 import com.example.medproject.auth.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.w3c.dom.Text;
-
 public class MyPatientsActivity extends AppCompatActivity {
 
 
@@ -81,7 +79,7 @@ public class MyPatientsActivity extends AppCompatActivity {
     }
 
     public static void displayMessageOrPatientsList() {
-        if(adapter.noPatientToDisplay)
+        if(adapter.noPatientsToDisplay)
         {
             rvPatients.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
