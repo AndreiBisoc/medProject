@@ -27,7 +27,6 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
     EditText txtNume, txtScop, txtUnitate, txtDescriere;
     EditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
     String drugID, drugAdministrationID;
-    Drug drug;
 
 
     @Override

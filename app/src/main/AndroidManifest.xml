@@ -45,13 +45,15 @@
 
 
         <!--  Doctor workflow  -->
+        <activity android:name=".MyPatientsActivity" />
+
+        <activity android:name=".PatientDetails"/>
+
         <activity android:name=".ScanQR"/>
 
         <activity android:name=".GenerateQRCode" />
 
         <activity android:name=".AddPatientToDoctorActivity" />
-
-        <activity android:name=".MyPatientsActivity" />
 
         <activity android:name=".ListActivity" />
 
