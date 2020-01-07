@@ -108,7 +108,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
-
+        menu.removeItem(R.id.insert_menu);
         return true;
     }
 

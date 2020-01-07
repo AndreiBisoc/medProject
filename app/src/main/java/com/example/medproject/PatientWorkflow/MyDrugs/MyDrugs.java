@@ -44,7 +44,7 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
-
+        menu.removeItem(R.id.insert_menu);
         return true;
     }
 

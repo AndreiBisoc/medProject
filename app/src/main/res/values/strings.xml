@@ -6,6 +6,7 @@
     <string name="delete_medication">Șterge medicație</string>
 
     <string name="save_menu">save</string>
+    <string name="save_changes">Salvează modificările</string>
     <string name="logo">Logo</string>
     <string name="title_activity_login">Sign in</string>
 
