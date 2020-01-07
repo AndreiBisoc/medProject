@@ -3,6 +3,7 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;
 import com.example.medproject.QRCode.ScanQR;
 import com.example.medproject.auth.LoginActivity;
 
@@ -92,10 +93,12 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
 
         switch (view.getId()) {
             case R.id.addMedicationButton:
+                Intent intent = new Intent(view.getContext(), AddMedication.class);
+                view.getContext().startActivity(intent);
                 break;
 
             case R.id.scanMedicationButton:
-                Intent intent = new Intent(view.getContext(), ScanQR.class);
+                intent = new Intent(view.getContext(), ScanQR.class);
                 view.getContext().startActivity(intent);
                 break;
 
