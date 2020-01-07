@@ -2,7 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/insert_menu"
-        android:title="New drug"
+        android:title="Adaugă medicament"
+        app:showAsAction="never" />
+    <item android:id="@+id/edit_account"
+        android:title="Editare cont"
         app:showAsAction="never" />
     <item android:id="@+id/logout_menu"
         android:title="Logout"

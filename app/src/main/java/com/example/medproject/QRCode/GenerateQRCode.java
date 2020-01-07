@@ -3,6 +3,7 @@ package com.example.medproject.QRCode;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.R;
 import com.firebase.ui.auth.AuthUI;
@@ -60,6 +62,9 @@ public class GenerateQRCode extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
+            case R.id.edit_account:
+                startActivity(new Intent(this, DoctorDetails.class));
+                break;
             case R.id.logout_menu:
                 AuthUI.getInstance()
                         .signOut(this)

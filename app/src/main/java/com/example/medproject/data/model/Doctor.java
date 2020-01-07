@@ -19,6 +19,15 @@ public class Doctor {
 
     public Doctor() {}
 
+    public Doctor(String firstName, String lastName, String specialization, String phone, String adresaCabinet) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.specialization = specialization;
+        this.phone = phone;
+        this.adresaCabinet = adresaCabinet;
+        this.patientList = new ArrayList<>();
+    }
+
     public Doctor(String email, String firstName, String lastName, String specialization, String phone, String adresaCabinet) {
         this.email = email;
         this.firstName = firstName;
@@ -57,7 +66,7 @@ public class Doctor {
         return specialization;
     }
 
-    public void setSpecialization(String specialisation) {
+    public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
 

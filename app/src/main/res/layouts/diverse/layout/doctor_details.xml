@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/appLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="126dp"
+        android:layout_height="127dp"
         android:layout_gravity="center"
         android:layout_marginTop="64dp"
         android:contentDescription="@string/logo"
@@ -89,7 +89,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/CNPLinearLayout"
+        android:id="@+id/SpecializareLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -101,15 +101,15 @@
         app:layout_constraintTop_toBottomOf="@+id/PrenumeLinearLayout">
 
         <TextView
-            android:layout_width="65dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:text="CNP"
+            android:text="Specializare"
             android:textColor="@color/black"
+            android:layout_gravity="center|center_vertical"
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/txtCNP"
+            android:id="@+id/txtSpecializare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
@@ -119,44 +119,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/CNPLinearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/appLogo" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/BirthDateLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CNPLinearLayout">
-
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="50dp"
-            android:text="Data Nașterii"
-            android:textColor="@color/black"
-            android:layout_gravity="center|center_vertical"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/txtBirthDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="@dimen/text_margin_standard"
-            android:autofillHints=""
-            android:background="@drawable/input_field"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/BirthDateLinearLayout"
+            app:layout_constraintStart_toEndOf="@+id/SpecializareLinearLayout"
             app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
     </LinearLayout>
@@ -171,7 +134,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BirthDateLinearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/SpecializareLinearLayout">
 
         <TextView
             android:layout_width="65dp"
@@ -237,14 +200,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/button"
         android:enabled="true"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:text="@string/save_changes"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AddressLinearLayout" />
 

@@ -35,6 +35,15 @@ public class Patient implements Serializable {
         this.CNP = CNP;
     }
 
+    public Patient(String firstName, String lastName, String birthDate, String phone, String address, String CNP) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.address = address;
+        this.CNP = CNP;
+    }
+
     @Override
     public boolean equals(@Nullable Object obj) {
         if(obj instanceof Patient)

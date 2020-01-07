@@ -1,4 +1,4 @@
-package com.example.medproject.DoctorWorkflow.MyPacients;
+package com.example.medproject.DoctorWorkflow;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.DoctorWorkflow.DoctorDetails;
+import com.example.medproject.DoctorWorkflow.MyPacients.AddPatientToDoctorActivity;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,35 +28,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class PatientDetails extends AppCompatActivity {
-    private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
-    private DatabaseReference mDatabaseReference;
+public class DoctorDetails extends AppCompatActivity {
+
+    private EditText txtLastname, txtFirstname, txtSpecializare, txtPhone, txtAddress;
     private Button saveChangesButton;
-    private boolean canEditForm;
+    private DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.patient_details);
+        setContentView(R.layout.doctor_details);
+
+        final String doctorId = FirebaseAuth.getInstance().getUid();
+
+        mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorId);
 
         txtLastname = findViewById(R.id.txtLastname);
         txtFirstname = findViewById(R.id.txtFirstName);
-        txtCNP = findViewById(R.id.txtCNP);
-        txtBirthDate = findViewById(R.id.txtBirthDate);
+        txtSpecializare = findViewById(R.id.txtSpecializare);
         txtPhone = findViewById(R.id.txtPhone);
         txtAddress = findViewById(R.id.txtAddress);
-
-        Intent intent = getIntent();
-        String patientID = intent.getStringExtra("patientID");
-        final String loggedUser = FirebaseAuth.getInstance().getUid();
-
-        canEditForm = patientID == null;
-
-        if(canEditForm) {
-            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + loggedUser);
-        } else {
-            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + patientID);
-        }
 
         saveChangesButton = findViewById(R.id.saveChangesButton);
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
@@ -65,18 +58,17 @@ public class PatientDetails extends AppCompatActivity {
                 String nume = txtLastname.getText().toString().trim();
                 String telefon = txtPhone.getText().toString().trim();
                 String adresaCabinet = txtAddress.getText().toString().trim();
-                String CNP = txtCNP.getText().toString().trim();
-                String birthDate = txtBirthDate.getText().toString().trim();
-                Patient doctor = new Patient(prenume, nume, birthDate, telefon, adresaCabinet,CNP);
-                FirebaseDatabase.getInstance().getReference("Patients")
-                        .child(loggedUser)
+                String specialization = txtSpecializare.getText().toString().trim();
+                Doctor doctor = new Doctor(prenume, nume, specialization, telefon, adresaCabinet);
+                FirebaseDatabase.getInstance().getReference("Doctors")
+                        .child(doctorId)
                         .setValue(doctor).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(PatientDetails.this, "Contul a fost editat cu succes", Toast.LENGTH_LONG).show();
-                            finish();
-                        }
+                            if(task.isSuccessful()){
+                                Toast.makeText(DoctorDetails.this, "Contul a fost editat cu succes", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
                     }
                 });
             }
@@ -85,14 +77,13 @@ public class PatientDetails extends AppCompatActivity {
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Patient patient = dataSnapshot.getValue(Patient.class);
-                txtLastname.setText(patient.getLastName());
-                txtFirstname.setText(patient.getFirstName());
-                txtCNP.setText(patient.getCNP());
-                txtBirthDate.setText(patient.getBirthDate());
-                txtPhone.setText(patient.getPhone());
-                txtAddress.setText(patient.getAddress());
-                enableEditTexts(canEditForm);
+                Doctor doctor = dataSnapshot.getValue(Doctor.class);
+                txtLastname.setText(doctor.getLastName());
+                txtFirstname.setText(doctor.getFirstName());
+                txtSpecializare.setText(doctor.getSpecialization());
+                txtPhone.setText(doctor.getPhone());
+                txtAddress.setText(doctor.getAdresaCabinet());
+                enableEditTexts(true);
             }
 
             @Override
@@ -105,8 +96,7 @@ public class PatientDetails extends AppCompatActivity {
     private void enableEditTexts(boolean isEnabled){
         txtLastname.setEnabled(isEnabled);
         txtFirstname.setEnabled(isEnabled);
-        txtCNP.setEnabled(isEnabled);
-        txtBirthDate.setEnabled(isEnabled);
+        txtSpecializare.setEnabled(false);
         txtPhone.setEnabled(isEnabled);
         txtAddress.setEnabled(isEnabled);
     }
@@ -116,15 +106,13 @@ public class PatientDetails extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
         menu.removeItem(R.id.insert_menu);
+        menu.removeItem(R.id.edit_account);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.edit_account:
-                startActivity(new Intent(this, DoctorDetails.class));
-                break;
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
