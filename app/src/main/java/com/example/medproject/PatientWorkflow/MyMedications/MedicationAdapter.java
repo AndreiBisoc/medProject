@@ -124,12 +124,14 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                     Intent intent = new Intent(view.getContext(), DeleteMedicationPopupActivity.class);
                     intent.putExtra("Medication", selectedMedication);
                     view.getContext().startActivity(intent);
+                    break;
                 default:
                     position = getAdapterPosition();
                     String medicationID = medications.get(position).getId();
                     intent = new Intent(view.getContext(), MyDrugs.class);
                     intent.putExtra("MedicationID", medicationID);
                     view.getContext().startActivity(intent);
+                    break;
 
             }
         }

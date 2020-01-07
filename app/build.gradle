@@ -21,6 +21,7 @@ android {
         main {
             res.srcDirs =
                     [
+                            'src/main/res/layouts/patietWorkflow/DrugDetails',
                             'src/main/res/layouts/patietWorkflow/myMedications',
                             'src/main/res/layouts/patietWorkflow/myDrugs',
                             'src/main/res/layouts/patietWorkflow',

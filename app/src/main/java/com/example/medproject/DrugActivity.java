@@ -30,7 +30,7 @@ public class DrugActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //FirebaseUtil.openFbReference("Drugs");
+//        FirebaseUtil.openFbReference("Drugs");
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
 
