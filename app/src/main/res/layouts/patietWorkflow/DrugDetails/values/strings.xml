@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nume">Nume</string>
+    <string name="scop">Scop</string>
+    <string name="unitate">Unitate</string>
+    <string name="descriere">Descriere</string>
+    <string name="dosage">dosage</string>
+</resources>
