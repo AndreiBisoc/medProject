@@ -2,12 +2,19 @@ package com.example.medproject.PatientWorkflow.DrugDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.R;
+import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -96,6 +103,27 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
         txtNoOfTimes.setEnabled(isEnabled);
         txtStartDay.setEnabled(isEnabled);
         txtStartHour.setEnabled(isEnabled);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_activity_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.logout_menu:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
+                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 
 }
