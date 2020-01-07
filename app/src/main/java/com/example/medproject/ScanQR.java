@@ -11,6 +11,9 @@ import android.os.UserHandle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.medproject.PatientWorkflow.MyMedications.MedicationAdapter;
+import com.example.medproject.auth.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -23,6 +26,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScanQR extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
+    private FirebaseAuth mAuth;
     private ZXingScannerView scannerView;
     private TextView txtResult;
 
@@ -30,11 +34,14 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qr);
+
 //        Init
         scannerView = findViewById(R.id.zxscan);
         txtResult = findViewById(R.id.txt_result);
 
-        //Request Permission for using camera
+        mAuth = FirebaseAuth.getInstance();
+
+//        Request Permission for using camera
         Dexter.withActivity(this)
                 .withPermission(Manifest.permission.CAMERA)
                 .withListener(new PermissionListener() {
@@ -66,5 +73,15 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
     public void handleResult(Result rawResult) {
         txtResult.setText(rawResult.getText());
         // aici am txtResult-ul si va trebui cautat in baza de date dupa ID-ul medicatiei
+//        MedicationAdapter medicationAdapter = new MedicationAdapter(mAuth.getUid());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
     }
 }
