@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.medproject.R;
@@ -23,7 +24,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MyMedications extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
-    private RecyclerView rvMedications;
+    private static RecyclerView rvMedications;
+    private static MedicationAdapter secondAdapter;
+    private static TextView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +36,15 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         String patientId = getIntent().getStringExtra("patientId");
 
         final MedicationAdapter adapter = new MedicationAdapter(patientId);
+        secondAdapter = adapter;
 
         mAuth = FirebaseAuth.getInstance();
 
         rvMedications = findViewById(R.id.rvMedications);
         rvMedications.setAdapter(adapter);
+        emptyView = findViewById(R.id.empty_view);
+
+        displayMessageOrMedicationsList();
 
         LinearLayoutManager medicationsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -70,6 +77,18 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
+    }
+
+    public static void displayMessageOrMedicationsList() {
+        if(secondAdapter.noMedicationsToDisplay)
+        {
+            rvMedications.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            rvMedications.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override

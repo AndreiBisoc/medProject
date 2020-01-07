@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
+import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.PatientWorkflow.MyDrugs.MyDrugs;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Medication;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
 
+    public boolean noMedicationsToDisplay = true;
     private ArrayList<Medication> medications;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
@@ -44,6 +46,10 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
                 medication.setId(dataSnapshot.getKey());
+                if(medication != null) {
+                    noMedicationsToDisplay = false;
+                    MyMedications.displayMessageOrMedicationsList();
+                }
                 medications.add(medication);
                 notifyItemInserted(medications.size() - 1);
             }
@@ -56,9 +62,14 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
+                medication.setId(dataSnapshot.getKey());
                 int position = medications.indexOf(medication);
                 medications.remove(medication);
                 notifyItemRemoved(position);
+                if(medications.size() == 0) {
+                    noMedicationsToDisplay = true;
+                    MyMedications.displayMessageOrMedicationsList();
+                }
             }
 
             @Override

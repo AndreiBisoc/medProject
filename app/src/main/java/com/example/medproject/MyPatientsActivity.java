@@ -79,7 +79,7 @@ public class MyPatientsActivity extends AppCompatActivity {
     }
 
     public static void displayMessageOrPatientsList() {
-        if(adapter.noPatientToDisplay)
+        if(adapter.noPatientsToDisplay)
         {
             rvPatients.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);

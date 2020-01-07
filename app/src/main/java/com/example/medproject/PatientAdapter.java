@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
 
-    public boolean noPatientToDisplay = true;
+    public boolean noPatientsToDisplay = true;
     private ArrayList<Patient> patients;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
@@ -50,7 +50,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     patient.setId(dataSnapshot.getKey());
                     patients.add(patient);
                     notifyItemInserted(patients.size() - 1);
-                    noPatientToDisplay = false;
+                    noPatientsToDisplay = false;
                     MyPatientsActivity.displayMessageOrPatientsList();
                 }
             }
@@ -68,7 +68,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 patients.remove(patient);
                 notifyItemRemoved(position);
                 if(patients.size() == 0) {
-                    noPatientToDisplay = true;
+                    noPatientsToDisplay = true;
                     MyPatientsActivity.displayMessageOrPatientsList();
                 }
             }
