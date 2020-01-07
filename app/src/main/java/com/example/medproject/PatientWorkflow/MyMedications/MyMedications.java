@@ -49,8 +49,13 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         LinearLayoutManager medicationsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvMedications.setLayoutManager(medicationsLayoutManager);
-        Button button = findViewById(R.id.addMedicationButton);
-        button.setOnClickListener(this);
+
+        Button addMedicationButton = findViewById(R.id.addMedicationButton);
+        addMedicationButton.setOnClickListener(this);
+
+        if(!secondAdapter.loggedAsDoctor)
+            addMedicationButton.setVisibility(View.GONE);
+
     }
 
     @Override

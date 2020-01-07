@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
-import com.example.medproject.MyPatientsActivity;
 import com.example.medproject.PatientWorkflow.MyDrugs.MyDrugs;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Medication;
@@ -29,13 +28,15 @@ import java.util.ArrayList;
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
 
     public boolean noMedicationsToDisplay = true;
+    public boolean loggedAsDoctor;
     private ArrayList<Medication> medications;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
 
     public MedicationAdapter(String patientId) {
+        loggedAsDoctor = patientId != null;
         String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String idToSearchMedication = patientId != null ? patientId : currentUser;
+        String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
@@ -99,6 +100,8 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     public void onBindViewHolder(@NonNull MedicationViewHolder holder, int position) {
         Medication medication = medications.get(position);
         holder.bind(medication);
+        if(!loggedAsDoctor)
+            holder.deleteIcon.setVisibility(View.GONE);
     }
 
     @Override
