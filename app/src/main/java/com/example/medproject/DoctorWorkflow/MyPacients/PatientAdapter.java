@@ -113,7 +113,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     public class PatientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView name, dateOfBirth, phoneNumber;
-        private Button deleteIcon, seeMedication;
+        private Button deleteIcon, seeMedications;
 
         public PatientViewHolder(View itemView){
             super(itemView);
@@ -124,8 +124,9 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(this);
 
-            seeMedication = itemView.findViewById(R.id.seeMoreIcon);
-            seeMedication.setOnClickListener(this);
+            seeMedications = itemView.findViewById(R.id.seeMedications);
+            seeMedications.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Patient patient){
@@ -147,12 +148,17 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     view.getContext().startActivity(intent);
                     break;
 
-                default:
-                    Toast.makeText(view.getContext(), "Ai clickuit aici", Toast.LENGTH_LONG).show();
+                case R.id.seeMedications:
                     intent = new Intent(view.getContext(), MyMedications.class);
                     intent.putExtra("patientId", selectedPatient.getId());
                     view.getContext().startActivity(intent);
+                    break;
 
+                default:
+                    intent = new Intent(view.getContext(), PatientDetails.class);
+                    intent.putExtra("patientID", selectedPatient.getId());
+                    view.getContext().startActivity(intent);
+                    break;
             }
         }
 

@@ -146,6 +146,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                     intent = new Intent(view.getContext(), MyDrugs.class);
                     intent.putExtra("MedicationID", medicationID);
                     view.getContext().startActivity(intent);
+                    break;
 
             }
         }

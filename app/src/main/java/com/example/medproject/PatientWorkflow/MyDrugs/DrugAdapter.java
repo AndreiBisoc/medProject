@@ -2,7 +2,6 @@ package com.example.medproject.PatientWorkflow.MyDrugs;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
+import com.example.medproject.PatientWorkflow.DrugDetails.DrugDetailsAndAdministration;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Drug;
-import com.example.medproject.data.model.Medication;
 import com.example.medproject.data.model.MedicationLink;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +27,7 @@ import java.util.ArrayList;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder> {
 
-    private ArrayList<Drug> drugs;
+    private ArrayList<MedicationLink> medicationLink;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
@@ -38,15 +36,14 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("Medications/" + medicationID, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
-        drugs = FirebaseUtil.mDrugs;
+        medicationLink = FirebaseUtil.mMedicationLink;
         mChildListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                MedicationLink medicationLink = dataSnapshot.getValue(MedicationLink.class);
-                Drug drug = new Drug(medicationLink.getName());
-                drug.setId(dataSnapshot.getKey());
-                drugs.add(drug);
-                notifyItemInserted(drugs.size() - 1);
+                MedicationLink medLink = dataSnapshot.getValue(MedicationLink.class);
+                medLink.setID(dataSnapshot.getKey());
+                medicationLink.add(medLink);
+                notifyItemInserted(DrugAdapter.this.medicationLink.size() - 1);
             }
 
             @Override
@@ -83,13 +80,13 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull DrugViewHolder holder, int position) {
-        Drug drug = drugs.get(position);
-        holder.bind(drug);
+        MedicationLink medLink = medicationLink.get(position);
+        holder.bind(medLink);
     }
 
     @Override
     public int getItemCount() {
-        return drugs.size();
+        return medicationLink.size();
     }
 
     public class DrugViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -101,12 +98,19 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Drug drug){
-            tvNume.setText(drug.getNume());
+        public void bind(MedicationLink medLink){
+            tvNume.setText(medLink.getName());
         }
 
         @Override
         public void onClick(View view) {
+            int position = getAdapterPosition();
+            String drugID = medicationLink.get(position).getID();
+            String drugAdministrationID = medicationLink.get(position).getDrugAdministration();
+            Intent intent = new Intent(view.getContext(), DrugDetailsAndAdministration.class);
+            intent.putExtra("drugID", drugID);
+            intent.putExtra("drugAdministrationID", drugAdministrationID);
+            view.getContext().startActivity(intent);
         }
     }
 

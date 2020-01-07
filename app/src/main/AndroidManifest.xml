@@ -16,20 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QRCode.ScanQR">
 
-        </activity>
-        <activity android:name=".QRCode.GenerateQRCode" />
-        <activity
-            android:name=".PatientWorkflow.MyMedications.MyMedications"
-            android:label="@string/title_activity_my_medications">
+        <!--  QR Codes-->
+        <activity android:name=".QRCode.ScanQR" />
+        <activity android:name=".QRCode.GenerateQRCode"/>
 
-        </activity>
-        <activity android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity" />
-        <activity android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity" />
-        <activity
-            android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
+        <!--  Auth workflow-->
         <activity android:name=".auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,18 +29,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.RegisterActivity" />
-        <activity android:name=".auth.RegisterPacientActivity" />
-        <activity android:name=".auth.RegisterDoctorActivity" />
-        <activity android:name=".ListActivity" />
-        <activity android:name=".DrugActivity" />
-        <activity
-            android:name=".DoctorWorkflow.MyPacients.DeletePacientPopupActivity"
-            android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".Details" />
-        <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs">
 
-        </activity>
+        <activity android:name=".auth.RegisterActivity" />
+
+        <activity android:name=".auth.RegisterPacientActivity" />
+
+        <activity android:name=".auth.RegisterDoctorActivity" />
+
+
+        <!--  Patient workflow -->
+        <activity android:name=".PatientWorkflow.MyMedications.MyMedications"/>
+
+
+        <activity android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity" android:theme="@android:style/Theme.Dialog" />
+
+        <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs"/>
+
+        <activity android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"/>
+
+
+        <!--  Doctor workflow  -->
+        <activity android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity" />
+
+        <activity android:name=".DoctorWorkflow.MyPacients.PatientDetails"/>
+
+        <activity android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity" />
+
+        <activity android:name=".ListActivity" />
+
+        <activity android:name=".DrugActivity" />
+        
+        <activity android:name=".DoctorWorkflow.MyPacients.DeletePacientPopupActivity" android:theme="@android:style/Theme.Dialog" />
+
+        <activity android:name=".Details" />
+
     </application>
 
 </manifest>
