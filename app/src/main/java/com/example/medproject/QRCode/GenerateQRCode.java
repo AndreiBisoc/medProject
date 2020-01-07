@@ -1,9 +1,8 @@
-package com.example.medproject;
+package com.example.medproject.QRCode;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.medproject.FirebaseUtil;
+import com.example.medproject.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

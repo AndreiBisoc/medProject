@@ -1,4 +1,4 @@
-package com.example.medproject;
+package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 

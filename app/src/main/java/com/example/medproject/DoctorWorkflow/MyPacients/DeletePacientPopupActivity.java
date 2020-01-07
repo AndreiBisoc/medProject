@@ -1,4 +1,4 @@
-package com.example.medproject;
+package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.medproject.FirebaseUtil;
+import com.example.medproject.R;
 import com.example.medproject.data.model.Patient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
