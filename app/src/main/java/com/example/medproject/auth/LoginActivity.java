@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.Administrator.AddDrug;
 import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
@@ -91,6 +92,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                         }
                                                         else{
                                                             Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
+                                                            Intent intent = new Intent(LoginActivity.this, AddDrug.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            startActivity(intent);
                                                         }
                                                     }
                                                     @Override
@@ -146,6 +150,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 }
                                                 else{
                                                     Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(LoginActivity.this, AddDrug.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(intent);
                                                 }
                                             }
                                             @Override

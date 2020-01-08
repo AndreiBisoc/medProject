@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.medproject.Administrator.AddDrug;
 import com.example.medproject.data.model.Drug;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,7 +48,7 @@ public class ListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.insert_menu:
-                Intent intent = new Intent(this, DrugActivity.class);
+                Intent intent = new Intent(this, AddDrug.class);
                 startActivity(intent);
                 return true;
             case R.id.logout_menu:

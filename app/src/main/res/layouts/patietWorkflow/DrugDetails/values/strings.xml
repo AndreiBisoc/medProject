@@ -11,4 +11,5 @@
     <string name="addAnotherDrug">Adaugă alt medicament</string>
     <string name="saveMedication">Salvează Medicația</string>
     <string name="add_drug">Adaugă medicament</string>
+    <string name="generate_qr">Generează cod QR</string>
 </resources>
