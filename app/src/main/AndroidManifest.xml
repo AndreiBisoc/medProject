@@ -59,6 +59,8 @@
 
         <activity android:name=".DoctorWorkflow.AddMedication.AddMedication" />
 
+        <activity android:name=".DoctorWorkflow.AddMedication.AddDrugToMedication"/>
+
 
         <activity android:name=".ListActivity" />
 

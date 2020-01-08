@@ -1,7 +1,6 @@
 package com.example.medproject.data.model;
 
 public class DrugMedication {
-    private String ID;
     private String diagnostic;
     private String doctorName;
     private String drugAdministrationID;
@@ -10,19 +9,10 @@ public class DrugMedication {
     public DrugMedication(){}
 
     public DrugMedication(String ID, String diagnostic, String doctorName, String drugAdministrationID, String drugName) {
-        this.ID = ID;
         this.diagnostic = diagnostic;
         this.doctorName = doctorName;
         this.drugAdministrationID = drugAdministrationID;
         this.drugName = drugName;
-    }
-
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
     }
 
     public String getDiagnostic() {

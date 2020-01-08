@@ -22,86 +22,31 @@
         app:layout_constraintTop_toTopOf="parent"
         android:autofillHints="" />
 
-    <EditText
-        android:id="@+id/txtDrugName"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginEnd="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
-        android:hint="Nume Medicament"
-        android:inputType="textPersonName"
+        android:layout_marginTop="200px"
+        android:background="@drawable/button"
+        android:text="@string/renunta"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNume" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
-    <EditText
-        android:id="@+id/txtDosage"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/addDrugsToMedicationButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginEnd="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
-        android:hint="Dozaj"
-        android:inputType="textPersonName"
+        android:layout_marginTop="200px"
+        android:background="@drawable/button"
+        android:text="@string/adaug_medicament"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtScop" />
-
-    <EditText
-        android:id="@+id/txtNoOfDays"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginEnd="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
-        android:hint="Numar de zile"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtUnitate" />
-
-    <EditText
-        android:id="@+id/txtNoOfTimes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginEnd="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
-        android:hint="Numar de dăți pe zi"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
-
-    <EditText
-        android:id="@+id/txtStartDay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
-        android:layout_marginEnd="@dimen/text_margin_standard"
-        android:autofillHints=""
-        android:hint="Zi începere"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txtStartHour"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginEnd="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
-        android:hint="Ora începere"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 
 </LinearLayout>

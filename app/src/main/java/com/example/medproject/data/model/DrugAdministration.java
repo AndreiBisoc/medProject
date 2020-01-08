@@ -1,6 +1,8 @@
 package com.example.medproject.data.model;
 
-public class DrugAdministration {
+import java.io.Serializable;
+
+public class DrugAdministration implements Serializable {
     private String ID;
     private String dosage;
     private String noOfDays;

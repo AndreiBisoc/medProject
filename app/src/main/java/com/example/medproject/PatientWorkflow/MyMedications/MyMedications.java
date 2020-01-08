@@ -29,13 +29,14 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     private static RecyclerView rvMedications;
     private static MedicationAdapter secondAdapter;
     private static TextView emptyView;
+    private String patientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_medications);
 
-        String patientId = getIntent().getStringExtra("patientId");
+        patientId = getIntent().getStringExtra("patientId");
 
         final MedicationAdapter adapter = new MedicationAdapter(patientId);
         secondAdapter = adapter;
@@ -94,6 +95,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.addMedicationButton:
                 Intent intent = new Intent(view.getContext(), AddMedication.class);
+                intent.putExtra("patientId", patientId);
                 view.getContext().startActivity(intent);
                 break;
 
