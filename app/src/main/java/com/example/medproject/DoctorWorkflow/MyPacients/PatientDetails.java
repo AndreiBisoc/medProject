@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,10 +62,10 @@ public class PatientDetails extends AppCompatActivity {
                 String adresaCabinet = txtAddress.getText().toString().trim();
                 String CNP = txtCNP.getText().toString().trim();
                 String birthDate = txtBirthDate.getText().toString().trim();
-                Patient doctor = new Patient(prenume, nume, birthDate, telefon, adresaCabinet,CNP);
+                final Patient patient = new Patient(prenume, nume, birthDate, telefon, adresaCabinet,CNP);
                 FirebaseDatabase.getInstance().getReference("Patients")
                         .child(loggedUser)
-                        .setValue(doctor).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -73,6 +74,28 @@ public class PatientDetails extends AppCompatActivity {
                         }
                     }
                 });
+                FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshotDoctors: dataSnapshot.getChildren()) {
+                                    for (DataSnapshot snapshotPatient: snapshotDoctors.getChildren()) {
+                                        if(snapshotPatient.getKey().equals(loggedUser)) {
+                                            FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                                                    .child(snapshotDoctors.getKey())
+                                                    .child(loggedUser)
+                                                    .child("patient")
+                                                    .setValue(patient);
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
             }
         });
 
