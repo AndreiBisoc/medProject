@@ -139,7 +139,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private void saveMedication(){
         mDatabaseReference = mFirebaseDatabase.getReference("DrugAdministration");
         for (DrugAdministration drugAdms : drugAdministrationList) {
-            mDatabaseReference.child(drugAdms.getID()).setValue(drugAdministration);
+            mDatabaseReference.child(drugAdms.getID()).setValue(drugAdms);
         }
 
         String medicationLinkId = mDatabaseReference.push().getKey();
@@ -147,13 +147,18 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         for(int i=0; i<medicationLinkList.size(); i++){
             mDatabaseReference.child(medicationDrugIDs.get(i)).setValue(medicationLinkList.get(i));
         }
+        mDatabaseReference.child("diagnostic").setValue(diagnostic);
+        mDatabaseReference.child("doctorName").setValue(doctorName);
 
         Intent intent = new Intent(this, GenerateQRCode.class);
+        intent.putExtra("medicationId", medicationLinkId);
         startActivity(intent);
     }
     
     private void addDrugToMedication(){
         mDatabaseReference = mFirebaseDatabase.getReference("DrugAdministration");
+        drugAdministration = new DrugAdministration();
+        medicationLink = new MedicationLink();
         drugAdministration.setID(mDatabaseReference.push().getKey());
         drugAdministration.setDosage(txtDosage.getText().toString().trim());
         drugAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
@@ -166,8 +171,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugID = drugIDs.get(drugs.indexOf(drugName));
         medicationDrugIDs.add(drugID);
 
-        medicationLink.setDiagnostic(diagnostic);
-        medicationLink.setDoctorName(doctorName);
         medicationLink.setDrugName(drugName);
         medicationLink.setDrugAdministration(drugAdministration.getID());
         medicationLinkList.add(medicationLink);

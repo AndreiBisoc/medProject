@@ -41,7 +41,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medications = FirebaseUtil.mMedications;
-        mChildListener = new ChildEventListener() {
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -82,8 +82,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        };
-        mDatabaseReference.addChildEventListener(mChildListener);
+        });
     }
 
     @NonNull
@@ -147,7 +146,6 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                     intent.putExtra("MedicationID", medicationID);
                     view.getContext().startActivity(intent);
                     break;
-
             }
         }
     }

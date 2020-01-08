@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.Medication;
+import com.example.medproject.data.model.MedicationLink;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +30,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.ArrayList;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScanQR extends AppCompatActivity implements ZXingScannerView.ResultHandler {
@@ -35,7 +39,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
     private String loggedPatientId;
     private ZXingScannerView scannerView;
     private DatabaseReference mDatabaseReference;
-    private Medication scannedMedication;
+    private ArrayList<String> drugIDs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,21 +88,16 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
         mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Medications/" + scannedMedicationId);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                scannedMedication = dataSnapshot.getValue(Medication.class); // medicația pe care o salvezi ulteorior în patient to medication
-                if(scannedMedication != null) {
-                    FirebaseDatabase.getInstance().getReference("PatientToMedication")
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {     // medicația pe care o salvezi ulteorior în patient to medication
+               Medication medication = dataSnapshot.getValue(Medication.class);
+                if(medication != null) {
+                    DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("PatientToMedications")
                             .child(loggedPatientId)
-                            .child(scannedMedicationId)
-                            .setValue(scannedMedication).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(ScanQR.this, "Medicația a fost scanată cu succes", Toast.LENGTH_LONG).show();
-                                finish();
-                            }
-                        }
-                    });
+                            .child(scannedMedicationId);
+                        mDatabaseRef.setValue(medication);
+
+                    Toast.makeText(ScanQR.this, "Medicația a fost scanată cu succes", Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
 
@@ -107,8 +106,6 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
             }
         });
-
-
     }
 
     @Override
