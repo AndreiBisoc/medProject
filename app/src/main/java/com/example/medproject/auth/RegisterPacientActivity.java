@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.Details;
+import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -167,7 +168,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterPacientActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
                                         finish();
-                                        startActivity(new Intent(RegisterPacientActivity.this, Details.class));
+                                        startActivity(new Intent(RegisterPacientActivity.this, MyMedications.class));
                                     }
                                     else{
                                         if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail

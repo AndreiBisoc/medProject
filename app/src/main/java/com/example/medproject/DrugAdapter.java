@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.Administrator.AddDrug;
 import com.example.medproject.data.model.Drug;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -111,7 +112,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             int position = getAdapterPosition();
             Log.d("Click", String.valueOf(position));
             Drug selectedDrug = drugs.get(position);
-            Intent intent = new Intent(view.getContext(),DrugActivity.class);
+            Intent intent = new Intent(view.getContext(), AddDrug.class);
             intent.putExtra("Drug", selectedDrug);
             view.getContext().startActivity(intent);
         }

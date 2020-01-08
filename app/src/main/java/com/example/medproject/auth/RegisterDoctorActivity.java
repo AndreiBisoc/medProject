@@ -108,12 +108,12 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                         // aici ar trebui sa te duca la pagina de Details, dar inca nu e UI pt ea, deci am redirectat direct la lista de pacienti
                                         startActivity(new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class));
                                     }
-                                    // aici nu lipseste un else?
-                                    if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
-                                        Toast.makeText(RegisterDoctorActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
-                                    }
-                                    else{
-                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    else {
+                                        if (task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
+                                            Toast.makeText(RegisterDoctorActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
                             });

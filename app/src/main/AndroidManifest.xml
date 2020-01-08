@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--    Administrator    -->
+        <activity android:name=".Administrator.AddDrug"/>
+
         <!--  QR Codes-->
         <activity android:name=".QRCode.ScanQR" />
         <activity android:name=".QRCode.GenerateQRCode"/>
@@ -64,7 +67,7 @@
 
         <activity android:name=".ListActivity" />
 
-        <activity android:name=".DrugActivity" />
+        <activity android:name=".Administrator.AddDrug" />
         <activity android:name=".DoctorWorkflow.MyPacients.DeletePacientPopupActivity" android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".Details" />
 
