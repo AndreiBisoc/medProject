@@ -39,10 +39,14 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         mChildListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                MedicationLink medLink = dataSnapshot.getValue(MedicationLink.class);
-                medLink.setId(dataSnapshot.getKey());
-                medicationLink.add(medLink);
-                notifyItemInserted(DrugAdapter.this.medicationLink.size() - 1);
+                try {
+                    MedicationLink medLink = dataSnapshot.getValue(MedicationLink.class);
+                    medLink.setId(dataSnapshot.getKey());
+                    medicationLink.add(medLink);
+                    notifyItemInserted(DrugAdapter.this.medicationLink.size() - 1);
+                }catch (Exception e){
+
+                }
             }
 
             @Override
@@ -98,7 +102,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         }
 
         public void bind(MedicationLink medLink){
-            tvNume.setText(medLink.getDoctorName());
+            tvNume.setText(medLink.getDrugName());
         }
 
         @Override

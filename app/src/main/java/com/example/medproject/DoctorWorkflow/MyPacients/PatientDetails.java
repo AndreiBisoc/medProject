@@ -50,12 +50,6 @@ public class PatientDetails extends AppCompatActivity {
 
         canEditForm = patientID == null;
 
-        if(canEditForm) {
-            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + loggedUser);
-        } else {
-            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + patientID);
-        }
-
         saveChangesButton = findViewById(R.id.saveChangesButton);
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +75,13 @@ public class PatientDetails extends AppCompatActivity {
                 });
             }
         });
+
+        if(canEditForm) {
+            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + loggedUser);
+        } else {
+            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + patientID);
+            saveChangesButton.setVisibility(View.GONE);
+        }
 
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
