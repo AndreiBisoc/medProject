@@ -1,33 +1,58 @@
 package com.example.medproject.data.model;
 
 public class MedicationLink {
-    private String ID;
-    private String name;
+    private String Id;
+    private String diagnostic;
+    private String drugName;
+    private String doctorName;
     private String drugAdministration;
-
 
     public MedicationLink(){}
 
-    public MedicationLink(String ID, String name, String drugAdministration) {
-        this.ID = ID;
-        this.name = name;
+    public MedicationLink(String Id, String diagnostic, String drugName) {
+        this.Id = Id;
+        this.diagnostic = diagnostic;
+        this.drugName = drugName;
+    }
+
+    public MedicationLink(String Id, String diagnostic, String drugName, String doctorName, String drugAdministration) {
+        this.Id = Id;
+        this.diagnostic = diagnostic;
+        this.drugName = drugName;
+        this.doctorName = doctorName;
         this.drugAdministration = drugAdministration;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return Id;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String id) {
+        Id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDiagnostic() {
+        return diagnostic;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDiagnostic(String diagnostic) {
+        this.diagnostic = diagnostic;
+    }
+
+    public String getDrugName() {
+        return drugName;
+    }
+
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     public String getDrugAdministration() {
