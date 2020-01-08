@@ -13,6 +13,11 @@ public class Medication implements Serializable {
 
     public Medication(){}
 
+    public Medication(String diagnostic, String doctorName) {
+        this.diagnostic = diagnostic;
+        this.doctorName = doctorName;
+    }
+
     public Medication(String id, String diagnostic, String doctorName, List<Drug> drugList) {
         this.id = id;
         this.diagnostic = diagnostic;
