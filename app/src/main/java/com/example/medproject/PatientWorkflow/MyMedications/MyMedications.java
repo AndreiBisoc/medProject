@@ -3,8 +3,9 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;
-import com.example.medproject.QRCode.ScanQR;
+import com.example.medproject.DoctorWorkflow.DoctorDetails;
+import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
+import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;import com.example.medproject.QRCode.ScanQR;
 import com.example.medproject.auth.LoginActivity;
 
 import androidx.annotation.NonNull;
@@ -72,13 +73,20 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
-
+        menu.removeItem(R.id.insert_menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
+            case R.id.edit_account:
+                if(secondAdapter.loggedAsDoctor) {
+                    startActivity(new Intent(this, DoctorDetails.class));
+                } else {
+                    startActivity(new Intent(this, PatientDetails.class));
+                }
+                break;
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();

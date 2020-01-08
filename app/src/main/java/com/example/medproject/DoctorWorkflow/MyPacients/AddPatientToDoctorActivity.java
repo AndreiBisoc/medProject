@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.medproject.BasicActions;
+import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
@@ -180,12 +181,16 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu,menu);
+        menu.removeItem(R.id.insert_menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
+            case R.id.edit_account:
+                startActivity(new Intent(this, DoctorDetails.class));
+                break;
             case R.id.logout_menu:
                 AuthUI.getInstance()
                         .signOut(this)
