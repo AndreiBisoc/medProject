@@ -77,31 +77,34 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
     @Override
     public void handleResult(Result rawResult) {
-        String scannedMedicationId = rawResult.getText();
+        final String scannedMedicationId = rawResult.getText();
+
+        Toast.makeText(ScanQR.this, scannedMedicationId, Toast.LENGTH_LONG).show();
 
         mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Medications/" + scannedMedicationId);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 scannedMedication = dataSnapshot.getValue(Medication.class); // medicația pe care o salvezi ulteorior în patient to medication
+                if(scannedMedication != null) {
+                    FirebaseDatabase.getInstance().getReference("PatientToMedication")
+                            .child(loggedPatientId)
+                            .child(scannedMedicationId)
+                            .setValue(scannedMedication).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(ScanQR.this, "Medicația a fost scanată cu succes", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                        }
+                    });
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-        FirebaseDatabase.getInstance().getReference("PatientToMedication")
-                .child(loggedPatientId)
-                .child(scannedMedicationId)
-                .setValue(scannedMedication).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(ScanQR.this, "Medicația a fost scanată cu succes", Toast.LENGTH_LONG).show();
-                    finish();
-                }
             }
         });
 
