@@ -15,7 +15,6 @@ import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.DrugDetails.DrugDetailsAndAdministration;
 import com.example.medproject.R;
-import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.MedicationLink;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +40,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 MedicationLink medLink = dataSnapshot.getValue(MedicationLink.class);
-                medLink.setID(dataSnapshot.getKey());
+                medLink.setId(dataSnapshot.getKey());
                 medicationLink.add(medLink);
                 notifyItemInserted(DrugAdapter.this.medicationLink.size() - 1);
             }
@@ -99,13 +98,13 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         }
 
         public void bind(MedicationLink medLink){
-            tvNume.setText(medLink.getName());
+            tvNume.setText(medLink.getDoctorName());
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            String drugID = medicationLink.get(position).getID();
+            String drugID = medicationLink.get(position).getId();
             String drugAdministrationID = medicationLink.get(position).getDrugAdministration();
             Intent intent = new Intent(view.getContext(), DrugDetailsAndAdministration.class);
             intent.putExtra("drugID", drugID);

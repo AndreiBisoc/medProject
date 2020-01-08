@@ -5,4 +5,10 @@
     <string name="unitate">Unitate</string>
     <string name="descriere">Descriere</string>
     <string name="dosage">dosage</string>
+    <string name="adaug_medicament">Adaugă medicament</string>
+    <string name="adauga">Adaugă</string>
+    <string name="renunta">Renunță</string>
+    <string name="addAnotherDrug">Adaugă alt medicament</string>
+    <string name="saveMedication">Salvează Medicația</string>
+    <string name="add_drug">Adaugă medicament</string>
 </resources>
