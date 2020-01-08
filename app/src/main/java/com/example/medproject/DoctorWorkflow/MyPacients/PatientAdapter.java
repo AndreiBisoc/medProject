@@ -30,6 +30,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     public boolean noPatientsToDisplay = true;
     private ArrayList<Patient> patients;
+    private ArrayList<String> patientsCNPs = new ArrayList<>();
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
 
@@ -50,6 +51,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     Patient patient = doctorToPatientLink.getPatient();
                     patient.setId(dataSnapshot.getKey());
                     patients.add(patient);
+                    patientsCNPs.add(patient.getCNP());
                     notifyItemInserted(patients.size() - 1);
                     noPatientsToDisplay = false;
                     MyPatientsActivity.displayMessageOrPatientsList();
@@ -60,7 +62,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DoctorToPatientLink doctorToPatientLink = dataSnapshot.getValue(DoctorToPatientLink.class);
                 Patient patient = doctorToPatientLink.getPatient();
-                int position = patients.indexOf(patient);
+                int position = patientsCNPs.indexOf(patient.getCNP());
                 patients.set(position, patient);
                 notifyItemChanged(position);
             }
@@ -71,6 +73,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 Patient patient = doctorToPatientLink.getPatient();
                 int position = patients.indexOf(patient);
                 patients.remove(patient);
+                patientsCNPs.remove(patient.getCNP());
                 notifyItemRemoved(position);
                 if(patients.size() == 0) {
                     noPatientsToDisplay = true;
