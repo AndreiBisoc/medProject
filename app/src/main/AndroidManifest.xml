@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".auth.RegisterActivity" />
+        <activity android:name=".auth.RegisterActivity" >
+        </activity>
 
         <activity android:name=".auth.RegisterPacientActivity" />
 
@@ -66,9 +67,6 @@
 
 
         <activity android:name=".ListActivity" />
-
-        <activity android:name=".Administrator.AddDrug" />
-        <activity android:name=".DoctorWorkflow.MyPacients.DeletePacientPopupActivity" android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".Details" />
 
     </application>

@@ -105,7 +105,6 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
                                         finish();
-                                        // aici ar trebui sa te duca la pagina de Details, dar inca nu e UI pt ea, deci am redirectat direct la lista de pacienti
                                         startActivity(new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class));
                                     }
                                     else {
