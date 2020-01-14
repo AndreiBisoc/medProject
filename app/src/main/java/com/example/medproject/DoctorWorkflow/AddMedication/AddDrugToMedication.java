@@ -2,14 +2,12 @@ package com.example.medproject.DoctorWorkflow.AddMedication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +20,6 @@ import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
-import com.example.medproject.data.model.Medication;
 import com.example.medproject.data.model.MedicationLink;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -39,6 +36,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private EditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
     private AutoCompleteTextView searchDrugName;
     private Button addAnotherDrugButton, saveMedicationButton;
+    private TextView noOfInsertedDrugs;
 
     private List<String> drugs = new ArrayList<>();
     private List<String> drugIDs = new ArrayList<>();
@@ -51,6 +49,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private ArrayList<String> medicationDrugIDs = new ArrayList<>();
     private String diagnostic;
     private String drugName, drugID, doctorID, doctorName;
+    private  static int noOfDrugs = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +63,14 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         txtStartHour = findViewById(R.id.txtStartHour);
         addAnotherDrugButton = findViewById(R.id.addDrugButton);
         saveMedicationButton = findViewById(R.id.saveMedicationButton);
+        noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
+        if(noOfDrugs == 0) {
+            noOfInsertedDrugs.setText("Nu ați asociat acestei medicații niciun medicament încă.");
+        }
+        else {
+            noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
+        }
+
         addAnotherDrugButton.setOnClickListener(this);
         saveMedicationButton.setOnClickListener(this);
 
@@ -176,7 +183,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         medicationLinkList.add(medicationLink);
 
         clean();
-        Toast.makeText(this, "Ați adăugat " + drugName + "\nAveți " + drugAdministrationList.size() + " medicamente adăugate", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Ați adăugat " + drugName, Toast.LENGTH_LONG).show();
+        noOfDrugs++;
+        noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
     }
 
     @Override
