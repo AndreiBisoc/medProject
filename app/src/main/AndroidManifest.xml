@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".auth.RegisterActivity" />
+        <activity android:name=".auth.RegisterActivity" >
+        </activity>
 
         <activity android:name=".auth.RegisterPacientActivity" />
 
@@ -66,7 +67,6 @@
 
 
         <activity android:name=".ListActivity" />
-
         <activity android:name=".Details" />
 
     </application>

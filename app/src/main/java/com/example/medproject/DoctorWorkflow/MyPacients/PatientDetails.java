@@ -74,8 +74,9 @@ public class PatientDetails extends AppCompatActivity {
                         }
                     }
                 });
+
                 FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                        .addValueEventListener(new ValueEventListener() {
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot snapshotDoctors: dataSnapshot.getChildren()) {
