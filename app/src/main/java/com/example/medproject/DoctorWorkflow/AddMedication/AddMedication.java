@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
@@ -21,9 +23,8 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.add_medication);
 
         txtDiagnostic = findViewById(R.id.txtDiagnostic);
-        addDrugToMedicationButton = findViewById(R.id.addDrugsToMedicationButton);
+                addDrugToMedicationButton = findViewById(R.id.addDrugsToMedicationButton);
         cancelButton = findViewById(R.id.cancelButton);
-
         addDrugToMedicationButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
     }
@@ -60,7 +61,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
     private boolean validareDiagnostic(String diagnostic) {
 
         if (diagnostic.isEmpty()) {
-            txtDiagnostic.setError("Introduceți diagnosticul");
+            txtDiagnostic.setError("Introduceți numele diagnosticului");
             txtDiagnostic.requestFocus();
             return true;
         }

@@ -21,18 +21,19 @@ android {
         main {
             res.srcDirs =
                     [
-                            'src/main/res/layouts/patietWorkflow/DrugDetails',
+                            'src/main/res/layouts/diverse',
+                            'src/main/res/layouts/patietWorkflow/drugDetails',
                             'src/main/res/layouts/patietWorkflow/myMedications',
                             'src/main/res/layouts/patietWorkflow/myDrugs',
                             'src/main/res/layouts/patietWorkflow',
                             'src/main/res/layouts/auth',
-                            'src/main/res/layouts/diverse',
-                            'src/main/res/layouts/doctors',
-                            'src/main/res/layouts/drugs',
+                            'src/main/res/layouts/auth/register',
                             'src/main/res/layouts/medications',
                             'src/main/res/layouts/patients',
-                            'src/main/res/layouts/QR',
-                            'src/main/res/layouts/wayOfAdministration',
+                            'src/main/res/layouts/doctorWorkflow',
+                            'src/main/res/layouts/adminWorkflow',
+                            'src/main/res/layouts/qr',
+                            'src/main/res/layouts/edit-accounts',
                             'src/main/res/layouts',
                             'src/main/res'
                     ]

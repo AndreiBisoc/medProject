@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/txtNume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:autofillHints=""
+                android:background="@drawable/input_field"
+                android:hint="@string/nume"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtScop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/input_field"
+                android:hint="@string/scop"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtUnitate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/input_field"
+                android:hint="@string/unitate"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtDescriere"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/input_field"
+                android:hint="@string/descriere"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtDosage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints=""
+                android:background="@drawable/input_field"
+                android:hint="Dosage"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtNoOfDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints=""
+                android:background="@drawable/input_field"
+                android:hint="No of days"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtNoOfTimes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints=""
+                android:background="@drawable/input_field"
+                android:hint="No of times"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtStartDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints=""
+                android:background="@drawable/input_field"
+                android:hint="Start day"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/txtStartHour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:autofillHints=""
+                android:background="@drawable/input_field"
+                android:hint="Start hour"
+                android:inputType="text" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

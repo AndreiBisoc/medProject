@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <EditText
+        android:id="@+id/txtDiagnostic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints=""
+        android:hint="Diagnostic"
+        android:inputType="textPersonName"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button"
+        android:text="@string/renunta"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/addDrugsToMedicationButton"
+        app:layout_constraintHorizontal_bias="0.541"
+        app:layout_constraintStart_toStartOf="@+id/addDrugsToMedicationButton"
+        app:layout_constraintTop_toBottomOf="@+id/addDrugsToMedicationButton" />
+
+    <Button
+        android:id="@+id/addDrugsToMedicationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/button"
+        android:text="@string/adaug_medicament"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtDiagnostic"
+        app:layout_constraintHorizontal_bias="0.383"
+        app:layout_constraintStart_toStartOf="@+id/txtDiagnostic"
+        app:layout_constraintTop_toBottomOf="@+id/txtDiagnostic" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
