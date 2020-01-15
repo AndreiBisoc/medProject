@@ -54,6 +54,65 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         registerButton.setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        progressBar.setVisibility(View.GONE);
+        disableControllers(false);
+        if(mAuth.getCurrentUser() != null){
+            progressBar.setVisibility(View.VISIBLE);
+            disableControllers(true);
+            //Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
+            final String userID = mAuth.getCurrentUser().getUid();
+            databaseReference.child("Doctors")
+                    .child(userID)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.exists()){ //este doctor
+                                finish();
+                                Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                            else{ //este pacient sau administrator
+                                databaseReference.child("Patients")
+                                        .child(userID)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if(dataSnapshot.exists()){ //este pacient
+                                                    finish();
+                                                    Intent intent = new Intent(LoginActivity.this, MyMedications.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(intent);
+                                                }
+                                                else{
+                                                    Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(LoginActivity.this, AddDrug.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+//        else{
+//            Toast.makeText(getApplicationContext(),"Logare placută",Toast.LENGTH_SHORT).show();
+//        }
+    }
+
     private void userLogin(){
         final String email = txtEmail.getText().toString();
         final String password = txtPassword.getText().toString();
@@ -115,68 +174,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else{
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                 }
-                progressBar.setVisibility(View.GONE);
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        progressBar.setVisibility(View.GONE);
-        disableControllers(false);
-        if(mAuth.getCurrentUser() != null){
-            progressBar.setVisibility(View.VISIBLE);
-            disableControllers(true);
-            //Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
-            final String userID = mAuth.getCurrentUser().getUid();
-            databaseReference.child("Doctors")
-                    .child(userID)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.exists()){ //este doctor
-                                finish();
-                                Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                            else{ //este pacient sau administrator
-                                databaseReference.child("Patients")
-                                        .child(userID)
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                if(dataSnapshot.exists()){ //este pacient
-                                                    finish();
-                                                    Intent intent = new Intent(LoginActivity.this, MyMedications.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                    startActivity(intent);
-                                                }
-                                                else{
-                                                    Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(LoginActivity.this, AddDrug.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                            }
-                                        });
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-        }
-//        else{
-//            Toast.makeText(getApplicationContext(),"Logare placută",Toast.LENGTH_SHORT).show();
-//        }
     }
 
     @Override
@@ -189,6 +188,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.registerButton:
                 progressBar.setVisibility(View.VISIBLE);
                 disableControllers(true);
+                txtPassword.setText("");
+                txtEmail.setText("");
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
         }
