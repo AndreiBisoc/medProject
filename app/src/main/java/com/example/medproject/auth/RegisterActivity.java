@@ -5,21 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText txtEmail, txtPassword;
-    private Button nextButton;
+    private TextInputEditText txtEmail, txtPassword;
+    private Button registerButton;
     private ProgressBar progressBar;
     private RadioGroup radioGroup;
 
@@ -35,8 +33,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
-        txtEmail = findViewById(R.id.email);
-        txtPassword = findViewById(R.id.password);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
+
         if(email != null && password != null) {
             txtEmail.setText(email);
             txtPassword.setText(password);
@@ -44,18 +43,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         progressBar = findViewById(R.id.progressBar);
 
-        radioGroup = findViewById(R.id.radioUserTypeGroup);
-        radioGroup.check(R.id.isPatientButton);
-        nextButton = findViewById(R.id.registerButton);
-        nextButton.setEnabled(true);
-        nextButton.setOnClickListener(this);
+        radioGroup = findViewById(R.id.rol);
+        registerButton = findViewById(R.id.registerButton);
+        registerButton.setEnabled(true);
+        registerButton.setOnClickListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         progressBar.setVisibility(View.GONE);
-        disableControllers(false);
+//        disableControllers(false);
     }
 
     @Override
@@ -127,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void disableControllers(boolean isEnabled){
         txtEmail.setEnabled(!isEnabled);
         txtPassword.setEnabled(!isEnabled);
-        nextButton.setEnabled(!isEnabled);
+        registerButton.setEnabled(!isEnabled);
         radioGroup.setEnabled(!isEnabled);
     }
 }
