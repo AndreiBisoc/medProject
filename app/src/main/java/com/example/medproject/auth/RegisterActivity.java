@@ -28,11 +28,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        Intent intentFromLogin = getIntent();
+        String email = intentFromLogin.getStringExtra("email");
+        String password = intentFromLogin.getStringExtra("password");
+
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         txtEmail = findViewById(R.id.email);
         txtPassword = findViewById(R.id.password);
+        if(email != null && password != null) {
+            txtEmail.setText(email);
+            txtPassword.setText(password);
+        }
 
         progressBar = findViewById(R.id.progressBar);
 

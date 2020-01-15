@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.MyPacients.AddPatientToDoctorActivity;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
@@ -40,8 +41,10 @@ public class DoctorDetails extends AppCompatActivity {
         setContentView(R.layout.doctor_details);
 
         final String doctorId = FirebaseAuth.getInstance().getUid();
-
         mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorId);
+
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         txtLastname = findViewById(R.id.txtLastname);
         txtFirstname = findViewById(R.id.txtFirstName);
