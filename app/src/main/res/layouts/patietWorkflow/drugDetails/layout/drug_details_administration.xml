@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    >
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -17,110 +17,189 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/txtNume"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/text_margin_standard"
                 android:layout_marginEnd="24dp"
-                android:autofillHints=""
-                android:background="@drawable/input_field"
                 android:hint="@string/nume"
-                android:inputType="text" />
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                app:boxBackgroundColor="@color/white"
+                >
 
-            <EditText
-                android:id="@+id/txtScop"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/input_field"
                 android:hint="@string/scop"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
 
-            <EditText
-                android:id="@+id/txtUnitate"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtScop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/input_field"
                 android:hint="@string/unitate"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
 
-            <EditText
-                android:id="@+id/txtDescriere"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtUnitate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/input_field"
                 android:hint="@string/descriere"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
 
-            <EditText
-                android:id="@+id/txtDosage"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtDescriere"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:autofillHints=""
-                android:background="@drawable/input_field"
-                android:hint="Dosage"
-                android:inputType="text" />
+                android:hint="@string/dosage"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
 
-            <EditText
-                android:id="@+id/txtNoOfDays"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtDosage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:autofillHints=""
-                android:background="@drawable/input_field"
-                android:hint="No of days"
-                android:inputType="text" />
+                android:hint="@string/NoOfDays"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
 
-            <EditText
-                android:id="@+id/txtNoOfTimes"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNoOfDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:autofillHints=""
-                android:background="@drawable/input_field"
-                android:hint="No of times"
-                android:inputType="text" />
+                android:hint="@string/NoOfTimes"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
 
-            <EditText
-                android:id="@+id/txtStartDay"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNoOfTimes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:autofillHints=""
-                android:background="@drawable/input_field"
-                android:hint="Start day"
-                android:inputType="text" />
+                android:hint="@string/startDate"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
 
-            <EditText
-                android:id="@+id/txtStartHour"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtStartDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:autofillHints=""
-                android:background="@drawable/input_field"
-                android:hint="Start hour"
-                android:inputType="text" />
+                android:hint="@string/startHour"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/amber"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtStartHour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
     </ScrollView>
 
