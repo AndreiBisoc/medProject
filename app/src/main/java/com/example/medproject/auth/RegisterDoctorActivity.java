@@ -45,7 +45,6 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         txtAdresaCabinet = findViewById(R.id.address);
         txtSpinnerSpecialization = findViewById(R.id.specialization);
         progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -58,9 +57,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() != null){
-            //handle the already loged in user
-        }
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -88,11 +85,12 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         }
 
         progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
                             Doctor doctor = new Doctor(email, prenume, nume, specialization, telefon, adresaCabinet);
                             doctor.setId(mAuth.getUid());
@@ -101,11 +99,11 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                     .setValue(doctor).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterDoctorActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
-                                        finish();
-                                        startActivity(new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class));
+                                        finishAffinity();
+                                        Intent intent = new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class);
+                                        startActivity(intent);
                                     }
                                     else {
                                         if (task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
@@ -155,5 +153,14 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
             return true;
         }
         return false;
+    }
+
+    private void disableControllers(boolean isEnabled){
+        txtNume.setEnabled(!isEnabled);
+        txtPrenume.setEnabled(!isEnabled);
+        txtTelefon.setEnabled(!isEnabled);
+        txtAdresaCabinet.setEnabled(!isEnabled);
+        txtSpinnerSpecialization.setEnabled(!isEnabled);
+        registerButton.setEnabled(!isEnabled);
     }
 }

@@ -57,6 +57,8 @@ dependencies {
 
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     implementation 'com.karumi:dexter:5.0.0'
+    //implementation 'com.google.android.material:material:1.2.0-alpha03'
+    implementation 'com.google.android.material:material:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

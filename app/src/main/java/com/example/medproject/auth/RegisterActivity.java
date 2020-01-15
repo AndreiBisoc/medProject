@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.medproject.BasicActions;
@@ -18,9 +19,9 @@ import com.example.medproject.R;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText txtEmail, txtPassword;
-    private RadioGroup radioGroup;
     private Button nextButton;
     private ProgressBar progressBar;
+    private RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +43,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
         progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
 
         radioGroup = findViewById(R.id.radioUserTypeGroup);
-        radioGroup.clearCheck();
-
+        radioGroup.check(R.id.isPatientButton);
         nextButton = findViewById(R.id.registerButton);
         nextButton.setEnabled(true);
         nextButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        progressBar.setVisibility(View.GONE);
+        disableControllers(false);
     }
 
     @Override
@@ -75,8 +81,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if(authValidation(email, password) == true){
             return;
         }
-
         progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
         switch(type){
             case "doctor": nextPage = RegisterDoctorActivity.class;
                 break;
@@ -89,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("EMAIL", email);
         intent.putExtra("PASSWORD", password);
         startActivity(intent);
-        progressBar.setVisibility(View.GONE);
     }
 
     private boolean authValidation(String email, String password){
@@ -119,4 +124,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return false;
     }
 
+    private void disableControllers(boolean isEnabled){
+        txtEmail.setEnabled(!isEnabled);
+        txtPassword.setEnabled(!isEnabled);
+        nextButton.setEnabled(!isEnabled);
+        radioGroup.setEnabled(!isEnabled);
+    }
 }

@@ -14,6 +14,7 @@ import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,8 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 public class DrugDetailsAndAdministration extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-    EditText txtNume, txtScop, txtUnitate, txtDescriere;
-    EditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
+    TextInputEditText txtNume, txtScop, txtUnitate, txtDescriere;
+    TextInputEditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
     String drugID, drugAdministrationID;
 
 
@@ -56,10 +57,10 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Drug drug = dataSnapshot.getValue(Drug.class);
-                txtNume.setText("Nume: " + drug.getNume());
-                txtScop.setText("Scop: " +drug.getScop());
-                txtUnitate.setText("Unitate: " +drug.getUnitate());
-                txtDescriere.setText("Descriere: " + drug.getDescriere());
+                txtNume.setText(drug.getNume());
+                txtScop.setText(drug.getScop());
+                txtUnitate.setText(drug.getUnitate());
+                txtDescriere.setText(drug.getDescriere());
 
                 //enableEditTexts(false);
             }
@@ -76,11 +77,11 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DrugAdministration drugAdministration = dataSnapshot.getValue(DrugAdministration.class);
-                txtDosage.setText("Dozaj: " + drugAdministration.getDosage());
-                txtNoOfDays.setText("Numar zile: " + drugAdministration.getNoOfDays());
-                txtNoOfTimes.setText("De cate ori pe zi: " + drugAdministration.getNoOfTimes());
-                txtStartDay.setText("Zi de inceput: " + drugAdministration.getStartDay());
-                txtStartHour.setText("Ora de inceput: " + drugAdministration.getStartHour());
+                txtDosage.setText(drugAdministration.getDosage());
+                txtNoOfDays.setText(drugAdministration.getNoOfDays());
+                txtNoOfTimes.setText(drugAdministration.getNoOfTimes());
+                txtStartDay.setText(drugAdministration.getStartDay());
+                txtStartHour.setText(drugAdministration.getStartHour());
 
                 enableEditTexts(false);
             }
