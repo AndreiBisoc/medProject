@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
-import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

@@ -2,6 +2,7 @@ package com.example.medproject.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     FirebaseAuth mAuth;
     EditText txtEmail, txtPassword;
     ProgressBar progressBar;
-    Button loginButton;
+    Button loginButton, registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtEmail = findViewById(R.id.email);
         txtPassword = findViewById(R.id.password);
         progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
 
         loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
         loginButton.setOnClickListener(this);
-        findViewById(R.id.registerButton).setOnClickListener(this);
+        registerButton.setOnClickListener(this);
     }
 
     private void userLogin(){
@@ -62,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -121,9 +123,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-
+        progressBar.setVisibility(View.GONE);
+        disableControllers(false);
         if(mAuth.getCurrentUser() != null){
-            Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.VISIBLE);
+            disableControllers(true);
+            //Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
             final String userID = mAuth.getCurrentUser().getUid();
             databaseReference.child("Doctors")
                     .child(userID)
@@ -169,9 +174,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
                     });
         }
-        else{
-            Toast.makeText(getApplicationContext(),"Logare placută",Toast.LENGTH_SHORT).show();
-        }
+//        else{
+//            Toast.makeText(getApplicationContext(),"Logare placută",Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @Override
@@ -182,7 +187,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.registerButton:
-                finish();
+                progressBar.setVisibility(View.VISIBLE);
+                disableControllers(true);
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
         }
@@ -213,5 +219,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         return false;
+    }
+
+    private void disableControllers(boolean isEnabled){
+        txtEmail.setEnabled(!isEnabled);
+        txtPassword.setEnabled(!isEnabled);
+        loginButton.setEnabled(!isEnabled);
+        registerButton.setEnabled(!isEnabled);
     }
 }
