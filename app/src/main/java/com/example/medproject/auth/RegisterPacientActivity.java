@@ -108,7 +108,6 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
 
         txtAdresa = findViewById(R.id.address);
         progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -120,9 +119,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() != null){
-            //handle the already loged in user
-        }
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -151,11 +148,12 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         }
 
         progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
                             Patient patient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
                             patient.setId(mAuth.getUid());
@@ -164,11 +162,11 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                                     .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    progressBar.setVisibility(View.GONE);
                                     if(task.isSuccessful()){
                                         Toast.makeText(RegisterPacientActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
-                                        finish();
-                                        startActivity(new Intent(RegisterPacientActivity.this, MyMedications.class));
+                                        finishAffinity();
+                                        Intent intent = new Intent(RegisterPacientActivity.this, MyMedications.class);
+                                        startActivity(intent);
                                     }
                                     else{
                                         if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
@@ -236,6 +234,16 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
             return true;
         }
         return false;
+    }
+
+    private void disableControllers(boolean isEnabled){
+        txtNume.setEnabled(!isEnabled);
+        txtPrenume.setEnabled(!isEnabled);
+        txtAdresa.setEnabled(!isEnabled);
+        txtTelefon.setEnabled(!isEnabled);
+        txtCNP.setEnabled(!isEnabled);
+        txtDataNastere.setEnabled(!isEnabled);
+        registerButton.setEnabled(!isEnabled);
     }
 
     public void hideKeyboard() {
