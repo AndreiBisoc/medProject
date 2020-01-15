@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.medproject.BasicActions;
+import com.example.medproject.DoctorWorkflow.AddMedication.AddDrugToMedication;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.R;
@@ -28,6 +30,7 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
     private DatabaseReference mDatabaseReference;
     private EditText txtNume, txtScop, txtUnitate, txtDescriere;
     private Drug drug = new Drug();
+    private boolean goToAddDrugToMedication = false;
     Button button;
 
     @Override
@@ -37,7 +40,17 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Drugs");
 
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
+
+        Intent intentFromDoctor = getIntent();
+        String drugName = intentFromDoctor.getStringExtra("drugName");
+
         txtNume = findViewById(R.id.txtNume);
+        if(drugName != null) {
+            goToAddDrugToMedication = true;
+            txtNume.setText(drugName);
+        }
         txtScop = findViewById(R.id.txtScop);
         txtUnitate = findViewById(R.id.txtUnitate);
         txtDescriere = findViewById(R.id.txtDescriere);
@@ -77,8 +90,15 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
         drug.setScop(txtScop.getText().toString());
         drug.setUnitate(txtUnitate.getText().toString());
         drug.setDescriere(txtDescriere.getText().toString());
-        mDatabaseReference.push().setValue(drug);
+        DatabaseReference pushedDrugRef = mDatabaseReference.push();
+        pushedDrugRef.setValue(drug);
+        String drugId = pushedDrugRef.getKey();
         Toast.makeText(this, "Medicamentul " + drug.getNume() + " a fost salvat", Toast.LENGTH_LONG).show();
+        if(goToAddDrugToMedication){
+            Intent backToMedication = new Intent(this, AddDrugToMedication.class);
+            backToMedication.putExtra("drugId", drugId);
+            startActivity(backToMedication);
+        }
     }
 
     private void deleteDrug(){

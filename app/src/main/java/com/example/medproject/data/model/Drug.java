@@ -1,6 +1,9 @@
 package com.example.medproject.data.model;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Drug implements Serializable {
     private String id;
@@ -26,6 +29,13 @@ public class Drug implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof Drug)
+            return ((Drug) obj).nume.equals(nume);
+        return false;
     }
 
     public void setId(String id) {

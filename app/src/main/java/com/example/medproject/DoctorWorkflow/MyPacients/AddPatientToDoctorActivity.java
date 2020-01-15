@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.medproject.BasicActions;
+import com.example.medproject.DoctorWorkflow.AddMedication.AddDrugToMedication;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.R;
@@ -52,6 +53,9 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
+
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         mAuth = FirebaseAuth.getInstance();
 

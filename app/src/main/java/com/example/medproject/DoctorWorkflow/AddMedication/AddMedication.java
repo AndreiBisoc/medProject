@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
@@ -21,6 +22,9 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_medication);
+
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         txtDiagnostic = findViewById(R.id.txtDiagnostic);
                 addDrugToMedicationButton = findViewById(R.id.addDrugsToMedicationButton);

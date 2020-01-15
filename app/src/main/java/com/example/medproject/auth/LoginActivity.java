@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.Administrator.AddDrug;
+import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
@@ -40,9 +41,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         mAuth = FirebaseAuth.getInstance();
-
 
         txtEmail = findViewById(R.id.email);
         txtPassword = findViewById(R.id.password);
@@ -189,7 +191,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.registerButton:
                 progressBar.setVisibility(View.VISIBLE);
                 disableControllers(true);
-                startActivity(new Intent(this, RegisterActivity.class));
+                Intent intentToRegister = new Intent(this, RegisterActivity.class);
+                intentToRegister.putExtra("email", txtEmail.getText().toString());
+                intentToRegister.putExtra("password", txtPassword.getText().toString());
+                startActivity(intentToRegister);
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.example.medproject.DoctorWorkflow.AddMedication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.Administrator.AddDrug;
+import com.example.medproject.BasicActions;
 import com.example.medproject.QRCode.GenerateQRCode;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
@@ -32,7 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener{
+public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
     private EditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
     private AutoCompleteTextView searchDrugName;
     private Button addAnotherDrugButton, saveMedicationButton;
@@ -49,12 +52,15 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private ArrayList<String> medicationDrugIDs = new ArrayList<>();
     private String diagnostic;
     private String drugName, drugID, doctorID, doctorName;
-    private  static int noOfDrugs = 0;
+    private static int noOfDrugs = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_drug_to_medication);
+
+        // hiding keyboard when the container is clicked
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         txtDosage = findViewById(R.id.txtDosage);
         txtNoOfDays = findViewById(R.id.txtNoOfDays);
@@ -64,10 +70,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         addAnotherDrugButton = findViewById(R.id.addDrugButton);
         saveMedicationButton = findViewById(R.id.saveMedicationButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
-        if(noOfDrugs == 0) {
+        if (noOfDrugs == 0) {
             noOfInsertedDrugs.setText("Nu ați asociat acestei medicații niciun medicament încă.");
-        }
-        else {
+        } else {
             noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
         }
 
@@ -80,6 +85,12 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         searchDrugName = findViewById(R.id.searchDrug);
         searchDrugName.setThreshold(1); // will start working from first character
         searchDrugName.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
+
+        Intent newDrugIntent = getIntent();
+        String drugToAdd = newDrugIntent.getStringExtra("drugId");
+        if(drugToAdd != null) {
+            finishAddingDrug(drugToAdd);
+        }
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseDatabase.getReference("Drugs")
@@ -112,6 +123,13 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                     }
                 });
 
+//        Intent newDrugIntent = getIntent();
+//        Drug drugToAdd = (Drug) newDrugIntent.getSerializableExtra("drug");
+//        if(drugToAdd != null) {
+//            drugID = drugIDs.get(drugs.indexOf(drugToAdd.getNume()));
+//            finishAddingDrug();
+//        }
+
         //get Doctor's name
         doctorID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseReference = mFirebaseDatabase.getReference("Doctors/" + doctorID);
@@ -133,7 +151,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.addDrugButton:
                 addDrugToMedication();
                 break;
@@ -143,7 +161,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void saveMedication(){
+    private void saveMedication() {
+        // in cazul adaugarii unei medicatii cu un medicament recent adaugat, medicatia va contine doar numele doctorului in BD
         mDatabaseReference = mFirebaseDatabase.getReference("DrugAdministration");
         for (DrugAdministration drugAdms : drugAdministrationList) {
             mDatabaseReference.child(drugAdms.getID()).setValue(drugAdms);
@@ -151,7 +170,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
         String medicationLinkId = mDatabaseReference.push().getKey();
         mDatabaseReference = mFirebaseDatabase.getReference("Medications/" + medicationLinkId);
-        for(int i=0; i<medicationLinkList.size(); i++){
+        for (int i = 0; i < medicationLinkList.size(); i++) {
             mDatabaseReference.child(medicationDrugIDs.get(i)).setValue(medicationLinkList.get(i));
         }
         mDatabaseReference.child("diagnostic").setValue(diagnostic);
@@ -161,8 +180,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         intent.putExtra("medicationId", medicationLinkId);
         startActivity(intent);
     }
-    
-    private void addDrugToMedication(){
+
+    private void addDrugToMedication() {
         mDatabaseReference = mFirebaseDatabase.getReference("DrugAdministration");
         drugAdministration = new DrugAdministration();
         medicationLink = new MedicationLink();
@@ -175,15 +194,26 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministrationList.add(drugAdministration);
 
         drugName = searchDrugName.getText().toString().trim();
-        drugID = drugIDs.get(drugs.indexOf(drugName));
-        medicationDrugIDs.add(drugID);
+        try {
+            drugID = drugIDs.get(drugs.indexOf(drugName));
+            finishAddingDrug(drugID);
 
+        } catch (Exception e) {
+            Toast.makeText(this, "Medicamentul " + drugName + " nu există în baza de date. Doriți să îl adăugați?", Toast.LENGTH_LONG).show();
+            Intent intentToAddDrug = new Intent(this, AddDrug.class);
+            intentToAddDrug.putExtra("drugName", drugName);
+            startActivity(intentToAddDrug);
+        }
+    }
+
+    private void finishAddingDrug(String drugToAdd){
+        medicationDrugIDs.add(drugToAdd);
         medicationLink.setDrugName(drugName);
         medicationLink.setDrugAdministration(drugAdministration.getID());
         medicationLinkList.add(medicationLink);
 
         clean();
-        Toast.makeText(this, "Ați adăugat " + drugName, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Ați adăugat " + drugName, Toast.LENGTH_LONG).show();
         noOfDrugs++;
         noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
     }
