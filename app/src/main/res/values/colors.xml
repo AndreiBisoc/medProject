@@ -7,4 +7,9 @@
     <color name="black">#000000</color>
     <color name="red">#ff0000</color>
     <color name="amber">#ffb300</color>
+    <color name="uncheckedButton">#ffe082</color>
+    <color name="primary">#ffb300</color>
+    <color name="purple">#7E57C2</color>
+
+    <color name="secondary">#6600ff</color>
 </resources>

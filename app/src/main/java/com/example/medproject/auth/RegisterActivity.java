@@ -3,11 +3,13 @@ package com.example.medproject.auth;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.medproject.BasicActions;
@@ -45,7 +47,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         radioGroup = findViewById(R.id.rol);
         registerButton = findViewById(R.id.registerButton);
-        registerButton.setEnabled(true);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton checkedRadioButton = radioGroup.findViewById(checkedId);
+                boolean isChecked = checkedRadioButton.isChecked();
+                if (!isChecked)
+                {   registerButton.setEnabled(false);
+                    registerButton.setBackgroundColor(Color.parseColor("#ffe082"));
+                } else {
+                    registerButton.setEnabled(true);
+                    registerButton.setBackgroundColor(Color.parseColor("#ffb300"));
+                }
+            }
+        });
+
         registerButton.setOnClickListener(this);
     }
 
