@@ -31,7 +31,6 @@
             android:id="@+id/icons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:background="@drawable/icons"
             android:gravity="center|center_vertical"
             android:orientation="vertical"
@@ -82,7 +81,8 @@
                 app:boxStrokeColor="@color/amber"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="20dp">
+                tools:layout_editor_absoluteX="20dp"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtEmail"
@@ -105,7 +105,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="20dp"
                 app:counterEnabled="true"
-                app:counterMaxLength="35">
+                app:counterMaxLength="35"
+                app:endIconMode="password_toggle"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtPassword"
