@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onStart() {
         super.onStart();
         progressBar.setVisibility(View.GONE);
-//        disableControllers(false);
+        disableControllers(false);
     }
 
     @Override
