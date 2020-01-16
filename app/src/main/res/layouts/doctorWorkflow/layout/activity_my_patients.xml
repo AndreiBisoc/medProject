@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DoctorWorkflow.MyPacients.MyPatientsActivity"
-    android:background="@drawable/background">
+    android:background="@color/white">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -40,18 +40,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
+    
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/addPatientToDoctorButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button"
+        android:layout_gravity="start"
         android:text="@string/add_patient_button"
         android:textSize="16sp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.5"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/amber"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
