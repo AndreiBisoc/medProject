@@ -10,7 +10,7 @@
     <string name="logo">Logo</string>
     <string name="title_activity_login">Sign in</string>
 
-    <string name="register_title">Crează un cont nou!</string>
+    <string name="registerTitle">Crează-ți un cont!</string>
     <string name="cont_doctor">Doctor</string>
     <string name="cont_patient">Pacient</string>
     <string name="email">Email</string>
@@ -29,7 +29,7 @@
 
     <string name="action_sign_in">Loghează-te</string>
     <string name="action_sign_in_short">Loghează-te</string>
-    <string name="action_register">Nu ai cont?</string>
+    <string name="action_register">Înregistrează-te</string>
 
     <string name="add_patient_button">Adaugă pacient</string>
     <string name="no_patient_to_display">Momentan nu aveți niciun pacient conectat contului dumneavoastră. Vă rugăm adăugați pacienți.</string>
@@ -44,6 +44,12 @@
     <string name="login_failed">"Login failed"</string>
     <string name="app_name">"Med App"</string>
     <string name="delete_drug">Delete Drug</string>
+
+    <string name="dosage">Dozaj</string>
+    <string name="NoOfDays">NoOfDays</string>
+    <string name="NoOfTimes">NoOfTimes</string>
+    <string name="startDate">startDate</string>
+    <string name="startHour">startHour</string>
 
     <string name="introdu_spec">Alege specializare</string>
     <string name="adresa_cabinet">Adresă cabinet</string>
