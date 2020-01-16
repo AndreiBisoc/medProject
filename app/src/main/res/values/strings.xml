@@ -14,7 +14,7 @@
     <string name="cont_doctor">Doctor</string>
     <string name="cont_patient">Pacient</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="password">Parolă</string>
 
     <string name="register_doctor">Înregistrează-te ca doctor!</string>
     <string name="first_name">Prenume</string>
