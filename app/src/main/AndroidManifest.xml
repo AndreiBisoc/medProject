@@ -17,6 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
 
+        <activity android:name=".auth.TestUI">
+        </activity>
+
+
         <!-- Administrator -->
         <activity android:name=".Administrator.AddDrug" /> <!-- QR Codes -->
         <activity android:name=".QRCode.ScanQR" />
