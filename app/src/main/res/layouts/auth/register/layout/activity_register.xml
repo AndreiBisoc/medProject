@@ -68,6 +68,7 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/icons">
 
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -76,16 +77,17 @@
                 android:layout_marginTop="@dimen/text_margin_standard"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/email"
-                android:inputType="text"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/amber"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="20dp"
                 >
+                
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtEmail"
+                    android:inputType="textEmailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -107,6 +109,7 @@
                 app:counterEnabled="true"
                 app:counterMaxLength="35"
                 app:endIconMode="password_toggle"
+                app:endIconTint="@color/amber"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -160,7 +163,6 @@
             android:backgroundTint="@color/amber"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:background="@drawable/button"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
