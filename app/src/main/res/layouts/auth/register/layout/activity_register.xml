@@ -110,7 +110,6 @@
                 app:counterEnabled="true"
                 app:counterMaxLength="35"
                 app:endIconMode="password_toggle"
-                app:endIconTint="@color/amber"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText

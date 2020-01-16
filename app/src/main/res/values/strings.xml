@@ -53,17 +53,4 @@
 
     <string name="introdu_spec">Alege specializare</string>
     <string name="adresa_cabinet">Adresă cabinet</string>
-    <string-array name="doctors_specializations">
-        <item>Cardiolog</item>
-        <item>Chirurg</item>
-        <item>Dermatolog</item>
-        <item>Endocrinolog</item>
-        <item>Hematolog</item>
-        <item>Medic de familie</item>
-        <item>Neurolog</item>
-        <item>Oncolog</item>
-        <item>Pediatru</item>
-        <item>Psiholog</item>
-        <item>Psihiatru</item>
-    </string-array>
 </resources>

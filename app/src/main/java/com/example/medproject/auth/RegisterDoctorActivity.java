@@ -3,10 +3,11 @@ package com.example.medproject.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,10 +27,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterDoctorActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText txtPrenume, txtNume, txtTelefon, txtAdresaCabinet;
-    private Spinner txtSpinnerSpecialization;
+    private AutoCompleteTextView txtSpecialisation;
     private ProgressBar progressBar;
     private Button registerButton;
     private FirebaseAuth mAuth;
+    String[] SPECIALISATIONS = new String[] {"Cardiolog", "Chirurg","Dermatolog", "Endocrinolog", "Hematolog",
+            "Medic de familie", "Neurolog", "Oncolog", "Pediatru", "Psiholog", "Psihiatru"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,11 +42,16 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
-        txtPrenume = findViewById(R.id.email);
-        txtNume = findViewById(R.id.password);
+        txtPrenume = findViewById(R.id.txtPrenume);
+        txtNume = findViewById(R.id.txtNume);
         txtTelefon = findViewById(R.id.patientPhoneNumber);
         txtAdresaCabinet = findViewById(R.id.address);
-        txtSpinnerSpecialization = findViewById(R.id.specialization);
+        ArrayAdapter< String > adapter = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, SPECIALISATIONS);
+
+        txtSpecialisation = findViewById(R.id.specialisation);
+        txtSpecialisation.setAdapter(adapter);
+
         progressBar = findViewById(R.id.progressBar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -76,7 +84,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         final String nume = txtNume.getText().toString().trim();
         final String telefon = txtTelefon.getText().toString().trim();
         final String adresaCabinet = txtAdresaCabinet.getText().toString().trim();
-        final String specialization = txtSpinnerSpecialization.getSelectedItem().toString();
+        final String specialisation = txtSpecialisation.getText().toString();
         final String email = intent.getStringExtra("EMAIL");
         final String password = intent.getStringExtra("PASSWORD");
 
@@ -92,7 +100,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Doctor doctor = new Doctor(email, prenume, nume, specialization, telefon, adresaCabinet);
+                            Doctor doctor = new Doctor(email, prenume, nume, specialisation, telefon, adresaCabinet);
                             doctor.setId(mAuth.getUid());
                             FirebaseDatabase.getInstance().getReference("Doctors")
                                     .child(mAuth.getUid())
@@ -160,7 +168,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         txtPrenume.setEnabled(!isEnabled);
         txtTelefon.setEnabled(!isEnabled);
         txtAdresaCabinet.setEnabled(!isEnabled);
-        txtSpinnerSpecialization.setEnabled(!isEnabled);
+        txtSpecialisation.setEnabled(!isEnabled);
         registerButton.setEnabled(!isEnabled);
     }
 }
