@@ -46,10 +46,10 @@
     <string name="delete_drug">Delete Drug</string>
 
     <string name="dosage">Dozaj</string>
-    <string name="NoOfDays">NoOfDays</string>
-    <string name="NoOfTimes">NoOfTimes</string>
-    <string name="startDate">startDate</string>
-    <string name="startHour">startHour</string>
+    <string name="NoOfDays">Număr de zile</string>
+    <string name="NoOfTimes">Număr de dăți</string>
+    <string name="startDate">Zi de început</string>
+    <string name="startHour">Oră de început</string>
 
     <string name="introdu_spec">Alege specializare</string>
     <string name="adresa_cabinet">Adresă cabinet</string>
