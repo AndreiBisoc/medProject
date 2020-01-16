@@ -20,7 +20,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="69dp"
             android:layout_height="69dp"
-            android:layout_marginTop="128dp"
+            android:layout_marginTop="300dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,12 +53,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:paddingBottom="10dp"
+                android:textColor="@color/black"
                 android:text="@string/registerTitle"
                 android:textSize="24sp"
                 app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/inputs"
@@ -99,6 +99,7 @@
                 android:layout_marginTop="@dimen/text_margin_standard"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/password"
+                app:endIconTint="@color/amber"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/amber"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -122,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:checked="false"
                 android:padding="24dp">
 
                 <RadioButton
@@ -129,6 +131,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
+                    android:textSize="18dp"
+                    android:buttonTint="@color/amber"
                     android:text="@string/cont_doctor" />
 
                 <RadioButton
@@ -136,6 +140,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
+                    android:textSize="18dp"
+                    android:buttonTint="@color/amber"
                     android:text="@string/cont_patient" />
             </RadioGroup>
 
@@ -157,7 +163,7 @@
             app:layout_constraintTop_toBottomOf="@+id/inputs"
             app:layout_constraintVertical_bias="0.5"
             android:textColor="@color/white"
-            android:backgroundTint="@color/amber"
+            android:backgroundTint="@color/uncheckedButton"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:background="@drawable/button"

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medproject.Administrator.AddDrug;
 import com.example.medproject.BasicActions;
@@ -35,19 +36,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText txtEmail, txtPassword;
     ProgressBar progressBar;
     Button loginButton, registerButton;
+    ConstraintLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        container = findViewById(R.id.container);
+        container.setBackgroundResource(R.drawable.icons);
 
         // hiding keyboard when the container is clicked
-        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
+        BasicActions.hideKeyboardWithClick(container, this);
 
         mAuth = FirebaseAuth.getInstance();
 
-        txtEmail = findViewById(R.id.email);
-        txtPassword = findViewById(R.id.password);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
+
         progressBar = findViewById(R.id.progressBar);
 
         loginButton = findViewById(R.id.loginButton);
