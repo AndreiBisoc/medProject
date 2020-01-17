@@ -21,6 +21,7 @@
     <string name="last_name">Nume</string>
     <string name="phone">Telefon</string>
     <string name="specialisation">Specializare</string>
+    <string name="save">Salvează</string>
 
     <string name="register_patient">Înregistrează-te ca pacient!</string>
     <string name="birthDate">Data nașterii</string>
