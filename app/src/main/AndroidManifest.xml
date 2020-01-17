@@ -23,16 +23,14 @@
         <activity android:name=".QRCode.GenerateQRCode" /> <!-- Auth workflow -->
         <activity android:name=".auth.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".auth.RegisterActivity"></activity>
-        <activity android:name=".auth.RegisterPacientActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+        <activity android:name=".auth.RegisterActivity" />
+        <activity android:name=".auth.RegisterPacientActivity" />
         <activity android:name=".auth.RegisterDoctorActivity">
         </activity>
 
