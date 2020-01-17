@@ -71,9 +71,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         saveMedicationButton = findViewById(R.id.saveMedicationButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
         if (noOfDrugs == 0) {
-            noOfInsertedDrugs.setText("Nu ați asociat acestei medicații niciun medicament încă.");
+            noOfInsertedDrugs.setText("Niciun medicament asociat");
         } else {
-            noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
+            noOfInsertedDrugs.setText("Aveți adăugate " + noOfDrugs + " medicamente");
         }
 
         addAnotherDrugButton.setOnClickListener(this);
