@@ -134,7 +134,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(this);
 
-            seeMedications = itemView.findViewById(R.id.seeMedications);
+            seeMedications = itemView.findViewById(R.id.seeMore);
             seeMedications.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
@@ -150,7 +150,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
             int position = getAdapterPosition();
             final Patient selectedPatient = patients.get(position);
-
+            final View context = view;
             switch (view.getId()) {
                 case R.id.deleteIcon:
                     new MaterialAlertDialogBuilder(view.getContext())
@@ -166,24 +166,25 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                                             .child(doctorUid)
                                             .child(selectedPatient.getId())
                                             .removeValue();
+
+                                    Snackbar.make(context, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes", Snackbar.LENGTH_SHORT)
+                                            .setTextColor(Color.parseColor("#ffb300"))
+                                            .show();
                                 }
                             })
                             .show();
-
-                    Snackbar.make(view, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes", Snackbar.LENGTH_SHORT)
-                            .setTextColor(Color.parseColor("#ffb300"))
-                            .show();
                     break;
 
-                case R.id.seeMedications:
-                    Intent intent = new Intent(view.getContext(), MyMedications.class);
-                    intent.putExtra("patientId", selectedPatient.getId());
+                case R.id.seeMore:
+                    Intent intent = new Intent(view.getContext(), PatientDetails.class);
+                    intent.putExtra("patientID", selectedPatient.getId());
                     view.getContext().startActivity(intent);
+
                     break;
 
                 default:
-                    intent = new Intent(view.getContext(), PatientDetails.class);
-                    intent.putExtra("patientID", selectedPatient.getId());
+                    intent = new Intent(view.getContext(), MyMedications.class);
+                    intent.putExtra("patientId", selectedPatient.getId());
                     view.getContext().startActivity(intent);
                     break;
             }

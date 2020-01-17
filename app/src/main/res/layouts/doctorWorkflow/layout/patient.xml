@@ -57,7 +57,7 @@
         android:layout_marginEnd="24dp"
         android:padding="5dp"
         android:background="@drawable/border"
-        app:layout_constraintEnd_toStartOf="@+id/seeMedications"
+        app:layout_constraintEnd_toStartOf="@+id/seeMore"
         app:layout_constraintStart_toEndOf="@+id/patientIcon"
         app:layout_constraintTop_toBottomOf="@+id/patientName" />
 
@@ -70,22 +70,20 @@
         app:icon="@drawable/ic_delete_black_24dp"
         app:iconTint="@color/amber"
         android:backgroundTint="@color/white"
-        android:onClick="ShowPopup"
-        app:layout_constraintBottom_toTopOf="@+id/seeMedications"
+        app:layout_constraintBottom_toTopOf="@+id/seeMore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/seeMedications"
+        android:id="@+id/seeMore"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
         android:layout_width="29dp"
         android:layout_height="31dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/white"
-        android:onClick="ShowPopup"
-        app:icon="@drawable/ic_forward_black_24dp"
-        app:iconTint="@color/amber"
+        app:icon="@drawable/ic_more_horiz_black_24dp"
+        app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/deleteIcon"
         app:layout_constraintStart_toStartOf="@+id/deleteIcon" />
