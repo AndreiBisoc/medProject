@@ -55,4 +55,6 @@
     <string name="introdu_spec">Alege specializare</string>
     <string name="drug_name">Nume Medicament</string>
     <string name="adresa_cabinet">Adresă cabinet</string>
+
+    <string name="back_toList">Înapoi la listă</string>
 </resources>
