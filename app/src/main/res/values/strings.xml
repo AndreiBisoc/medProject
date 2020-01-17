@@ -45,6 +45,7 @@
     <string name="app_name">"QR Prescription"</string>
     <string name="delete_drug">Delete Drug</string>
 
+    <string name="diagnostic">Diagnostic</string>
     <string name="dosage">Dozaj</string>
     <string name="NoOfDays">Număr de zile</string>
     <string name="NoOfTimes">Număr de dăți</string>

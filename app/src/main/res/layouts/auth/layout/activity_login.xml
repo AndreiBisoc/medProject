@@ -137,6 +137,8 @@
                 android:enabled="true"
                 android:text="@string/action_sign_in"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
