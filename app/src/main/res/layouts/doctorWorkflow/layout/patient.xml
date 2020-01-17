@@ -7,87 +7,100 @@
     android:background="@drawable/list_item">
 
 
-        <ImageView
-            android:id="@+id/patientIcon"
-            android:layout_width="73dp"
-            android:layout_height="102dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:src="@drawable/patient"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/patientIcon"
+        android:layout_width="55dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:src="@drawable/patient"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/patientName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/border"
-        android:padding="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/deleteIcon"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:paddingBottom="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/icons"
         app:layout_constraintStart_toEndOf="@+id/patientIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/patientDateOfBirth"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/border"
-        android:padding="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/icons"
+        app:layout_constraintStart_toEndOf="@+id/patientIcon"
+        app:layout_constraintTop_toBottomOf="@+id/patientName">
+
+        <TextView
+            android:id="@+id/patientPhoneNumber"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/patientDateOfBirth"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/icons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/patientIcon"
-        app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumber"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/patientPhoneNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:padding="5dp"
-        android:background="@drawable/border"
-        app:layout_constraintEnd_toStartOf="@+id/seeMedications"
-        app:layout_constraintStart_toEndOf="@+id/patientIcon"
-        app:layout_constraintTop_toBottomOf="@+id/patientName" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/deleteIcon"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-        android:layout_width="29dp"
-        android:layout_height="31dp"
-        android:layout_marginEnd="24dp"
-        app:icon="@drawable/ic_delete_black_24dp"
-        app:iconTint="@color/amber"
-        android:backgroundTint="@color/white"
-        android:onClick="ShowPopup"
-        app:layout_constraintBottom_toTopOf="@+id/seeMedications"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/seeMedications"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-        android:layout_width="29dp"
-        android:layout_height="31dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/white"
-        android:onClick="ShowPopup"
-        app:icon="@drawable/ic_forward_black_24dp"
-        app:iconTint="@color/amber"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/deleteIcon"
-        app:layout_constraintStart_toStartOf="@+id/deleteIcon" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteIcon"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+            android:layout_width="29dp"
+            android:layout_height="31dp"
+            app:iconGravity="textEnd"
+            android:layout_gravity="end|top"
+            android:backgroundTint="@color/white"
+            android:onClick="ShowPopup"
+            app:icon="@drawable/delete"
+            app:iconSize="28dp"
+            app:iconTint="#453f3f" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/seeMedications"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@color/white"
+            android:insetLeft="0dp"
+            android:onClick="ShowPopup"
+            app:icon="@drawable/ic_forward_black_24dp"
+            app:iconGravity="textStart"
+            app:iconSize="40dp"
+            app:iconTint="@color/amber" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
