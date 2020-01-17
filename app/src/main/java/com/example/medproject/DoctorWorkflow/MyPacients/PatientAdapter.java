@@ -1,6 +1,7 @@
 package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +19,13 @@ import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -144,17 +147,30 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         public void onClick(View view) {
 
             int position = getAdapterPosition();
-            Patient selectedPatient = patients.get(position);
+            final Patient selectedPatient = patients.get(position);
 
             switch (view.getId()) {
                 case R.id.deleteIcon:
-                    Intent intent = new Intent(view.getContext(), DeletePacientPopupActivity.class);
-                    intent.putExtra("Patient", selectedPatient);
-                    view.getContext().startActivity(intent);
+                    new MaterialAlertDialogBuilder(view.getContext())
+                            .setTitle("Ștergere " + selectedPatient.getName())
+                            .setMessage("Sunteți sigur că doriți să ștergeți acest pacient?")
+                            .setNegativeButton("Anulare", /* listener = */ null)
+                            .setPositiveButton("Ștergere", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    databaseReference.child("DoctorsToPatients")
+                                            .child(doctorUid)
+                                            .child(selectedPatient.getId())
+                                            .removeValue();
+                                }
+                            })
+                            .show();
                     break;
 
                 case R.id.seeMedications:
-                    intent = new Intent(view.getContext(), MyMedications.class);
+                    Intent intent = new Intent(view.getContext(), MyMedications.class);
                     intent.putExtra("patientId", selectedPatient.getId());
                     view.getContext().startActivity(intent);
                     break;

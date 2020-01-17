@@ -62,6 +62,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtLastname"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -84,6 +85,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtFirstName"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -106,6 +108,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtPhone"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -133,6 +136,7 @@
                     android:minLines="1"
                     android:gravity="top|start"
                     android:maxLines="4"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:scrollbars="vertical" />
@@ -181,6 +185,7 @@
                     android:id="@+id/txtCNP"
                     android:inputType="text"
                     android:focusable="false"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

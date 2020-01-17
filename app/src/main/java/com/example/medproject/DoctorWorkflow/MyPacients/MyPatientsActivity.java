@@ -52,7 +52,6 @@ public class MyPatientsActivity extends AppCompatActivity {
                 goToAddPatientPage();
             }
         });
-
     }
 
     @Override
