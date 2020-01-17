@@ -52,5 +52,6 @@
     <string name="startHour">Oră de început</string>
 
     <string name="introdu_spec">Alege specializare</string>
+    <string name="drug_name">Nume Medicament</string>
     <string name="adresa_cabinet">Adresă cabinet</string>
 </resources>
