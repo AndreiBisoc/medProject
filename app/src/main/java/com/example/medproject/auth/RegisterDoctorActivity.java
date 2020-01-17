@@ -44,7 +44,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
 
         txtPrenume = findViewById(R.id.txtPrenume);
         txtNume = findViewById(R.id.txtNume);
-        txtTelefon = findViewById(R.id.patientPhoneNumber);
+        txtTelefon = findViewById(R.id.phoneNumber);
         txtAdresaCabinet = findViewById(R.id.address);
         ArrayAdapter< String > adapter = new ArrayAdapter<String>
                 (this, android.R.layout.select_dialog_item, SPECIALISATIONS);
