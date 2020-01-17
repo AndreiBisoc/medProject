@@ -42,7 +42,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_register_paste);
+        setContentView(R.layout.activity_patient_register);
 
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);

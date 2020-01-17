@@ -44,10 +44,10 @@ import java.util.List;
 public class AddPatientToDoctorActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference firebaseReferenceToPacients, firebaseReferenceToDoctors;
+    private DatabaseReference firebaseReferenceToPacients;
     private List<String> CNPs = new ArrayList<>();
     private AutoCompleteTextView searchForCNP;
+    private int length = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +59,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseReferenceToDoctors = mFirebaseDatabase.getReference("Doctors");
-        firebaseReferenceToPacients = mFirebaseDatabase.getReference("Patients");
+        firebaseReferenceToPacients = FirebaseDatabase.getInstance().getReference("Patients");
         firebaseReferenceToPacients.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -97,9 +95,15 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
                         (this, android.R.layout.select_dialog_item, CNPs);
 
         searchForCNP =  findViewById(R.id.searchForCNP);
-        searchForCNP.setThreshold(1); // will start working from first character
         searchForCNP.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
-
+        searchForCNP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(length==0) {
+                    searchForCNP.dismissDropDown();
+                }
+            }
+        });
         searchForCNP.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,8 +117,11 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 12)
+                length = s.toString().length();
+
+                if (length > 12) {
                     hideKeyboard();
+                }
             }
         });
 
