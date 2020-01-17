@@ -117,15 +117,15 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
                 @Override
                 public void onDataChange(DataSnapshot drugData) {
                     Object o = drugData.getValue();
-                    String s = ((HashMap)o).keySet().toString();
-                    s = s.substring(1);
-                    s= s.substring(0, s.length() - 1);
-                    drugsRef.child(s).addValueEventListener(new ValueEventListener(){
+                    String codMedicament = ((HashMap)o).keySet().toString();
+                    codMedicament = codMedicament.substring(1);
+                    codMedicament= codMedicament.substring(0, codMedicament.length() - 1);
+                    drugsRef.child(codMedicament).addValueEventListener(new ValueEventListener(){
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // Data is ordered by increasing height, so we want the first entry
-                            Drug firstChild = dataSnapshot.getValue(Drug.class);
-                            drugScop.setText(firstChild.getScop());
-                            drugUnitate.setText(firstChild.getUnitate());
+                            Drug drug = dataSnapshot.getValue(Drug.class);
+                            drugScop.setText(drug.getScop());
+                            drugUnitate.setText(drug.getUnitate());
                         }
 
                         @Override
