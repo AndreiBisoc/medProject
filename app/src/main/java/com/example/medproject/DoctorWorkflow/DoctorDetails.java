@@ -99,7 +99,7 @@ public class DoctorDetails extends AppCompatActivity {
     private void enableEditTexts(boolean isEnabled){
         txtLastname.setEnabled(isEnabled);
         txtFirstname.setEnabled(isEnabled);
-        txtSpecializare.setEnabled(false);
+        txtSpecializare.setEnabled(isEnabled);
         txtPhone.setEnabled(isEnabled);
         txtAddress.setEnabled(isEnabled);
     }

@@ -1,252 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    >
 
-    <ImageView
-        android:id="@+id/appLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:contentDescription="@string/logo"
-        android:src="@drawable/patient"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/NumeLinearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appLogo">
+        android:orientation="vertical"
+        tools:context=".DoctorWorkflow.MyPacients.PatientDetails">
 
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            android:text="Nume"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/txtLastname"
+        <LinearLayout
+            android:id="@+id/icons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/text_margin_standard"
-            android:autofillHints=""
-            android:background="@drawable/input_field"
-            android:layout_marginLeft="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/NumeLinearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/appLogo" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/appLogo"
+                android:layout_width="126dp"
+                android:layout_height="127dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/patient"
+                tools:srcCompat="@tools:sample/avatars" />
 
-    <LinearLayout
-        android:id="@+id/PrenumeLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NumeLinearLayout">
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="68dp"
-            android:layout_height="wrap_content"
-            android:text="Prenume"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/txtFirstName"
+        <LinearLayout
+            android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="@dimen/text_margin_standard"
-            android:autofillHints=""
-            android:background="@drawable/input_field"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/PrenumeLinearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/appLogo" />
-    </LinearLayout>
+            app:layout_constraintStart_toEndOf="@+id/icons"
+            app:layout_constraintTop_toBottomOf="@+id/icons">
 
-    <LinearLayout
-        android:id="@+id/CNPLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PrenumeLinearLayout">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/nume"
+                android:inputType="text"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
 
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:text="CNP"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtLastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/txtCNP"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/first_name"
+                android:inputType="text"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/phone"
+                android:inputType="text"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/address"
+                android:inputType="text"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtAddress"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:minLines="1"
+                    android:gravity="top|start"
+                    android:maxLines="4"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/birthDate"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtBirthDate"
+                    android:inputType="text"
+                    android:focusable="false"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/CNP"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCNP"
+                    android:inputType="text"
+                    android:focusable="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="@dimen/text_margin_standard"
-            android:autofillHints=""
-            android:background="@drawable/input_field"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/CNPLinearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/appLogo" />
+            app:layout_constraintTop_toBottomOf="@+id/details">
 
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveChangesButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:backgroundTint="@color/amber"
+                android:text="@string/save"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-    <LinearLayout
-        android:id="@+id/BirthDateLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CNPLinearLayout">
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="50dp"
-            android:text="Data Nașterii"
-            android:textColor="@color/black"
-            android:layout_gravity="center|center_vertical"
-            android:textSize="16sp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <EditText
-            android:id="@+id/txtBirthDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="@dimen/text_margin_standard"
-            android:autofillHints=""
-            android:background="@drawable/input_field"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/BirthDateLinearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/appLogo" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/PhoneNumberLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BirthDateLinearLayout">
-
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            android:text="Telefon"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/txtPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="@dimen/text_margin_standard"
-            android:autofillHints=""
-            android:background="@drawable/input_field"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/PhoneNumberLinearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/appLogo" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/AddressLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PhoneNumberLinearLayout">
-
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            android:text="Adresă"
-            android:layout_gravity="center|center_vertical"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/txtAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="@dimen/text_margin_standard"
-            android:autofillHints=""
-            android:background="@drawable/input_field"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.702"
-            app:layout_constraintStart_toEndOf="@+id/AddressLinearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/appLogo" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/saveChangesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button"
-        android:enabled="true"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:text="@string/save_changes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddressLinearLayout" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
