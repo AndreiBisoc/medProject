@@ -3,52 +3,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/txtDiagnostic"
+
+    <LinearLayout
+        android:id="@+id/diagnostic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="24dp"
-        android:autofillHints=""
-        android:hint="Diagnostic"
-        android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/text_margin_standard">
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button"
-        android:text="@string/renunta"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/addDrugsToMedicationButton"
-        app:layout_constraintHorizontal_bias="0.541"
-        app:layout_constraintStart_toStartOf="@+id/addDrugsToMedicationButton"
-        app:layout_constraintTop_toBottomOf="@+id/addDrugsToMedicationButton" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="@dimen/text_margin_standard"
+            android:layout_marginEnd="24dp"
+            android:hint="@string/diagnostic"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/amber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="20dp">
 
-    <Button
-        android:id="@+id/addDrugsToMedicationButton"
-        android:layout_width="wrap_content"
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtDiagnostic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textSize="24sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:background="@drawable/button"
-        android:text="@string/adaug_medicament"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/txtDiagnostic"
-        app:layout_constraintHorizontal_bias="0.383"
-        app:layout_constraintStart_toStartOf="@+id/txtDiagnostic"
-        app:layout_constraintTop_toBottomOf="@+id/txtDiagnostic" />
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/text_margin_standard"
+        app:layout_constraintTop_toBottomOf="@+id/diagnostic">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelButton"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/amber"
+            android:text="@string/renunta"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addDrugsToMedicationButton"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="64dp"
+            android:backgroundTint="@color/amber"
+            android:text="@string/adaug_medicament"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
