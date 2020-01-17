@@ -9,19 +9,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".auth.RegisterDoctorActivity">
+        android:layout_height="match_parent"
+        tools:context=".auth.RegisterPacientActivity">
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="69dp"
             android:layout_height="69dp"
-            android:layout_marginBottom="46dp"
-            app:layout_constraintBottom_toBottomOf="@+id/inputs"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icons" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/icons"
@@ -40,8 +39,8 @@
                 android:layout_height="102dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/register_doctor"
-                android:src="@drawable/doctor"
+                android:contentDescription="@string/register_patient"
+                android:src="@drawable/patient"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
@@ -51,7 +50,7 @@
                 android:layout_marginLeft="-12dp"
                 android:layout_marginTop="16dp"
                 android:paddingBottom="16dp"
-                android:text="@string/register_doctor"
+                android:text="@string/register_patient"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
@@ -83,12 +82,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="20dp">
 
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtPrenume"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtPrenume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +103,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="20dp">
-
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtNume"
@@ -130,9 +127,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="20dp">
 
-
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneNumber"
+                    android:id="@+id/patientPhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone" />
@@ -146,7 +142,51 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/text_margin_standard"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/adresa_cabinet"
+                android:hint="@string/CNP"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/patientCNP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/birthDate"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/amber"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/birthDateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginEnd="24dp"
+                android:hint="Adresa"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/amber"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -159,28 +199,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPostalAddress" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
-                android:layout_marginEnd="24dp"
-                android:hint="@string/specialisation"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/amber"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="20dp">
-
-                <AutoCompleteTextView
-                    android:id="@+id/specialisation"
-                    android:textSize="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

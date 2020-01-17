@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 
 public class RegisterPacientActivity extends AppCompatActivity implements View.OnClickListener {
-    private EditText txtPrenume, txtNume, txtCNP, txtTelefon, txtDataNastere, txtAdresa;
+    private EditText txtPrenume, txtNume, txtCNP, txtTelefon, birthDateEditText, txtAdresa;
+    private DatePicker txtDataNastere;
     private ProgressBar progressBar;
     private Button registerButton;
     private FirebaseAuth mAuth;
@@ -40,7 +42,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_register);
+        setContentView(R.layout.activity_patient_register_paste);
 
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
@@ -86,11 +88,12 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
             }
         });
 
-        txtDataNastere = findViewById(R.id.birthDate);txtDataNastere.setOnClickListener(new View.OnClickListener() {
+        birthDateEditText = findViewById(R.id.birthDateEditText);
+        birthDateEditText.setInputType(InputType.TYPE_NULL);
+        birthDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
-
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
@@ -99,9 +102,10 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                txtDataNastere.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                birthDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
                         }, year, month, day);
+
                 picker.show();
             }
         });
@@ -138,7 +142,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         final String nume = txtNume.getText().toString().trim();
         final String CNP = txtCNP.getText().toString().trim();
         final String telefon = txtTelefon.getText().toString().trim();
-        final String dataNastere = txtDataNastere.getText().toString().trim();
+        final String dataNastere = birthDateEditText.getText().toString().trim();
         final String adresa = txtAdresa.getText().toString().trim();
         final String email = intent.getStringExtra("EMAIL");
         final String password = intent.getStringExtra("PASSWORD");
@@ -212,8 +216,8 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         }
 
         if(dataNastere.isEmpty()){
-            txtDataNastere.setError("Introduceți data nașterii");
-            txtDataNastere.requestFocus();
+            birthDateEditText.setError("Introduceți data nașterii");
+            birthDateEditText.requestFocus();
             return true;
         }
 
@@ -242,7 +246,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         txtAdresa.setEnabled(!isEnabled);
         txtTelefon.setEnabled(!isEnabled);
         txtCNP.setEnabled(!isEnabled);
-        txtDataNastere.setEnabled(!isEnabled);
+        birthDateEditText.setEnabled(!isEnabled);
         registerButton.setEnabled(!isEnabled);
     }
 

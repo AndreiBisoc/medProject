@@ -17,10 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
 
-        <activity android:name=".auth.TestUI">
-        </activity>
-
-
         <!-- Administrator -->
         <activity android:name=".Administrator.AddDrug" /> <!-- QR Codes -->
         <activity android:name=".QRCode.ScanQR" />
@@ -33,21 +29,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.RegisterActivity"></activity>
+        <activity android:name=".auth.RegisterActivity" />
         <activity android:name=".auth.RegisterPacientActivity" />
-        <activity android:name=".auth.RegisterDoctorActivity" /> <!-- Patient workflow -->
+        <activity android:name=".auth.RegisterDoctorActivity">
+        </activity>
+
+        <!-- Patient workflow -->
         <activity android:name=".PatientWorkflow.MyMedications.MyMedications" />
         <activity
             android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs" />
-        <activity android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration" />
 
         <!-- Doctor workflow -->
         <activity android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity" />
