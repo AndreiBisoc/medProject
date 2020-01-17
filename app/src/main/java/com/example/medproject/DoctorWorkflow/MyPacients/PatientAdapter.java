@@ -3,6 +3,7 @@ package com.example.medproject.DoctorWorkflow.MyPacients;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.example.medproject.R;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -166,6 +168,10 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                                             .removeValue();
                                 }
                             })
+                            .show();
+
+                    Snackbar.make(view, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes", Snackbar.LENGTH_SHORT)
+                            .setTextColor(Color.parseColor("#ffb300"))
                             .show();
                     break;
 
