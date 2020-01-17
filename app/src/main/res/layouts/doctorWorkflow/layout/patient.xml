@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_item">
 
-
     <ImageView
         android:id="@+id/patientIcon"
         android:layout_width="55dp"

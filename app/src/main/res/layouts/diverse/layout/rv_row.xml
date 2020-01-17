@@ -17,7 +17,7 @@
         android:layout_marginLeft="@dimen/text_margin_standard"/>
 
     <TextView
-        android:id="@+id/tvNume"
+        android:id="@+id/drugName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_margin_standard"
@@ -29,24 +29,24 @@
         android:layout_marginLeft="@dimen/text_margin_standard"/>
 
     <TextView
-        android:id="@+id/tvScop"
+        android:id="@+id/drugScop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_margin_standard"
         android:layout_marginTop="@dimen/text_margin_standard"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/imageDrug"
-        app:layout_constraintTop_toBottomOf="@+id/tvNume"
+        app:layout_constraintTop_toBottomOf="@+id/drugName"
         android:layout_marginLeft="@dimen/text_margin_standard"/>
 
     <TextView
-        android:id="@+id/tvUnitate"
+        android:id="@+id/drugUnitate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/text_margin_standard"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvScop"
+        app:layout_constraintTop_toBottomOf="@+id/drugScop"
         android:layout_marginRight="@dimen/text_margin_standard"
         android:textSize="@dimen/text_unitate"
         android:textColor="@color/black"/>
