@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.medproject.BasicActions;
@@ -48,7 +49,8 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
     private List<String> CNPs = new ArrayList<>();
     private AutoCompleteTextView searchForCNP;
     private int length = 0;
-
+    private ProgressBar progressBar;
+    private Button addPatient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,8 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         mAuth = FirebaseAuth.getInstance();
+
+        addPatient = findViewById(R.id.addPatientButton);
 
         firebaseReferenceToPacients = FirebaseDatabase.getInstance().getReference("Patients");
         firebaseReferenceToPacients.addChildEventListener(new ChildEventListener() {
@@ -95,6 +99,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
         ArrayAdapter < String > adapter = new ArrayAdapter<String>
                         (this, android.R.layout.select_dialog_item, CNPs);
 
+        progressBar = findViewById(R.id.progressBar);
         searchForCNP =  findViewById(R.id.searchForCNP);
         searchForCNP.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
         searchForCNP.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +131,6 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
             }
         });
 
-        final Button addPatient = findViewById(R.id.addPatientButton);
         addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +142,8 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
     }
 
     public void addPatientToDoctor(final String searchedCNP) {
+        progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
 
         final String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firebaseReferenceToPacients.addChildEventListener(new ChildEventListener() {
@@ -229,5 +235,10 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
 
     public void hideKeyboard() {
         BasicActions.hideKeyboard(this);
+    }
+
+    private void disableControllers(boolean isEnabled){
+      addPatient.setEnabled(!isEnabled);
+      searchForCNP.setEnabled(!isEnabled);
     }
 }

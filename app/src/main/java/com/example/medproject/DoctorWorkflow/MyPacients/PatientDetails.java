@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class PatientDetails extends AppCompatActivity {
     private DatabaseReference mDatabaseReference;
     private Button saveChangesButton;
     private boolean canEditForm;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class PatientDetails extends AppCompatActivity {
         txtBirthDate = findViewById(R.id.txtBirthDate);
         txtPhone = findViewById(R.id.txtPhone);
         txtAddress = findViewById(R.id.txtAddress);
+        progressBar = findViewById(R.id.progressBar);
 
         Intent intent = getIntent();
         String patientID = intent.getStringExtra("patientID");
@@ -58,6 +61,8 @@ public class PatientDetails extends AppCompatActivity {
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                disableControllers(true);
 
                 String prenume = txtFirstname.getText().toString().trim();
                 String nume = txtLastname.getText().toString().trim();
@@ -120,7 +125,7 @@ public class PatientDetails extends AppCompatActivity {
                 txtBirthDate.setText(patient.getBirthDate());
                 txtPhone.setText(patient.getPhone());
                 txtAddress.setText(patient.getAddress());
-                enableEditTexts(canEditForm);
+                disableControllers(!canEditForm);
             }
 
             @Override
@@ -128,15 +133,6 @@ public class PatientDetails extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void enableEditTexts(boolean isEnabled){
-        txtLastname.setEnabled(isEnabled);
-        txtFirstname.setEnabled(isEnabled);
-        txtCNP.setEnabled(isEnabled);
-        txtBirthDate.setEnabled(isEnabled);
-        txtPhone.setEnabled(isEnabled);
-        txtAddress.setEnabled(isEnabled);
     }
 
     @Override
@@ -161,5 +157,14 @@ public class PatientDetails extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void disableControllers(boolean isEnabled){
+        txtLastname.setEnabled(!isEnabled);
+        txtFirstname.setEnabled(!isEnabled);
+        txtCNP.setEnabled(!isEnabled);
+        txtBirthDate.setEnabled(!isEnabled);
+        txtPhone.setEnabled(!isEnabled);
+        txtAddress.setEnabled(!isEnabled);
     }
 }

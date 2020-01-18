@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class AddMedication extends AppCompatActivity implements View.OnClickListener {
     private EditText txtDiagnostic;
     private Button addDrugToMedicationButton, cancelButton;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
+        progressBar = findViewById(R.id.progressBar);
         txtDiagnostic = findViewById(R.id.txtDiagnostic);
                 addDrugToMedicationButton = findViewById(R.id.addDrugsToMedicationButton);
         cancelButton = findViewById(R.id.cancelButton);
@@ -55,6 +58,8 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         if(validareDiagnostic(diagnostic) == true){
             return;
         }
+        progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
 
         finish();
         Intent intent = new Intent(this, AddDrugToMedication.class);
@@ -79,5 +84,11 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+    }
+
+    private void disableControllers(boolean isEnabled){
+        txtDiagnostic.setEnabled(!isEnabled);
+        addDrugToMedicationButton.setEnabled(!isEnabled);
+        cancelButton.setEnabled(!isEnabled);
     }
 }

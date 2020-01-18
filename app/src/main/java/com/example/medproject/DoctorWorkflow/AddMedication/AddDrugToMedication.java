@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private String diagnostic;
     private String drugName, drugID, doctorID, doctorName;
     private static int noOfDrugs = 0;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
+        progressBar = findViewById(R.id.progressBar);
         txtDosage = findViewById(R.id.txtDosage);
         txtNoOfDays = findViewById(R.id.txtNoOfDays);
         txtNoOfTimes = findViewById(R.id.txtNoOfTimes);
@@ -70,6 +73,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         addAnotherDrugButton = findViewById(R.id.addDrugButton);
         saveMedicationButton = findViewById(R.id.saveMedicationButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
+
         if (noOfDrugs == 0) {
             noOfInsertedDrugs.setText("Niciun medicament asociat");
         } else {
@@ -162,6 +166,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     }
 
     private void saveMedication() {
+        progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
+
         // in cazul adaugarii unei medicatii cu un medicament recent adaugat, medicatia va contine doar numele doctorului in BD
         mDatabaseReference = mFirebaseDatabase.getReference("DrugAdministration");
         for (DrugAdministration drugAdms : drugAdministrationList) {
@@ -176,6 +183,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         mDatabaseReference.child("diagnostic").setValue(diagnostic);
         mDatabaseReference.child("doctorName").setValue(doctorName);
 
+        finish();
         Intent intent = new Intent(this, GenerateQRCode.class);
         intent.putExtra("medicationId", medicationLinkId);
         startActivity(intent);
@@ -225,6 +233,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+
+        progressBar.setVisibility(View.GONE);
+        disableControllers(false);
     }
 
     private void clean() {
@@ -234,5 +245,14 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         txtNoOfTimes.setText("");
         txtStartDay.setText("");
         txtStartHour.setText("");
+    }
+
+    private void disableControllers(boolean isEnabled){
+        searchDrugName.setEnabled(!isEnabled);
+        txtDosage.setEnabled(!isEnabled);
+        txtNoOfDays.setEnabled(!isEnabled);
+        txtNoOfTimes.setEnabled(!isEnabled);
+        txtStartDay.setEnabled(!isEnabled);
+        txtStartHour.setEnabled(!isEnabled);
     }
 }

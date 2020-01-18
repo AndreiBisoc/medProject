@@ -11,12 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.AddMedication.AddDrugToMedication;
-import com.example.medproject.FirebaseUtil;
-import com.example.medproject.ListActivity;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Drug;
@@ -31,7 +30,9 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
     private EditText txtNume, txtScop, txtUnitate, txtDescriere;
     private Drug drug = new Drug();
     private boolean goToAddDrugToMedication = false;
-    Button button;
+    Button saveButton;
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Drugs");
 
+        progressBar = findViewById(R.id.progressBar);
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
@@ -54,8 +56,8 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
         txtScop = findViewById(R.id.txtScop);
         txtUnitate = findViewById(R.id.txtUnitate);
         txtDescriere = findViewById(R.id.txtDescriere);
-        button = findViewById(R.id.addDrugButton);
-        button.setOnClickListener(this);
+        saveButton = findViewById(R.id.addDrugButton);
+        saveButton.setOnClickListener(this);
     }
 
     @Override
@@ -83,9 +85,14 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         saveDrug();
         clean();
+        progressBar.setVisibility(View.GONE);
+        disableControllers(false);
     }
 
     private void saveDrug(){
+        progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
+
         drug.setNume(txtNume.getText().toString());
         drug.setScop(txtScop.getText().toString());
         drug.setUnitate(txtUnitate.getText().toString());
@@ -116,10 +123,12 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
         txtDescriere.setText("");
     }
 
-    private void enableEditTexts(boolean isEnabled){
-        txtNume.setEnabled(isEnabled);
-        txtScop.setEnabled(isEnabled);
-        txtUnitate.setEnabled(isEnabled);
-        txtDescriere.setEnabled(isEnabled);
+    private void disableControllers(boolean isEnabled){
+        txtNume.setEnabled(!isEnabled);
+        txtScop.setEnabled(!isEnabled);
+        txtUnitate.setEnabled(!isEnabled);
+        txtDescriere.setEnabled(!isEnabled);
+        saveButton.setEnabled(!isEnabled);
+
     }
 }
