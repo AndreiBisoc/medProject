@@ -173,6 +173,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                 default:
                     String medicationID = selectedMedication.getId();
                     intent = new Intent(view.getContext(), MyDrugs.class);
+                    intent.putExtra("diagnostic", selectedMedication.getDiagnostic());
                     intent.putExtra("MedicationID", medicationID);
                     intent.putExtra("canEditMedicationFlag", canEditMedicationFlag);
                     view.getContext().startActivity(intent);
