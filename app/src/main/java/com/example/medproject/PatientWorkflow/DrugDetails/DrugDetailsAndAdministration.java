@@ -25,16 +25,15 @@ import com.google.firebase.database.ValueEventListener;
 public class DrugDetailsAndAdministration extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-    TextInputEditText txtNume, txtScop, txtUnitate, txtDescriere;
-    TextInputEditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
-    String drugID, drugAdministrationID;
-
+    private TextInputEditText txtNume, txtScop, txtUnitate, txtDescriere;
+    private TextInputEditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
+    private String drugID, drugAdministrationID;
+    private boolean canEditMedicationFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drug_details_administration);
-
 
         txtNume = findViewById(R.id.txtNume);
         txtScop = findViewById(R.id.txtScop);
@@ -50,6 +49,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
         Intent intent = getIntent();
         drugID = intent.getStringExtra("drugID");
         drugAdministrationID = intent.getStringExtra("drugAdministrationID");
+        canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
 
         mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Drugs/" + drugID);
 
@@ -83,7 +83,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
                 txtStartDay.setText(drugAdministration.getStartDay());
                 txtStartHour.setText(drugAdministration.getStartHour());
 
-                enableEditTexts(false);
+                enableEditTexts(canEditMedicationFlag);
             }
 
             @Override

@@ -29,7 +29,9 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
 
         mAuth = FirebaseAuth.getInstance();
 
-        adapter = new DrugAdapter(getIntent().getStringExtra("MedicationID"));
+        Intent intent = getIntent();
+        boolean canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
+        adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag);
 
         rvDrugs = findViewById(R.id.rvDrugs);
         rvDrugs.setAdapter(adapter);
@@ -74,4 +76,5 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
+
 }

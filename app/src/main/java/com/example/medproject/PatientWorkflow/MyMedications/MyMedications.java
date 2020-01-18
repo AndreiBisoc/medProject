@@ -30,7 +30,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     private static RecyclerView rvMedications;
     private static MedicationAdapter secondAdapter;
     private static TextView emptyView;
-    private String patientId;
+    private String patientId, patientName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_my_medications);
 
         patientId = getIntent().getStringExtra("patientId");
+        patientName = getIntent().getStringExtra("patientName");
 
         final MedicationAdapter adapter = new MedicationAdapter(patientId);
         secondAdapter = adapter;
@@ -60,9 +61,11 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         scanMedicationButton.setOnClickListener(this);
 
         if(!secondAdapter.loggedAsDoctor) {
+            setTitle("Medicațiile mele");
             addMedicationButton.setVisibility(View.GONE);
             scanMedicationButton.setVisibility(View.VISIBLE);
         } else {
+            setTitle("Medicațiile lui " + patientName);
             addMedicationButton.setVisibility(View.VISIBLE);
             scanMedicationButton.setVisibility(View.GONE);
         }

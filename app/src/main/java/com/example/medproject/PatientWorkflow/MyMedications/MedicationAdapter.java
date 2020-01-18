@@ -16,26 +16,31 @@ import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyDrugs.MyDrugs;
 import com.example.medproject.R;
+import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Medication;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
 
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
 
     public boolean noMedicationsToDisplay = true;
     public boolean loggedAsDoctor;
+    private String currentUser;
     private ArrayList<Medication> medications;
     private DatabaseReference mDatabaseReference;
-    private ChildEventListener mChildListener;
 
     public MedicationAdapter(String patientId) {
         loggedAsDoctor = patientId != null;
-        String currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
@@ -100,7 +105,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         Medication medication = medications.get(position);
         holder.bind(medication);
         if(!loggedAsDoctor)
-            holder.deleteIcon.setVisibility(View.GONE);
+            holder.deleteIcon.setVisibility(GONE);
     }
 
     @Override
@@ -113,6 +118,29 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
         private TextView diagnostic, numeDoctor;
         private Button deleteIcon;
+        private boolean canEditMedicationFlag = false;
+
+        public void canEdit(final String numeDoctor) {
+            DatabaseReference doctorsRef = FirebaseDatabase.getInstance().getReference("Doctors");
+
+            doctorsRef.child(currentUser).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Doctor doctor = dataSnapshot.getValue(Doctor.class);
+                    String name = doctor.getName();
+                    if(name.equals(numeDoctor)) {
+                        deleteIcon.setVisibility(View.VISIBLE);
+                        canEditMedicationFlag = true;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
 
         public MedicationViewHolder(View itemView) {
             super(itemView);
@@ -124,8 +152,10 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         }
 
         public void bind(Medication medication) {
+            deleteIcon.setVisibility(View.INVISIBLE);
             diagnostic.setText(medication.getDiagnostic());
             numeDoctor.setText(medication.getDoctorName());
+            canEdit(medication.getDoctorName());
         }
 
         @Override
@@ -144,6 +174,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                     String medicationID = selectedMedication.getId();
                     intent = new Intent(view.getContext(), MyDrugs.class);
                     intent.putExtra("MedicationID", medicationID);
+                    intent.putExtra("canEditMedicationFlag", canEditMedicationFlag);
                     view.getContext().startActivity(intent);
                     break;
             }
