@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
+import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.R;
 import com.firebase.ui.auth.AuthUI;
@@ -24,7 +25,7 @@ import com.google.android.gms.tasks.Task;
 
 public class GenerateQRCode extends AppCompatActivity {
 
-    private Button encodeButton;
+    private Button encodeButton, backButton;
     private ImageView imageView;
 
     @Override
@@ -33,18 +34,30 @@ public class GenerateQRCode extends AppCompatActivity {
         setContentView(R.layout.activity_generate_qrcode);
 
         encodeButton = findViewById(R.id.generateCode);
+        backButton = findViewById(R.id.backToMyPatients);
         imageView = findViewById(R.id.qrCode);
+        backButton.setVisibility(View.GONE);
 
         encodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // aici la noi text va lua id-ul medicatiei ce se va genera in codul QR cu getIntent de la activitatea anterioara
                 String medicationId = getIntent().getStringExtra("medicationId");
                 if(!medicationId.equals("")) {
+                    encodeButton.setVisibility(View.GONE);
                     new ImageDownloaderTask(imageView).execute("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + medicationId);
+                    backButton.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(GenerateQRCode.this, "Enter Something!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MyPatientsActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -51,18 +51,6 @@
         android:layout_marginTop="@dimen/text_margin_standard"
         app:layout_constraintTop_toBottomOf="@+id/diagnostic">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancelButton"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/amber"
-            android:text="@string/renunta"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addDrugsToMedicationButton"
@@ -70,13 +58,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="64dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/amber"
             android:text="@string/adaug_medicament"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelButton"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="64dp"
+            android:backgroundTint="@color/amber"
+            android:text="@string/renunta"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
