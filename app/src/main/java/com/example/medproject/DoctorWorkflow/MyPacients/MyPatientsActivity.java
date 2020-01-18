@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class MyPatientsActivity extends AppCompatActivity {
     private static RecyclerView rvPatients;
     private static TextView emptyView;
     private static final PatientAdapter adapter = new PatientAdapter();
+    //private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MyPatientsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        //progressBar = findViewById(R.id.progressBar);
         rvPatients = findViewById(R.id.rvPatients);
         rvPatients.setAdapter(adapter);
         emptyView = findViewById(R.id.empty_view);
@@ -103,5 +106,11 @@ public class MyPatientsActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+        //progressBar.setVisibility(View.GONE);
+        //disableControllers(false);
     }
+
+//    private void disableControllers(boolean isEnabled){
+//        addPatientToDoctor.setEnabled(!isEnabled);
+//    }
 }

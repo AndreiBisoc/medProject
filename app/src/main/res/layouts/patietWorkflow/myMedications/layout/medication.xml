@@ -50,7 +50,6 @@
         android:layout_marginTop="4dp"
         app:iconPadding="2dp"
         android:backgroundTint="@color/white"
-        android:onClick="ShowPopup"
         app:icon="@drawable/ic_delete_black_24dp"
         app:iconGravity="textStart"
         app:iconSize="40dp"

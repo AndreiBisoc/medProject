@@ -12,17 +12,6 @@
         android:layout_height="wrap_content"
         tools:context=".auth.RegisterDoctorActivity">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="69dp"
-            android:layout_height="69dp"
-            android:layout_marginBottom="46dp"
-            app:layout_constraintBottom_toBottomOf="@+id/inputs"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icons" />
-
         <LinearLayout
             android:id="@+id/icons"
             android:layout_width="match_parent"
@@ -203,5 +192,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputs" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:indeterminateDrawable="@drawable/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

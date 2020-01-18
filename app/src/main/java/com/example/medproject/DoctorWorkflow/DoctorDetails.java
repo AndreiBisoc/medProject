@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ public class DoctorDetails extends AppCompatActivity {
     private EditText txtLastname, txtFirstname, txtSpecializare, txtPhone, txtAddress;
     private Button saveChangesButton;
     private DatabaseReference mDatabaseReference;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,14 @@ public class DoctorDetails extends AppCompatActivity {
         txtSpecializare = findViewById(R.id.txtSpecializare);
         txtPhone = findViewById(R.id.txtPhone);
         txtAddress = findViewById(R.id.txtAddress);
+        progressBar = findViewById(R.id.progressBar);
 
         saveChangesButton = findViewById(R.id.saveChangesButton);
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                disableControllers(true);
 
                 String prenume = txtFirstname.getText().toString().trim();
                 String nume = txtLastname.getText().toString().trim();
@@ -86,7 +91,7 @@ public class DoctorDetails extends AppCompatActivity {
                 txtSpecializare.setText(doctor.getSpecialization());
                 txtPhone.setText(doctor.getPhone());
                 txtAddress.setText(doctor.getAdresaCabinet());
-                enableEditTexts(true);
+                disableControllers(false);
             }
 
             @Override
@@ -94,14 +99,6 @@ public class DoctorDetails extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void enableEditTexts(boolean isEnabled){
-        txtLastname.setEnabled(isEnabled);
-        txtFirstname.setEnabled(isEnabled);
-        txtSpecializare.setEnabled(isEnabled);
-        txtPhone.setEnabled(isEnabled);
-        txtAddress.setEnabled(isEnabled);
     }
 
     @Override
@@ -124,5 +121,14 @@ public class DoctorDetails extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void disableControllers(boolean isEnabled){
+        txtLastname.setEnabled(!isEnabled);
+        txtFirstname.setEnabled(!isEnabled);
+        txtAddress.setEnabled(!isEnabled);
+        txtPhone.setEnabled(!isEnabled);
+        txtSpecializare.setEnabled(!isEnabled);
+        saveChangesButton.setEnabled(!isEnabled);
     }
 }

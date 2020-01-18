@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
@@ -27,12 +28,14 @@ public class GenerateQRCode extends AppCompatActivity {
 
     private Button encodeButton, backButton;
     private ImageView imageView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_qrcode);
 
+        progressBar = findViewById(R.id.progressBar);
         encodeButton = findViewById(R.id.generateCode);
         backButton = findViewById(R.id.backToMyPatients);
         imageView = findViewById(R.id.qrCode);
@@ -41,6 +44,8 @@ public class GenerateQRCode extends AppCompatActivity {
         encodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                disableControllers(true);
                 String medicationId = getIntent().getStringExtra("medicationId");
                 if(!medicationId.equals("")) {
                     encodeButton.setVisibility(View.GONE);
@@ -49,12 +54,17 @@ public class GenerateQRCode extends AppCompatActivity {
                 } else {
                     Toast.makeText(GenerateQRCode.this, "Enter Something!", Toast.LENGTH_SHORT).show();
                 }
+
+                progressBar.setVisibility(View.GONE);
+                disableControllers(false);
             }
         });
 
         backButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                disableControllers(true);
                 finish();
                 Intent intent = new Intent(getApplicationContext(), MyPatientsActivity.class);
                 startActivity(intent);
@@ -89,5 +99,10 @@ public class GenerateQRCode extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void disableControllers(boolean isEnabled){
+        backButton.setEnabled(!isEnabled);
+        encodeButton.setEnabled(!isEnabled);
     }
 }

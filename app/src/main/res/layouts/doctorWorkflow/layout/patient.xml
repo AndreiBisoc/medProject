@@ -80,7 +80,7 @@
             app:iconGravity="textEnd"
             android:layout_gravity="end|top"
             android:backgroundTint="@color/white"
-            app:icon="@drawable/delete"
+            app:icon="@drawable/ic_delete_black_24dp"
             app:iconSize="28dp"
             app:iconTint="#453f3f" />
 

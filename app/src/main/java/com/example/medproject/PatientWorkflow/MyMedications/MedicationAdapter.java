@@ -155,7 +155,9 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             deleteIcon.setVisibility(View.INVISIBLE);
             diagnostic.setText(medication.getDiagnostic());
             numeDoctor.setText(medication.getDoctorName());
-            canEdit(medication.getDoctorName());
+            if(loggedAsDoctor) {
+                canEdit(medication.getDoctorName());
+            }
         }
 
         @Override
