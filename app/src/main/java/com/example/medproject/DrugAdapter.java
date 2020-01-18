@@ -95,9 +95,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         TextView tvUnitate;
         public DrugViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNume = itemView.findViewById(R.id.tvNume);
-            tvScop = itemView.findViewById(R.id.tvScop);
-            tvUnitate = itemView.findViewById(R.id.tvUnitate);
+            tvNume = itemView.findViewById(R.id.drugName);
+            tvScop = itemView.findViewById(R.id.drugScop);
+            tvUnitate = itemView.findViewById(R.id.drugUnitate);
             itemView.setOnClickListener(this);
         }
 

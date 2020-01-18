@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        BasicActions.hideActionBar(this);
+
         container = findViewById(R.id.container);
         container.setBackgroundResource(R.drawable.icons);
 
@@ -52,9 +54,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
-
         progressBar = findViewById(R.id.progressBar);
-
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
         loginButton.setOnClickListener(this);

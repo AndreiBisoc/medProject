@@ -30,4 +30,12 @@ public class BasicActions {
         });
     }
 
+    public static void hideActionBar(AppCompatActivity activity){
+        try
+        {
+            activity.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){}
+    }
+
 }

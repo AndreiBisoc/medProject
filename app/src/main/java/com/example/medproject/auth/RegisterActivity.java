@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        BasicActions.hideActionBar(this);
 
         Intent intentFromLogin = getIntent();
         String email = intentFromLogin.getStringExtra("email");

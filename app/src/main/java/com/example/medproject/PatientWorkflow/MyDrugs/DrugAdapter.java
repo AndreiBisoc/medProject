@@ -2,6 +2,7 @@ package com.example.medproject.PatientWorkflow.MyDrugs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +16,19 @@ import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.DrugDetails.DrugDetailsAndAdministration;
 import com.example.medproject.R;
+import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.MedicationLink;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder> {
 
@@ -93,16 +99,47 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     }
 
     public class DrugViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView tvNume;
+        TextView drugName, drugScop, drugUnitate;
 
         public DrugViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNume = itemView.findViewById(R.id.tvNume);
+            drugName = itemView.findViewById(R.id.drugName);
+            drugScop = itemView.findViewById(R.id.drugScop);
+            drugUnitate = itemView.findViewById(R.id.drugUnitate);
             itemView.setOnClickListener(this);
         }
 
         public void bind(MedicationLink medLink){
-            tvNume.setText(medLink.getDrugName());
+            String drugNameString = medLink.getDrugName();
+            drugName.setText(drugNameString);
+            final DatabaseReference drugsRef = FirebaseDatabase.getInstance().getReference().child("Drugs");
+            drugsRef.orderByChild("nume").equalTo(drugNameString).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot drugData) {
+                    Object o = drugData.getValue();
+                    String codMedicament = ((HashMap)o).keySet().toString();
+                    codMedicament = codMedicament.substring(1);
+                    codMedicament= codMedicament.substring(0, codMedicament.length() - 1);
+                    drugsRef.child(codMedicament).addValueEventListener(new ValueEventListener(){
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // Data is ordered by increasing height, so we want the first entry
+                            Drug drug = dataSnapshot.getValue(Drug.class);
+                            drugScop.setText(drug.getScop());
+                            drugUnitate.setText(drug.getUnitate());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // ...
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // ...
+                }
+            });
         }
 
         @Override

@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@drawable/list_item">
 
     <ImageView
-        android:id="@+id/drugIcon"
-        android:layout_width="73dp"
-        android:layout_height="102dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:src="@drawable/patient"
-        app:layout_constraintHorizontal_bias="0.1"
+        android:id="@+id/imageDrug"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/text_margin_standard"
+        android:layout_marginTop="@dimen/text_margin_standard"
+        android:src="@drawable/medicine"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvNume"
+        android:id="@+id/drugName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_margin_standard"
         android:layout_marginTop="@dimen/text_margin_standard"
         android:text="TextView"
+        android:textColor="@color/amber"
         android:textSize="@dimen/title_large"
-        app:layout_constraintStart_toEndOf="@+id/drugIcon"
+        app:layout_constraintStart_toEndOf="@+id/imageDrug"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="@dimen/text_margin_standard"/>
 
+    <TextView
+        android:id="@+id/drugScop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/text_margin_standard"
+        android:layout_marginTop="@dimen/text_margin_standard"
+        android:text="TextView"
+        android:paddingBottom="16dp"
+        app:layout_constraintStart_toEndOf="@+id/imageDrug"
+        app:layout_constraintTop_toBottomOf="@+id/drugName"
+        android:layout_marginLeft="@dimen/text_margin_standard"/>
+
+    <TextView
+        android:id="@+id/drugUnitate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/text_margin_standard"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_unitate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.90"
+        app:layout_constraintStart_toEndOf="@+id/drugScop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85" />
 </androidx.constraintlayout.widget.ConstraintLayout>
