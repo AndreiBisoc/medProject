@@ -80,13 +80,12 @@
             app:iconGravity="textEnd"
             android:layout_gravity="end|top"
             android:backgroundTint="@color/white"
-            android:onClick="ShowPopup"
             app:icon="@drawable/delete"
             app:iconSize="28dp"
             app:iconTint="#453f3f" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/seeMedications"
+            android:id="@+id/seeMore"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
             android:layout_width="44dp"
             android:layout_height="44dp"
@@ -94,10 +93,11 @@
             android:backgroundTint="@color/white"
             android:insetLeft="0dp"
             android:onClick="ShowPopup"
-            app:icon="@drawable/ic_forward_black_24dp"
+            app:icon="@drawable/ic_more_horiz_black_24dp"
             app:iconGravity="textStart"
             app:iconSize="40dp"
-            app:iconTint="@color/amber" />
+            app:iconTint="#453f3f"
+            />
 
     </LinearLayout>
 
