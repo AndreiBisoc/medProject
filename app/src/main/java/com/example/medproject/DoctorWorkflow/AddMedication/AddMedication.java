@@ -25,12 +25,14 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_medication);
 
+        BasicActions.hideActionBar(this);
+
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         progressBar = findViewById(R.id.progressBar);
         txtDiagnostic = findViewById(R.id.txtDiagnostic);
-                addDrugToMedicationButton = findViewById(R.id.addDrugsToMedicationButton);
+        addDrugToMedicationButton = findViewById(R.id.addDrugsToMedicationButton);
         cancelButton = findViewById(R.id.cancelButton);
         addDrugToMedicationButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);

@@ -1,6 +1,7 @@
 package com.example.medproject.DoctorWorkflow.AddMedication;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.MedicationLink;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -95,6 +97,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         if(drugToAdd != null) {
             finishAddingDrug(drugToAdd);
         }
+
+        String diagnostic = getIntent().getStringExtra("diagnostic");
+        setTitle(diagnostic);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseDatabase.getReference("Drugs")
@@ -207,10 +212,18 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
             finishAddingDrug(drugID);
 
         } catch (Exception e) {
-            Toast.makeText(this, "Medicamentul " + drugName + " nu există în baza de date. Doriți să îl adăugați?", Toast.LENGTH_LONG).show();
-            Intent intentToAddDrug = new Intent(this, AddDrug.class);
-            intentToAddDrug.putExtra("drugName", drugName);
-            startActivity(intentToAddDrug);
+            new MaterialAlertDialogBuilder(getWindow().getDecorView().getContext())
+                    .setMessage("Medicamentul " + drugName + " nu există în baza de date. Doriți să îl adăugați?")
+                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intentToAddDrug = new Intent(AddDrugToMedication.this, AddDrug.class);
+                            intentToAddDrug.putExtra("drugName", drugName);
+                            startActivity(intentToAddDrug);
+                        }
+                    })
+                    .setNegativeButton("Nu", /* listener = */ null)
+                    .show();
         }
     }
 

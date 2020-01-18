@@ -11,11 +11,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
@@ -76,8 +74,7 @@ public class MyPatientsActivity extends AppCompatActivity {
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this,LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
                 break;
         }
         return true;

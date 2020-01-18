@@ -1,11 +1,15 @@
 package com.example.medproject;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class BasicActions {
 
@@ -36,6 +40,12 @@ public class BasicActions {
             activity.getSupportActionBar().hide();
         }
         catch (NullPointerException e){}
+    }
+
+    public static void displaySnackBar(View context, String message) {
+        Snackbar.make(context, message, Snackbar.LENGTH_SHORT)
+                .setTextColor(Color.parseColor("#ffb300"))
+                .show();
     }
 
 }

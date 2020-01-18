@@ -58,8 +58,7 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this, LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
                 break;
         }
         return true;

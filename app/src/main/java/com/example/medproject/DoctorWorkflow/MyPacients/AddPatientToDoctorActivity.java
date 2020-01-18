@@ -160,11 +160,9 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
                             .setValue(link).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-//                            progressBar.setVisibility(View.GONE);
                             if(task.isSuccessful()){
-                                Toast.makeText(AddPatientToDoctorActivity.this, "Pacientul a fost adăugat cu succes", Toast.LENGTH_LONG).show();
+                                BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul a fost adăugat cu succes");
                                 finish();
-//                                startActivity(new Intent(RegisterPacientActivity.this, Details.class)); - se va crea legatura spre lista de medicatii a noului pacient
                             }
                             // trebuie lucrat la cazurile de eroare pe else
                         }

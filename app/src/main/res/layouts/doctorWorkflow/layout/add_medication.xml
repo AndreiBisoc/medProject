@@ -11,8 +11,8 @@
         android:id="@+id/diagnostic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/text_margin_standard">
+        android:layout_marginTop="96dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -47,8 +47,8 @@
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/text_margin_standard"
         app:layout_constraintTop_toBottomOf="@+id/diagnostic">
 
 

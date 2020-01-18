@@ -55,7 +55,12 @@ public class PatientDetails extends AppCompatActivity {
         String patientID = intent.getStringExtra("patientID");
         final String loggedUser = FirebaseAuth.getInstance().getUid();
 
-        canEditForm = patientID == null;
+        canEditForm = patientID == null; // logged as doctor or not
+        if(canEditForm) {
+            setTitle("Contul meu");
+        } else {
+            setTitle("Detalii pacient");
+        }
 
         saveChangesButton = findViewById(R.id.saveChangesButton);
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +157,7 @@ public class PatientDetails extends AppCompatActivity {
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this, LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
                 break;
         }
         return true;

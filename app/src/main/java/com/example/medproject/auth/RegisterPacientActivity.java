@@ -168,14 +168,14 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(RegisterPacientActivity.this, "Înregistrarea a avut loc cu succes", Toast.LENGTH_LONG).show();
+                                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
                                         finishAffinity();
                                         Intent intent = new Intent(RegisterPacientActivity.this, MyMedications.class);
                                         startActivity(intent);
                                     }
                                     else{
                                         if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
-                                            Toast.makeText(RegisterPacientActivity.this, "Există deja un cont cu acest email", Toast.LENGTH_LONG).show();
+                                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Există deja un cont cu acest email");
                                         }
                                         else{
                                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();

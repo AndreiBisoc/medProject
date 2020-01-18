@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
@@ -167,9 +168,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                                             .child(selectedPatient.getId())
                                             .removeValue();
 
-                                    Snackbar.make(context, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes", Snackbar.LENGTH_SHORT)
-                                            .setTextColor(Color.parseColor("#ffb300"))
-                                            .show();
+                                    BasicActions.displaySnackBar(context, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes");
                                 }
                             })
                             .show();

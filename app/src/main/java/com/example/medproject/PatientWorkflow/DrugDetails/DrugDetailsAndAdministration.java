@@ -120,7 +120,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(DrugDetailsAndAdministration.this, "Medicația a fost editată cu succes", Toast.LENGTH_LONG).show();
+                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Medicația a fost editată cu succes");
                             finish();
                         }
                     }
@@ -151,8 +151,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this, LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
                 break;
         }
         return true;
