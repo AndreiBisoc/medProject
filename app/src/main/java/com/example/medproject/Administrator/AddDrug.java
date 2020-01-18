@@ -74,8 +74,7 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this, LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
                 break;
         }
         return true;
@@ -100,7 +99,7 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
         DatabaseReference pushedDrugRef = mDatabaseReference.push();
         pushedDrugRef.setValue(drug);
         String drugId = pushedDrugRef.getKey();
-        Toast.makeText(this, "Medicamentul " + drug.getNume() + " a fost salvat", Toast.LENGTH_LONG).show();
+        BasicActions.displaySnackBar(getWindow().getDecorView(),"Medicamentul " + drug.getNume() + " a fost salvat");
         if(goToAddDrugToMedication){
             Intent backToMedication = new Intent(this, AddDrugToMedication.class);
             backToMedication.putExtra("drugId", drugId);
@@ -110,7 +109,7 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
 
     private void deleteDrug(){
         if(drug == null){
-            Toast.makeText(this,"Vă rugăm salvați medicamentul înainte să îl ștergeți!",Toast.LENGTH_SHORT).show();
+            BasicActions.displaySnackBar(getWindow().getDecorView(),"Vă rugăm salvați medicamentul înainte să îl ștergeți!");
             return;
         }
         mDatabaseReference.child(drug.getId()).removeValue();

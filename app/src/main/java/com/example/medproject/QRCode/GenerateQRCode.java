@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.FirebaseUtil;
@@ -52,7 +53,7 @@ public class GenerateQRCode extends AppCompatActivity {
                     new ImageDownloaderTask(imageView).execute("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + medicationId);
                     backButton.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(GenerateQRCode.this, "Enter Something!", Toast.LENGTH_SHORT).show();
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Eroare la completarea medicației");
                 }
 
                 progressBar.setVisibility(View.GONE);

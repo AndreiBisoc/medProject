@@ -1,7 +1,9 @@
 package com.example.medproject.PatientWorkflow.MyMedications;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyDrugs.MyDrugs;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Medication;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,8 +42,10 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     private String currentUser;
     private ArrayList<Medication> medications;
     private DatabaseReference mDatabaseReference;
+    String patientIdCopy;
 
     public MedicationAdapter(String patientId) {
+        patientIdCopy = patientId;
         loggedAsDoctor = patientId != null;
         currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
@@ -163,18 +170,36 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            Medication selectedMedication = medications.get(position);
+            final Medication selectedMedication = medications.get(position);
+            final View context = view;
 
             switch (view.getId()) {
                 case R.id.deleteIcon:
-                    Intent intent = new Intent(view.getContext(), DeleteMedicationPopupActivity.class);
-                    intent.putExtra("Medication", selectedMedication);
-                    view.getContext().startActivity(intent);
+                    new MaterialAlertDialogBuilder(view.getContext())
+                            .setTitle("Ștergere " + selectedMedication.getDiagnostic())
+                            .setMessage("Sunteți sigur că doriți să ștergeți această medicație?")
+                            .setNegativeButton("Anulare", /* listener = */ null)
+                            .setPositiveButton("Ștergere", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("PatientToMedications")
+                                            .child(patientIdCopy)
+                                            .child(selectedMedication.getId())
+                                            .removeValue();
+
+                                    databaseReference.child("Medications")
+                                            .child(selectedMedication.getId())
+                                            .removeValue();
+
+                                    BasicActions.displaySnackBar(context, "Medicația " + selectedMedication.getDiagnostic() + " a fost ștearsă cu succes");
+                                }
+                            }).show();
                     break;
 
                 default:
                     String medicationID = selectedMedication.getId();
-                    intent = new Intent(view.getContext(), MyDrugs.class);
+                    Intent intent = new Intent(view.getContext(), MyDrugs.class);
                     intent.putExtra("diagnostic", selectedMedication.getDiagnostic());
                     intent.putExtra("MedicationID", medicationID);
                     intent.putExtra("canEditMedicationFlag", canEditMedicationFlag);

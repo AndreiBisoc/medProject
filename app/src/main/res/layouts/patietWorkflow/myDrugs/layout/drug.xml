@@ -21,25 +21,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="@color/amber"
         android:textSize="@dimen/title_large"
         app:layout_constraintStart_toEndOf="@+id/imageDrug"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="@dimen/text_margin_standard"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/drugScop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="8dp"
         android:text="TextView"
-        android:paddingBottom="16dp"
+        android:textColor="@color/grey"
         app:layout_constraintStart_toEndOf="@+id/imageDrug"
-        app:layout_constraintTop_toBottomOf="@+id/drugName"
-        android:layout_marginLeft="@dimen/text_margin_standard"/>
+        app:layout_constraintTop_toBottomOf="@+id/drugName" />
 
     <TextView
         android:id="@+id/drugUnitate"
@@ -47,12 +46,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/text_margin_standard"
         android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_unitate"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.90"
         app:layout_constraintStart_toEndOf="@+id/drugScop"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintTop_toBottomOf="@+id/drugName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

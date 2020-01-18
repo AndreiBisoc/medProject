@@ -93,8 +93,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this,LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
                 break;
         }
         return true;
@@ -121,14 +120,18 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     }
 
     public static void displayMessageOrMedicationsList() {
-        if(secondAdapter.noMedicationsToDisplay)
+        if(!secondAdapter.noMedicationsToDisplay)
         {
-            rvMedications.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        }
-        else {
             rvMedications.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
+
+        }
+        else
+        {   rvMedications.setVisibility(View.GONE);
+            if(!secondAdapter.loggedAsDoctor) {
+                emptyView.setText("Nu aveți nicio medicație adăugată de doctor.");
+            }
+            emptyView.setVisibility(View.VISIBLE);
         }
     }
 

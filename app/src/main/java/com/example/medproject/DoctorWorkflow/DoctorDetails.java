@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -41,6 +42,7 @@ public class DoctorDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doctor_details);
+        setTitle("Contul meu");
 
         final String doctorId = FirebaseAuth.getInstance().getUid();
         mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorId);
@@ -74,7 +76,7 @@ public class DoctorDetails extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(DoctorDetails.this, "Contul a fost editat cu succes", Toast.LENGTH_LONG).show();
+                                BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
                                 finish();
                             }
                     }
@@ -116,8 +118,7 @@ public class DoctorDetails extends AppCompatActivity {
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this, LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"V-ați delogat cu succes",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
                 break;
         }
         return true;

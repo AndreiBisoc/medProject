@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.DrugAdministration;
@@ -63,7 +64,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(ScanQR.this, "Trebuie să accepți utilizarea camerei.", Toast.LENGTH_LONG).show();
+                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Trebuie să accepți utilizarea camerei.");
                     }
 
                     @Override
@@ -83,8 +84,6 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
     public void handleResult(Result rawResult) {
         final String scannedMedicationId = rawResult.getText();
 
-        Toast.makeText(ScanQR.this, scannedMedicationId, Toast.LENGTH_LONG).show();
-
         mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Medications/" + scannedMedicationId);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,7 +95,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
                             .child(scannedMedicationId);
                         mDatabaseRef.setValue(medication);
 
-                    Toast.makeText(ScanQR.this, "Medicația a fost scanată cu succes", Toast.LENGTH_LONG).show();
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Medicația a fost scanată cu succes");
                     finish();
                 }
             }
