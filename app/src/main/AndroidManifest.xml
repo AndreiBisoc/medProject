@@ -40,7 +40,8 @@
             android:name=".PatientWorkflow.MyMedications.DeleteMedicationPopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs" />
-        <activity android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration" />
+        <activity android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"
+            android:windowSoftInputMode="stateVisible|adjustNothing"/>
 
         <!-- Doctor workflow -->
         <activity android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity" />

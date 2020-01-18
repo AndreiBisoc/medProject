@@ -12,7 +12,6 @@ public class DrugAdministration implements Serializable {
 
     public DrugAdministration(){}
 
-
     public DrugAdministration(String ID, String dosage, String noOfDays, String noOfTimes, String startDay, String startHour) {
         this.ID = ID;
         this.dosage = dosage;

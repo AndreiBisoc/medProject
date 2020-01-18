@@ -32,6 +32,8 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
         Intent intent = getIntent();
         boolean canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
         adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag);
+        String diagnostic = intent.getStringExtra("diagnostic");
+        setTitle(diagnostic);
 
         rvDrugs = findViewById(R.id.rvDrugs);
         rvDrugs.setAdapter(adapter);
