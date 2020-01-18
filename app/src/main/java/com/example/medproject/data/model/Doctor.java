@@ -38,6 +38,10 @@ public class Doctor {
         this.patientList = new ArrayList<>();
     }
 
+    public String getName() {
+        return lastName + " " + firstName;
+    }
+
     public String getId() {
         return id;
     }

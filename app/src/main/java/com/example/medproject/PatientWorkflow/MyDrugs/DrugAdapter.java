@@ -36,9 +36,12 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
+    boolean canEditMedicationFlag;
 
-    public DrugAdapter(String medicationID) {
+    public DrugAdapter(String medicationID, boolean canEditMedicationFlag) {
         final ListActivity l = new ListActivity();
+
+        this.canEditMedicationFlag = canEditMedicationFlag;
         FirebaseUtil.openFbReference("Medications/" + medicationID, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medicationLink = FirebaseUtil.mMedicationLink;
@@ -150,6 +153,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             Intent intent = new Intent(view.getContext(), DrugDetailsAndAdministration.class);
             intent.putExtra("drugID", drugID);
             intent.putExtra("drugAdministrationID", drugAdministrationID);
+            intent.putExtra("canEditMedicationFlag", canEditMedicationFlag);
             view.getContext().startActivity(intent);
         }
     }

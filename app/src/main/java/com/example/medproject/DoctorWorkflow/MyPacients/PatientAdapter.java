@@ -184,6 +184,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
                 default:
                     intent = new Intent(view.getContext(), MyMedications.class);
+                    intent.putExtra("patientName", selectedPatient.getName());
                     intent.putExtra("patientId", selectedPatient.getId());
                     view.getContext().startActivity(intent);
                     break;
