@@ -1,6 +1,8 @@
 package com.example.medproject.PatientWorkflow.MyDrugs;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,8 +32,10 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
         mAuth = FirebaseAuth.getInstance();
 
         Intent intent = getIntent();
+        Resources res = getResources();
+        Drawable syrupBottle = res.getDrawable(R.drawable.medicine_bottle);
         boolean canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
-        adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag);
+        adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag, syrupBottle);
         String diagnostic = intent.getStringExtra("diagnostic");
         setTitle(diagnostic);
 

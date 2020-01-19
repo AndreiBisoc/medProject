@@ -2,10 +2,12 @@ package com.example.medproject.PatientWorkflow.MyDrugs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,11 +39,13 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
     boolean canEditMedicationFlag;
+    Drawable syrupBottleCopy;
 
-    public DrugAdapter(String medicationID, boolean canEditMedicationFlag) {
+    public DrugAdapter(String medicationID, boolean canEditMedicationFlag, Drawable syrupBottle) {
         final ListActivity l = new ListActivity();
 
         this.canEditMedicationFlag = canEditMedicationFlag;
+        this.syrupBottleCopy = syrupBottle;
         FirebaseUtil.openFbReference("Medications/" + medicationID, l);
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medicationLink = FirebaseUtil.mMedicationLink;
@@ -103,12 +107,14 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
 
     public class DrugViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView drugName, drugScop, drugUnitate;
+        ImageView drugIcon;
 
         public DrugViewHolder(@NonNull View itemView) {
             super(itemView);
             drugName = itemView.findViewById(R.id.drugName);
             drugScop = itemView.findViewById(R.id.drugScop);
             drugUnitate = itemView.findViewById(R.id.drugUnitate);
+            drugIcon = itemView.findViewById(R.id.imageDrug);
             itemView.setOnClickListener(this);
         }
 
@@ -129,6 +135,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
                             Drug drug = dataSnapshot.getValue(Drug.class);
                             drugScop.setText(drug.getScop());
                             drugUnitate.setText(drug.getUnitate());
+                            if(drug.getUnitate().equals("ml.")) {
+                                drugIcon.setImageDrawable(syrupBottleCopy);
+                            }
                         }
 
                         @Override
