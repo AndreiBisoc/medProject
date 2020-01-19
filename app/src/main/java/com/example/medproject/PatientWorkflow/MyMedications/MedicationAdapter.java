@@ -69,7 +69,11 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Medication medication = dataSnapshot.getValue(Medication.class);
+                medication.setId(dataSnapshot.getKey());
+                int position = medications.indexOf(medication);
+                medications.set(position, medication);
+                notifyItemChanged(position);
             }
 
             @Override
