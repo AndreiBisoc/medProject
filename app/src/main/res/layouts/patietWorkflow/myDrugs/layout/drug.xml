@@ -11,7 +11,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="@dimen/text_margin_standard"
-        android:layout_marginTop="@dimen/text_margin_standard"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="12dp"
         android:src="@drawable/medicine"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
