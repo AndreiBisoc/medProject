@@ -176,7 +176,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/text_margin_standard"
                 android:layout_marginEnd="24dp"
-                android:hint="Adresa"
+                android:hint="@string/address"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/amber"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -186,9 +186,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/address"
-                    android:layout_width="match_parent"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:minLines="1"
+                    android:gravity="top|start"
+                    android:maxLines="4"
                     android:layout_height="wrap_content"
-                    android:inputType="textPostalAddress" />
+                    android:layout_width="match_parent"
+                    android:scrollbars="vertical" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -206,6 +211,8 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:textColor="@color/white"
             android:textSize="20sp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

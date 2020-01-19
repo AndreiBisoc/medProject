@@ -103,7 +103,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                     startActivity(intent);
                                                 }
                                                 else{
-                                                    Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(LoginActivity.this, AddDrug.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                     startActivity(intent);
@@ -167,7 +166,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                             startActivity(intent);
                                                         }
                                                         else{
-                                                            Toast.makeText(getApplicationContext(),"Baiatu' e administrator!",Toast.LENGTH_SHORT).show();
                                                             Intent intent = new Intent(LoginActivity.this, AddDrug.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                             startActivity(intent);
@@ -187,9 +185,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             });
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                    finish();
+                    BasicActions.displaySnackBar(getWindow().getDecorView(),"Nu există un cont asociat acestui mail");
                 }
+                progressBar.setVisibility(View.GONE);
+                disableControllers(false);
             }
         });
     }

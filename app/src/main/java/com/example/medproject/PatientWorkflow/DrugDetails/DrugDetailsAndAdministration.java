@@ -86,7 +86,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
                 DrugAdministration drugAdministration = dataSnapshot.getValue(DrugAdministration.class);
                 txtDosage.setText(drugAdministration.getDosage());
                 txtNoOfDays.setText(drugAdministration.getNoOfDays());
-                txtNoOfTimes.setText(drugAdministration.getNoOfTimes());
+                txtNoOfTimes.setText(drugAdministration.getNoOfTimes() + "/zi");
                 txtStartDay.setText(drugAdministration.getStartDay());
                 txtStartHour.setText(drugAdministration.getStartHour());
 

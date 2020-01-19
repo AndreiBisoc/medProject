@@ -25,7 +25,7 @@
 
     <string name="register_patient">Înregistrează-te ca pacient!</string>
     <string name="birthDate">Data nașterii</string>
-    <string name="address">Adresa</string>
+    <string name="address">Adresă</string>
     <string name="CNP">CNP</string>
 
     <string name="action_sign_in">Login</string>

@@ -48,8 +48,8 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
-        txtPrenume = findViewById(R.id.email);
-        txtNume = findViewById(R.id.password);
+        txtPrenume = findViewById(R.id.txtPrenume);
+        txtNume = findViewById(R.id.txtNume);
 
         txtCNP = findViewById(R.id.patientCNP);
         txtCNP.addTextChangedListener(new TextWatcher() {

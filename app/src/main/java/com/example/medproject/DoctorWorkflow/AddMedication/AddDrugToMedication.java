@@ -98,7 +98,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
             finishAddingDrug(drugToAdd);
         }
 
-        String diagnostic = getIntent().getStringExtra("diagnostic");
+
+        Intent intent = getIntent();
+        diagnostic = intent.getStringExtra("diagnostic");
         setTitle(diagnostic);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -153,9 +155,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-        Intent intent = getIntent();
-        diagnostic = intent.getStringExtra("diagnostic");
     }
 
     @Override
