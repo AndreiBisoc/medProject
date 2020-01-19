@@ -82,7 +82,7 @@ public class PatientDetails extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(PatientDetails.this, "Contul a fost editat cu succes", Toast.LENGTH_LONG).show();
+                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
                             finish();
                         }
                     }

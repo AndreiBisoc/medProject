@@ -37,6 +37,7 @@ public class DoctorDetails extends AppCompatActivity {
     private Button saveChangesButton;
     private DatabaseReference mDatabaseReference;
     private ProgressBar progressBar;
+    private String doctorName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,8 @@ public class DoctorDetails extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 disableControllers(true);
 
-                String prenume = txtFirstname.getText().toString().trim();
-                String nume = txtLastname.getText().toString().trim();
+                final String prenume = txtFirstname.getText().toString().trim();
+                final String nume = txtLastname.getText().toString().trim();
                 String telefon = txtPhone.getText().toString().trim();
                 String adresaCabinet = txtAddress.getText().toString().trim();
                 String specialization = txtSpecializare.getText().toString().trim();
@@ -81,10 +82,54 @@ public class DoctorDetails extends AppCompatActivity {
                             }
                     }
                 });
+
+                FirebaseDatabase.getInstance().getReference("Medications")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshotMedication: dataSnapshot.getChildren()) {
+                                    if(snapshotMedication.child("doctorName").getValue().equals(doctorName) ) {
+                                        FirebaseDatabase.getInstance().getReference("Medications")
+                                                .child(snapshotMedication.getKey())
+                                                .child("doctorName")
+                                                .setValue(nume + " " + prenume);
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                FirebaseDatabase.getInstance().getReference("PatientToMedications")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshotPatient: dataSnapshot.getChildren()) {
+                                    for (DataSnapshot snapshotMedication: snapshotPatient.getChildren()) {
+                                        if(snapshotMedication.child("doctorName").getValue().equals(doctorName)) {
+                                            FirebaseDatabase.getInstance().getReference("PatientToMedications")
+                                                    .child(snapshotPatient.getKey())
+                                                    .child(snapshotMedication.getKey())
+                                                    .child("doctorName")
+                                                    .setValue(nume + " " + prenume);
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
             }
         });
 
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Doctor doctor = dataSnapshot.getValue(Doctor.class);
@@ -93,6 +138,8 @@ public class DoctorDetails extends AppCompatActivity {
                 txtSpecializare.setText(doctor.getSpecialization());
                 txtPhone.setText(doctor.getPhone());
                 txtAddress.setText(doctor.getAdresaCabinet());
+
+                doctorName = txtLastname.getText() + " " + txtFirstname.getText();
                 disableControllers(false);
             }
 
