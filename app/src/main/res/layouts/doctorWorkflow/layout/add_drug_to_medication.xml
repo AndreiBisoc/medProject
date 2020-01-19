@@ -125,15 +125,16 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
-                    android:hint="@string/NoOfDays"
+                    android:hint="@string/startDate"
                     android:inputType="text"
                     app:boxStrokeColor="@color/amber"
                     tools:layout_editor_absoluteX="20dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txtNoOfDays"
+                        android:id="@+id/txtStartDay"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,69 +145,21 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
-                    android:hint="@string/NoOfTimes"
+                    android:hint="@string/startHour"
                     android:inputType="text"
                     app:boxStrokeColor="@color/amber"
                     tools:layout_editor_absoluteX="20dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txtNoOfTimes"
+                        android:id="@+id/txtStartHour"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
-                android:layout_marginEnd="24dp"
-                android:hint="@string/startDate"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/amber"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="20dp">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtStartDay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
-                android:layout_marginEnd="24dp"
-                android:hint="@string/startHour"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/amber"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="20dp">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtStartHour"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
+            
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
