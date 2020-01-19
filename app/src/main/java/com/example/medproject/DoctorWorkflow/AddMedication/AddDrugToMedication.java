@@ -206,24 +206,31 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
         drugAdministrationList.add(drugAdministration);
 
+        if(validareDrugAdministration(drugAdministration) == true){
+            return;
+        }
         drugName = searchDrugName.getText().toString().trim();
         try {
             drugID = drugIDs.get(drugs.indexOf(drugName));
             finishAddingDrug(drugID);
 
         } catch (Exception e) {
-            new MaterialAlertDialogBuilder(getWindow().getDecorView().getContext())
-                    .setMessage("Medicamentul " + drugName + " nu există în baza de date. Doriți să îl adăugați?")
-                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intentToAddDrug = new Intent(AddDrugToMedication.this, AddDrug.class);
-                            intentToAddDrug.putExtra("drugName", drugName);
-                            startActivity(intentToAddDrug);
-                        }
-                    })
-                    .setNegativeButton("Nu", /* listener = */ null)
-                    .show();
+            searchDrugName.setError("Acest medicament nu există");
+            searchDrugName.requestFocus();
+            return;
+
+//            new MaterialAlertDialogBuilder(getWindow().getDecorView().getContext())
+//                    .setMessage("Medicamentul " + drugName + " nu există în baza de date. Doriți să îl adăugați?")
+//                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Intent intentToAddDrug = new Intent(AddDrugToMedication.this, AddDrug.class);
+//                            intentToAddDrug.putExtra("drugName", drugName);
+//                            startActivity(intentToAddDrug);
+//                        }
+//                    })
+//                    .setNegativeButton("Nu", /* listener = */ null)
+//                    .show();
         }
     }
 
@@ -258,6 +265,39 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         txtNoOfTimes.setText("");
         txtStartDay.setText("");
         txtStartHour.setText("");
+    }
+
+    private boolean validareDrugAdministration(DrugAdministration drugAdministration){
+        if(drugAdministration.getDosage().isEmpty()){
+            txtDosage.setError("Introduceți dozaj");
+            txtDosage.requestFocus();
+            return true;
+        }
+
+        if(drugAdministration.getNoOfDays().isEmpty()){
+            txtNoOfDays.setError("Introduceți nr. de zile");
+            txtNoOfDays.requestFocus();
+            return true;
+        }
+
+        if(drugAdministration.getNoOfTimes().isEmpty()){
+            txtNoOfTimes.setError("Introduceți nr. de dăți");
+            txtNoOfTimes.requestFocus();
+            return true;
+        }
+
+        if(drugAdministration.getStartDay().isEmpty()){
+            txtStartDay.setError("Introduceți data");
+            txtStartDay.requestFocus();
+            return true;
+        }
+
+        if(drugAdministration.getStartHour().isEmpty()){
+            txtStartHour.setError("Introduceți ora");
+            txtStartHour.requestFocus();
+            return true;
+        }
+        return false;
     }
 
     private void disableControllers(boolean isEnabled){
