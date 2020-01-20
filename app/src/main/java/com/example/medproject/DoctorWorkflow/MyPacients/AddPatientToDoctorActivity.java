@@ -150,6 +150,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
+                patient.setId(dataSnapshot.getKey());
                 Patient patientToAdd = new Patient(patient.getFirstName(), patient.getLastName(), patient.getBirthDate(), patient.getPhone(),patient.getCNP());
                 if(patient.getCNP().equals(searchedCNP)) {
                     String registerDate = new SimpleDateFormat("dd/MM/YYYY").format(new Date());
@@ -164,7 +165,9 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
                                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul a fost adăugat cu succes");
                                 finish();
                             }
-                            // trebuie lucrat la cazurile de eroare pe else
+                            else{
+                                BasicActions.displaySnackBar(getWindow().getDecorView(),"Acest pacient este deja înscris");
+                            }
                         }
                     });
                 }
