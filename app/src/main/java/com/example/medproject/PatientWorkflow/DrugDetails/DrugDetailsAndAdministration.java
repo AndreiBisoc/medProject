@@ -86,7 +86,13 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
                 DrugAdministration drugAdministration = dataSnapshot.getValue(DrugAdministration.class);
                 txtDosage.setText(drugAdministration.getDosage());
                 txtNoOfDays.setText(drugAdministration.getNoOfDays());
-                txtNoOfTimes.setText(drugAdministration.getNoOfTimes() + "/zi");
+                if(!txtNoOfTimes.getText().toString().contains("/zi") && !drugAdministration.getNoOfTimes().contains("/zi")){
+                    txtNoOfTimes.setText(drugAdministration.getNoOfTimes() + "/zi");
+                }
+                else{
+                    txtNoOfTimes.setText(drugAdministration.getNoOfTimes());
+                }
+
                 txtStartDay.setText(drugAdministration.getStartDay());
                 txtStartHour.setText(drugAdministration.getStartHour());
 
