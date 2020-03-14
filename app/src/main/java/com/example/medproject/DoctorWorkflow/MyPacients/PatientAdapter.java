@@ -3,7 +3,6 @@ package com.example.medproject.DoctorWorkflow.MyPacients;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import com.example.medproject.R;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,8 +35,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     public boolean noPatientsToDisplay = true;
     private ArrayList<Patient> patients;
     private ArrayList<String> patientsCNPs = new ArrayList<>();
-    private DatabaseReference mDatabaseReference;
-    private ChildEventListener mChildListener;
 
     public PatientAdapter(){
 
@@ -46,14 +42,14 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("DoctorsToPatients", l);
-        mDatabaseReference = FirebaseUtil.mDatabaseReference.child(loggedDoctorUid);
+        DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference.child(loggedDoctorUid);
         patients = FirebaseUtil.mPatients;
-        mChildListener = new ChildEventListener() {
+        ChildEventListener mChildListener = new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DoctorToPatientLink doctorToPatientLink = dataSnapshot.getValue(DoctorToPatientLink.class);
-                if(doctorToPatientLink.getPatient() != null) {
+                if (doctorToPatientLink.getPatient() != null) {
                     Patient patient = doctorToPatientLink.getPatient();
                     patient.setId(dataSnapshot.getKey());
                     patients.add(patient);
@@ -81,7 +77,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 patients.remove(patient);
                 patientsCNPs.remove(patient.getCNP());
                 notifyItemRemoved(position);
-                if(patients.size() == 0) {
+                if (patients.size() == 0) {
                     noPatientsToDisplay = true;
                     MyPatientsActivity.displayMessageOrPatientsList();
                 }
@@ -124,23 +120,22 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     public class PatientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView name, dateOfBirth, phoneNumber;
-        private Button deleteIcon, seeMedications;
 
-        public PatientViewHolder(View itemView){
+        PatientViewHolder(View itemView){
             super(itemView);
 
             name = itemView.findViewById(R.id.patientName);
             dateOfBirth = itemView.findViewById(R.id.patientDateOfBirth);
             phoneNumber = itemView.findViewById(R.id.patientPhoneNumber);
-            deleteIcon = itemView.findViewById(R.id.deleteIcon);
+            Button deleteIcon = itemView.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(this);
 
-            seeMedications = itemView.findViewById(R.id.seeMore);
+            Button seeMedications = itemView.findViewById(R.id.seeMore);
             seeMedications.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Patient patient){
+        void bind(Patient patient){
             name.setText(patient.getName());
             dateOfBirth.setText(patient.getBirthDate());
             phoneNumber.setText(patient.getPhone());

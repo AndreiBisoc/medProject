@@ -6,21 +6,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.BaseInputConnection;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.MyPacients.AddPatientToDoctorActivity;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Doctor;
-import com.example.medproject.data.model.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +31,6 @@ public class DoctorDetails extends AppCompatActivity {
 
     private EditText txtLastname, txtFirstname, txtSpecializare, txtPhone, txtAddress;
     private Button saveChangesButton;
-    private DatabaseReference mDatabaseReference;
     private ProgressBar progressBar;
     private String doctorName;
 
@@ -46,7 +41,7 @@ public class DoctorDetails extends AppCompatActivity {
         setTitle("Contul meu");
 
         final String doctorId = FirebaseAuth.getInstance().getUid();
-        mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorId);
+        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorId);
 
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);

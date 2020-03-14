@@ -14,10 +14,7 @@ import com.example.medproject.data.model.Medication;
 import com.google.firebase.database.DatabaseReference;
 
 public class DeleteMedicationPopupActivity extends Activity {
-    private DatabaseReference mdatabaseReference;
     private Medication medication;
-    private TextView medicationDiagnostic, numeDoctor;
-    private Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +24,13 @@ public class DeleteMedicationPopupActivity extends Activity {
 
         medication = (Medication) getIntent().getExtras().getSerializable("Medication");
 
-        medicationDiagnostic = findViewById(R.id.medicationDiagnostic);
+        TextView medicationDiagnostic = findViewById(R.id.medicationDiagnostic);
         medicationDiagnostic.setText(medication.getDiagnostic());
 
-        numeDoctor = findViewById(R.id.numeDoctor);
+        TextView numeDoctor = findViewById(R.id.numeDoctor);
         numeDoctor.setText(medication.getDoctorName());
 
-        deleteButton = findViewById(R.id.deletebtn);
+        Button deleteButton = findViewById(R.id.deletebtn);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +39,7 @@ public class DeleteMedicationPopupActivity extends Activity {
         });
     }
 
-    public void deleteMedication(){
+    private void deleteMedication(){
         if(medication == null){
             Toast.makeText(this,"Vă rugăm salvați medicația înainte să o ștergeți!", Toast.LENGTH_SHORT).show();
             return;
@@ -50,7 +47,7 @@ public class DeleteMedicationPopupActivity extends Activity {
 
         Toast.makeText(this,"Îți șterg medicația, bă!", Toast.LENGTH_LONG).show();
 
-        mdatabaseReference = FirebaseUtil.mDatabaseReference;
+        DatabaseReference mdatabaseReference = FirebaseUtil.mDatabaseReference;
         mdatabaseReference.child(medication.getId()).removeValue();
         finish();
     }

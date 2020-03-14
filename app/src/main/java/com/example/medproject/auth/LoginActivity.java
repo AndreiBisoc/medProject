@@ -2,15 +2,12 @@ package com.example.medproject.auth;
 
 import android.content.Intent;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +20,6 @@ import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,12 +30,13 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    FirebaseAuth mAuth;
-    EditText txtEmail, txtPassword;
-    ProgressBar progressBar;
-    Button loginButton, registerButton;
-    ConstraintLayout container;
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private FirebaseAuth mAuth;
+    private EditText txtEmail;
+    private EditText txtPassword;
+    private ProgressBar progressBar;
+    private Button loginButton;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             BasicActions.displaySnackBar(getWindow().getDecorView(), "V-ați delogat cu succes");
         }
 
-        container = findViewById(R.id.container);
+        ConstraintLayout container = findViewById(R.id.container);
         container.setBackgroundResource(R.drawable.icons);
 
         // hiding keyboard when the container is clicked
@@ -131,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         final String email = txtEmail.getText().toString();
         final String password = txtPassword.getText().toString();
 
-        if(authValidation(email, password) == true){
+        if(authValidation(email, password)){
             return;
         }
 

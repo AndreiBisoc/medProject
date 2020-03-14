@@ -25,16 +25,13 @@ import java.util.ArrayList;
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder>{
 
     private ArrayList<Drug> drugs;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    private ChildEventListener mChildListener;
 
     public DrugAdapter(){
         //FirebaseUtil.openFbReference("Drugs");
-        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
+        FirebaseDatabase mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
+        DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
         drugs = FirebaseUtil.mDrugs;
-        mChildListener = new ChildEventListener() {
+        ChildEventListener mChildListener = new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -42,7 +39,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
                 Log.d("Drug: ", td.getNume());
                 td.setId(dataSnapshot.getKey());
                 drugs.add(td);
-                notifyItemInserted(drugs.size()-1);
+                notifyItemInserted(drugs.size() - 1);
             }
 
             @Override
@@ -93,7 +90,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         TextView tvNume;
         TextView tvScop;
         TextView tvUnitate;
-        public DrugViewHolder(@NonNull View itemView) {
+        DrugViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNume = itemView.findViewById(R.id.drugName);
             tvScop = itemView.findViewById(R.id.drugScop);
@@ -101,7 +98,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Drug drug){
+        void bind(Drug drug){
             tvNume.setText(drug.getNume());
             tvScop.setText(drug.getScop());
             tvUnitate.setText(drug.getUnitate());

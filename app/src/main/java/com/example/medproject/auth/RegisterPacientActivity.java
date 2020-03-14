@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.Details;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Patient;
@@ -148,7 +147,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         final String email = intent.getStringExtra("EMAIL");
         final String password = intent.getStringExtra("PASSWORD");
 
-        if(validareRegisterPacient(prenume, nume, CNP, dataNastere, telefon, adresa) == true){
+        if(validareRegisterPacient(prenume, nume, CNP, dataNastere, telefon, adresa)){
             return;
         }
 
@@ -251,7 +250,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         registerButton.setEnabled(!isEnabled);
     }
 
-    public void hideKeyboard() {
+    private void hideKeyboard() {
         BasicActions.hideKeyboard(this);
     }
 }

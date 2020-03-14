@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,8 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PatientDetails extends AppCompatActivity {
     private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
-    private DatabaseReference mDatabaseReference;
-    private Button saveChangesButton;
     private boolean canEditForm;
     private ProgressBar progressBar;
 
@@ -62,7 +60,7 @@ public class PatientDetails extends AppCompatActivity {
             setTitle("Detalii pacient");
         }
 
-        saveChangesButton = findViewById(R.id.saveChangesButton);
+        Button saveChangesButton = findViewById(R.id.saveChangesButton);
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +111,7 @@ public class PatientDetails extends AppCompatActivity {
             }
         });
 
+        DatabaseReference mDatabaseReference;
         if(canEditForm) {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + loggedUser);
         } else {

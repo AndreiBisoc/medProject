@@ -25,11 +25,11 @@ public class FirebaseUtil {
     public static FirebaseDatabase mFirebaseDatabase;
     public static DatabaseReference mDatabaseReference;
     private static FirebaseUtil firebaseUtil;
-    public static FirebaseAuth mFirebaseAuth;
-    public static FirebaseAuth.AuthStateListener mAuthListener;
+    private static FirebaseAuth mFirebaseAuth;
+    private static FirebaseAuth.AuthStateListener mAuthListener;
     private static final int RC_SIGN_IN = 123;
     private static ListActivity caller;
-    public static boolean isAdmin;
+    private static boolean isAdmin;
     public static ArrayList<Drug> mDrugs;
     public static ArrayList<Patient> mPatients;
     public static ArrayList<Medication> mMedications;

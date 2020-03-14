@@ -1,7 +1,6 @@
 package com.example.medproject.auth;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,7 +20,6 @@ import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -33,7 +31,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
     private ProgressBar progressBar;
     private Button registerButton;
     private FirebaseAuth mAuth;
-    String[] SPECIALISATIONS = new String[] {"Cardiolog", "Chirurg","Dermatolog", "Endocrinolog", "Hematolog",
+    private String[] SPECIALISATIONS = new String[] {"Cardiolog", "Chirurg","Dermatolog", "Endocrinolog", "Hematolog",
             "Medic de familie", "Neurolog", "Oncolog", "Pediatru", "Psiholog", "Psihiatru"};
 
     @Override
@@ -49,7 +47,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         txtNume = findViewById(R.id.txtNume);
         txtTelefon = findViewById(R.id.phoneNumber);
         txtAdresaCabinet = findViewById(R.id.address);
-        ArrayAdapter< String > adapter = new ArrayAdapter<String>
+        ArrayAdapter< String > adapter = new ArrayAdapter<>
                 (this, android.R.layout.select_dialog_item, SPECIALISATIONS);
 
         txtSpecialisation = findViewById(R.id.specialisation);
@@ -91,7 +89,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         final String email = intent.getStringExtra("EMAIL");
         final String password = intent.getStringExtra("PASSWORD");
 
-        if(validareRegisterPacient(prenume, nume, telefon, adresaCabinet) == true){
+        if(validareRegisterPacient(prenume, nume, telefon, adresaCabinet)){
             return;
         }
 

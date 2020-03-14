@@ -76,7 +76,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         FirebaseUtil.openFbReference("Drugs",this);
-        RecyclerView rvDrugs = (RecyclerView) findViewById(R.id.rvDrugs);
+        RecyclerView rvDrugs = findViewById(R.id.rvDrugs);
         final DrugAdapter adapter = new DrugAdapter();
         rvDrugs.setAdapter(adapter);
         LinearLayoutManager drugsLayoutManager =

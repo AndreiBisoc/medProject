@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.AddMedication.AddDrugToMedication;
@@ -30,8 +29,8 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
     private EditText txtNume, txtScop, txtUnitate, txtDescriere;
     private Drug drug = new Drug();
     private boolean goToAddDrugToMedication = false;
-    Button saveButton;
-    ProgressBar progressBar;
+    private Button saveButton;
+    private ProgressBar progressBar;
 
 
     @Override

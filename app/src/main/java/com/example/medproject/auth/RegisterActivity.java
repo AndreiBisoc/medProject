@@ -89,12 +89,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void goToNextRegisterPage(String type){
+    private void goToNextRegisterPage(String type){
         final String email = txtEmail.getText().toString();
         final String password = txtPassword.getText().toString();
         Class nextPage;
 
-        if(authValidation(email, password) == true){
+        if(authValidation(email, password)){
             return;
         }
         progressBar.setVisibility(View.VISIBLE);

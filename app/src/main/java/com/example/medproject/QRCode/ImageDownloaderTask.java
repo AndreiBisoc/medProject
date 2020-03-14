@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
+class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 
     private final WeakReference<ImageView> imageViewWeakReference;
 

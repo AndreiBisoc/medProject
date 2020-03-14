@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MyDrugs extends AppCompatActivity implements View.OnClickListener  {
     private FirebaseAuth mAuth;
-    private RecyclerView rvDrugs;
-    private DrugAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +32,11 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
         Resources res = getResources();
         Drawable syrupBottle = res.getDrawable(R.drawable.medicine_bottle);
         boolean canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
-        adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag, syrupBottle);
+        DrugAdapter adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag, syrupBottle);
         String diagnostic = intent.getStringExtra("diagnostic");
         setTitle(diagnostic);
 
-        rvDrugs = findViewById(R.id.rvDrugs);
+        RecyclerView rvDrugs = findViewById(R.id.rvDrugs);
         rvDrugs.setAdapter(adapter);
 
         LinearLayoutManager drugsLayoutManager =
