@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -57,7 +56,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
 
     private void addDrugToMedication(){
         String diagnostic = txtDiagnostic.getText().toString();
-        if(validareDiagnostic(diagnostic) == true){
+        if(validareDiagnostic(diagnostic)){
             return;
         }
         progressBar.setVisibility(View.VISIBLE);

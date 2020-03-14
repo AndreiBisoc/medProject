@@ -92,7 +92,6 @@
             android:layout_marginTop="4dp"
             android:backgroundTint="@color/white"
             android:insetLeft="0dp"
-            android:onClick="ShowPopup"
             app:icon="@drawable/ic_more_horiz_black_24dp"
             app:iconGravity="textStart"
             app:iconSize="40dp"

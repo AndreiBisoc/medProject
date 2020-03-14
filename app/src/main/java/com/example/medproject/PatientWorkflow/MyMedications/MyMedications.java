@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.medproject.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     private static RecyclerView rvMedications;
     private static MedicationAdapter secondAdapter;
     private static TextView emptyView;
-    private String patientId, patientName;
+    private String patientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_my_medications);
 
         patientId = getIntent().getStringExtra("patientId");
-        patientName = getIntent().getStringExtra("patientName");
+        String patientName = getIntent().getStringExtra("patientName");
 
         final MedicationAdapter adapter = new MedicationAdapter(patientId);
         secondAdapter = adapter;

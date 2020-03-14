@@ -8,11 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
@@ -31,20 +29,17 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DrugDetailsAndAdministration extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
     private TextInputEditText txtScop, txtUnitate, txtDescriere;
     private TextInputEditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
-    private String drugID, drugAdministrationID;
+    private String drugAdministrationID;
     private boolean canEditMedicationFlag;
-    private Button saveChanges;
-    private ScrollView container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drug_details_administration);
 
-        container = findViewById(R.id.container);
+        ScrollView container = findViewById(R.id.container);
         BasicActions.hideKeyboardWithClick(container, this);
 
         txtScop = findViewById(R.id.txtScop);
@@ -58,11 +53,11 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
         txtStartHour = findViewById(R.id.txtStartHour);
 
         Intent intent = getIntent();
-        drugID = intent.getStringExtra("drugID");
+        String drugID = intent.getStringExtra("drugID");
         drugAdministrationID = intent.getStringExtra("drugAdministrationID");
         canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
 
-        mDatabaseReference  = FirebaseDatabase.getInstance().getReference("Drugs/" + drugID);
+        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("Drugs/" + drugID);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -79,7 +74,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
             }
         });
 
-        mDatabaseReference  = FirebaseDatabase.getInstance().getReference("DrugAdministration/" + drugAdministrationID);
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference("DrugAdministration/" + drugAdministrationID);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,7 +100,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
             }
         });
 
-        saveChanges = findViewById(R.id.saveChangesButton);
+        Button saveChanges = findViewById(R.id.saveChangesButton);
         if(!canEditMedicationFlag) {
             saveChanges.setVisibility(View.INVISIBLE);
         }

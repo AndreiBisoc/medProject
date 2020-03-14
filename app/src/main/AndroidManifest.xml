@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.medproject">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,9 +19,12 @@
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
 
         <!-- Administrator -->
-        <activity android:name=".Administrator.AddDrug" /> <!-- QR Codes -->
-        <activity android:name=".QRCode.ScanQR" />
-        <activity android:name=".QRCode.GenerateQRCode" /> <!-- Auth workflow -->
+        <activity android:name=".Administrator.AddDrug"
+            tools:ignore="InnerclassSeparator" /> <!-- QR Codes -->
+        <activity android:name=".QRCode.ScanQR"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".QRCode.GenerateQRCode"
+            tools:ignore="InnerclassSeparator" /> <!-- Auth workflow -->
         <activity android:name=".auth.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
@@ -35,18 +39,27 @@
         </activity>
 
         <!-- Patient workflow -->
-        <activity android:name=".PatientWorkflow.MyMedications.MyMedications" />
-        <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs" />
+        <activity android:name=".PatientWorkflow.MyMedications.MyMedications"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".PatientWorkflow.MyDrugs.MyDrugs"
+            tools:ignore="InnerclassSeparator" />
         <activity android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"
-            android:windowSoftInputMode="stateVisible|adjustNothing"/>
+            android:windowSoftInputMode="stateVisible|adjustNothing"
+            tools:ignore="InnerclassSeparator" />
 
         <!-- Doctor workflow -->
-        <activity android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity" />
-        <activity android:name=".DoctorWorkflow.MyPacients.PatientDetails" />
-        <activity android:name=".DoctorWorkflow.DoctorDetails" />
-        <activity android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity" />
-        <activity android:name=".DoctorWorkflow.AddMedication.AddMedication" />
-        <activity android:name=".DoctorWorkflow.AddMedication.AddDrugToMedication" />
+        <activity android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".DoctorWorkflow.MyPacients.PatientDetails"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".DoctorWorkflow.DoctorDetails"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".DoctorWorkflow.AddMedication.AddMedication"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".DoctorWorkflow.AddMedication.AddDrugToMedication"
+            tools:ignore="InnerclassSeparator" />
         <activity android:name=".ListActivity" />
         <activity android:name=".Details" />
     </application>

@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
@@ -80,7 +79,7 @@ public class MyPatientsActivity extends AppCompatActivity {
         return true;
     }
 
-    public void goToAddPatientPage(){
+    private void goToAddPatientPage(){
         startActivity(new Intent(this, AddPatientToDoctorActivity.class));
     }
 

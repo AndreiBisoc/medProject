@@ -17,10 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.AddMedication.AddDrugToMedication;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.R;
@@ -96,8 +94,8 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
         });
 
         //Creating the instance of ArrayAdapter containing list of CNPs
-        ArrayAdapter < String > adapter = new ArrayAdapter<String>
-                        (this, android.R.layout.select_dialog_item, CNPs);
+        ArrayAdapter < String > adapter = new ArrayAdapter<>
+                (this, android.R.layout.select_dialog_item, CNPs);
 
         progressBar = findViewById(R.id.progressBar);
         searchForCNP =  findViewById(R.id.searchForCNP);
@@ -141,7 +139,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
         });
     }
 
-    public void addPatientToDoctor(final String searchedCNP) {
+    private void addPatientToDoctor(final String searchedCNP) {
         progressBar.setVisibility(View.VISIBLE);
         disableControllers(true);
 
@@ -234,7 +232,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
         }
     }
 
-    public void hideKeyboard() {
+    private void hideKeyboard() {
         BasicActions.hideKeyboard(this);
     }
 

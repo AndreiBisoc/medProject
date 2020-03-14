@@ -1,7 +1,5 @@
 package com.example.medproject.DoctorWorkflow.AddMedication;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,13 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.Administrator.AddDrug;
 import com.example.medproject.BasicActions;
 import com.example.medproject.QRCode.GenerateQRCode;
 import com.example.medproject.R;
@@ -26,7 +22,6 @@ import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.MedicationLink;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +36,6 @@ import java.util.List;
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
     private EditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
     private AutoCompleteTextView searchDrugName;
-    private Button addAnotherDrugButton, saveMedicationButton;
     private TextView noOfInsertedDrugs;
 
     private List<String> drugs = new ArrayList<>();
@@ -54,9 +48,10 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private ArrayList<DrugAdministration> drugAdministrationList = new ArrayList<>();
     private ArrayList<String> medicationDrugIDs = new ArrayList<>();
     private String diagnostic;
-    private String drugName, drugID, doctorID, doctorName;
+    private String drugName;
+    private String doctorName;
     private static int noOfDrugs = 0;
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +67,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         txtNoOfTimes = findViewById(R.id.txtNoOfTimes);
         txtStartDay = findViewById(R.id.txtStartDay);
         txtStartHour = findViewById(R.id.txtStartHour);
-        addAnotherDrugButton = findViewById(R.id.addDrugButton);
-        saveMedicationButton = findViewById(R.id.saveMedicationButton);
+        Button addAnotherDrugButton = findViewById(R.id.addDrugButton);
+        Button saveMedicationButton = findViewById(R.id.saveMedicationButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
 
         if (noOfDrugs == 0) {
@@ -86,7 +81,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         saveMedicationButton.setOnClickListener(this);
 
         //Creating the instance of ArrayAdapter containing list of CNPs
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+        ArrayAdapter<String> adapter = new ArrayAdapter<>
                 (this, android.R.layout.select_dialog_item, drugs);
         searchDrugName = findViewById(R.id.searchDrug);
         searchDrugName.setThreshold(1); // will start working from first character
@@ -142,7 +137,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 //        }
 
         //get Doctor's name
-        doctorID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String doctorID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseReference = mFirebaseDatabase.getReference("Doctors/" + doctorID);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -205,12 +200,12 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
         drugAdministrationList.add(drugAdministration);
 
-        if(validareDrugAdministration(drugAdministration) == true){
+        if(validareDrugAdministration(drugAdministration)){
             return;
         }
         drugName = searchDrugName.getText().toString().trim();
         try {
-            drugID = drugIDs.get(drugs.indexOf(drugName));
+            String drugID = drugIDs.get(drugs.indexOf(drugName));
             finishAddingDrug(drugID);
 
         } catch (Exception e) {
