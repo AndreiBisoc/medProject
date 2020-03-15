@@ -9,7 +9,6 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:paddingStart="30dp"
-        android:paddingLeft="30dp"
         android:paddingTop="50dp"
         android:text="Verified" />
 

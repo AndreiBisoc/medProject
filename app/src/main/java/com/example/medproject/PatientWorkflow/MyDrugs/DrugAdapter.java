@@ -3,7 +3,6 @@ package com.example.medproject.PatientWorkflow.MyDrugs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,18 +27,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder> {
 
     private ArrayList<MedicationLink> medicationLink;
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    private ChildEventListener mChildListener;
-    boolean canEditMedicationFlag;
-    Drawable syrupBottleCopy;
+    private boolean canEditMedicationFlag;
+    private Drawable syrupBottleCopy;
 
     public DrugAdapter(String medicationID, boolean canEditMedicationFlag, Drawable syrupBottle) {
         final ListActivity l = new ListActivity();
@@ -47,9 +42,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         this.canEditMedicationFlag = canEditMedicationFlag;
         this.syrupBottleCopy = syrupBottle;
         FirebaseUtil.openFbReference("Medications/" + medicationID, l);
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
+        DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medicationLink = FirebaseUtil.mMedicationLink;
-        mChildListener = new ChildEventListener() {
+        ChildEventListener mChildListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 try {
@@ -57,7 +52,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
                     medLink.setId(dataSnapshot.getKey());
                     medicationLink.add(medLink);
                     notifyItemInserted(DrugAdapter.this.medicationLink.size() - 1);
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -109,7 +104,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         TextView drugName, drugScop, drugUnitate;
         ImageView drugIcon;
 
-        public DrugViewHolder(@NonNull View itemView) {
+        DrugViewHolder(@NonNull View itemView) {
             super(itemView);
             drugName = itemView.findViewById(R.id.drugName);
             drugScop = itemView.findViewById(R.id.drugScop);
@@ -118,7 +113,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             itemView.setOnClickListener(this);
         }
 
-        public void bind(MedicationLink medLink){
+        void bind(MedicationLink medLink){
             String drugNameString = medLink.getDrugName();
             drugName.setText(drugNameString);
             final DatabaseReference drugsRef = FirebaseDatabase.getInstance().getReference().child("Drugs");

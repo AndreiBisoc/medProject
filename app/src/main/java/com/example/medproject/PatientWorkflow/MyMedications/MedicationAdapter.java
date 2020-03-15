@@ -3,7 +3,6 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Medication;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,8 +39,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     public boolean loggedAsDoctor;
     private String currentUser;
     private ArrayList<Medication> medications;
-    private DatabaseReference mDatabaseReference;
-    String patientIdCopy;
+    private String patientIdCopy;
 
     public MedicationAdapter(String patientId) {
         patientIdCopy = patientId;
@@ -51,7 +48,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
+        DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medications = FirebaseUtil.mMedications;
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
 
@@ -131,7 +128,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         private Button deleteIcon;
         private boolean canEditMedicationFlag = false;
 
-        public void canEdit(final String numeDoctor) {
+        void canEdit(final String numeDoctor) {
             DatabaseReference doctorsRef = FirebaseDatabase.getInstance().getReference("Doctors");
 
             doctorsRef.child(currentUser).addValueEventListener(new ValueEventListener() {
@@ -153,7 +150,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
         }
 
-        public MedicationViewHolder(View itemView) {
+        MedicationViewHolder(View itemView) {
             super(itemView);
             diagnostic = itemView.findViewById(R.id.medicationDiagnostic);
             numeDoctor = itemView.findViewById(R.id.doctorName);
@@ -162,7 +159,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Medication medication) {
+        void bind(Medication medication) {
             deleteIcon.setVisibility(View.INVISIBLE);
             diagnostic.setText(medication.getDiagnostic());
             numeDoctor.setText(medication.getDoctorName());

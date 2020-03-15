@@ -3,7 +3,6 @@ package com.example.medproject.data.model;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class Drug implements Serializable {
     private String id;
