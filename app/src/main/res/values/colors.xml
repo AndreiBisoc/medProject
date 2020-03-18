@@ -4,6 +4,7 @@
     <color name="background_bottom">#01A998</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="red">#B22222</color>
     <color name="amber">#ffb300</color>
     <color name="uncheckedButton">#ffe082</color>
     <color name="grey">#453f3f</color>

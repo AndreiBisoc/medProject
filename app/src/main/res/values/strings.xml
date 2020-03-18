@@ -19,7 +19,7 @@
     <string name="register_doctor">Înregistrează-te ca doctor!</string>
     <string name="first_name">Prenume</string>
     <string name="last_name">Nume</string>
-    <string name="phone">Telefon</string>
+    <string name="phone">Număr de telefon</string>
     <string name="specialisation">Specializare</string>
     <string name="save">Salvează</string>
 
@@ -36,6 +36,17 @@
     <string name="no_patient_to_display">Momentan nu aveți niciun pacient conectat contului dumneavoastră. Vă rugăm adăugați pacienți.</string>
     <string name="delete_patient">Șterge pacient</string>
     <string name="add_patient_to_doctor">Introduceți CNP-ul pacientului.</string>
+
+    <string name="age">Vârsta</string>
+    <string name="gender">Sex</string>
+    <string name="man">Masculin</string>
+    <string name="woman">Feminin</string>
+    <string name="blood_type">Grupa sanguină</string>
+    <string name="rh_type">RH</string>
+    <string name="allergies">Alergii</string>
+    <string name="emergencyContact">Contact de urgență</string>
+    <string name="emergencyContactName">Nume și prenume</string>
+    <string name="emergencyContactRelationship">Relație</string>
 
     <string name="action_register_short">Crează cont</string>
     <string name="welcome">"Welcome !"</string>
