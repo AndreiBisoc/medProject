@@ -13,11 +13,14 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
 import com.google.firebase.auth.FirebaseAuth;
+
 public class AddMedication extends AppCompatActivity implements View.OnClickListener {
     private EditText txtDiagnostic;
     private Button addDrugToMedicationButton, cancelButton;
     private ProgressBar progressBar;
+    private String patientId, doctorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,21 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         cancelButton = findViewById(R.id.cancelButton);
         addDrugToMedicationButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+
+        doctorId = FirebaseAuth.getInstance().getUid();
+        patientId = getPatientId();
+        try {
+            BasicActions.checkDoctorPatientLink(doctorId, patientId);
+        } catch (DoctorNotLinkedToPatientException e) {
+            BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
+        }
+
+    }
+
+    private String getPatientId() {
+        Intent intent = getIntent();
+        String patientId = intent.getStringExtra("patientId");
+        return patientId;
     }
 
     @Override
@@ -45,9 +63,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.cancelButton:
                 finish();
-                Intent intent = getIntent();
-                String patientId = intent.getStringExtra("patientId");
-                intent = new Intent(this, MyMedications.class);
+                Intent intent = new Intent(this, MyMedications.class);
                 intent.putExtra("patientId", patientId);
                 startActivity(intent);
                 break;
@@ -65,6 +81,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         finish();
         Intent intent = new Intent(this, AddDrugToMedication.class);
         intent.putExtra("diagnostic", diagnostic);
+        intent.putExtra("patientId", patientId);
         startActivity(intent);
     }
 

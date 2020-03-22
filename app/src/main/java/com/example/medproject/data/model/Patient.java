@@ -5,6 +5,8 @@ import android.os.Build;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.medproject.data.model.Exceptions.NotLoggedAsPatientException;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -102,7 +104,7 @@ public class Patient implements Serializable {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static int getAge(String birthDate) throws  NotLoggedAsPatientException{
+    public static int getAge(String birthDate) throws NotLoggedAsPatientException {
         if(birthDate == null) {
             throw new NotLoggedAsPatientException();
         }

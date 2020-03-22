@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Contact;
-import com.example.medproject.data.model.NotLoggedAsPatientException;
+import com.example.medproject.data.model.Exceptions.NotLoggedAsPatientException;
 import com.example.medproject.data.model.Patient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
