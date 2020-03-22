@@ -6,9 +6,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class BasicActions {
 
@@ -45,6 +52,23 @@ public class BasicActions {
         Snackbar.make(context, message, Snackbar.LENGTH_SHORT)
                 .setTextColor(Color.parseColor("#ffb300"))
                 .show();
+    }
+
+    public static void checkDoctorPatientLink(String doctorId, String patientId) {
+        DatabaseReference doctorToPatientLinkRef = FirebaseDatabase.getInstance().getReference("DoctorsToPatients").child(doctorId).child(patientId);
+
+        doctorToPatientLinkRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getValue() == null) {
+                    throw new DoctorNotLinkedToPatientException();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
 }

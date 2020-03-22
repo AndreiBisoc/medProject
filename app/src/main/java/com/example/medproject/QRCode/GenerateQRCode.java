@@ -22,6 +22,7 @@ import com.example.medproject.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class GenerateQRCode extends AppCompatActivity {
 
@@ -45,15 +46,19 @@ public class GenerateQRCode extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 disableControllers(true);
-                String medicationId = getIntent().getStringExtra("medicationId");
-                if(!medicationId.equals("")) {
+                try {
+                    String medicationId = getIntent().getStringExtra("medicationId");
+                    String patientId = getIntent().getStringExtra("patientId");
+                    if(medicationId == null || patientId ==null) {
+                        throw new NullPointerException();
+                    }
+                    String qrData = getDataToEncode(patientId, medicationId);
                     encodeButton.setVisibility(View.GONE);
-                    new ImageDownloaderTask(imageView).execute("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + medicationId);
+                    new ImageDownloaderTask(imageView).execute("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + qrData);
                     backButton.setVisibility(View.VISIBLE);
-                } else {
+                } catch(NullPointerException e) {
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Eroare la completarea medicației");
-                }
-
+            }
                 progressBar.setVisibility(View.GONE);
                 disableControllers(false);
             }
@@ -69,6 +74,11 @@ public class GenerateQRCode extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private String getDataToEncode(String patientId, String medicationId) {
+        String doctorId = FirebaseAuth.getInstance().getUid();
+        return doctorId+ ":" + patientId + ":" + medicationId;
     }
 
     @Override
