@@ -16,6 +16,8 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.Notifications.ReminderBroadcast;
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
+import com.example.medproject.data.model.Exceptions.WrongPatientScanningQRException;
 import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.Medication;
 import com.example.medproject.data.model.MedicationAdministration;
@@ -46,7 +48,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScanQR extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
-    private String loggedPatientId;
     private ZXingScannerView scannerView;
     private ArrayList<String> drugIDs = new ArrayList<>();
     private List<MedicationAdministration> medicationAdministrationList = new ArrayList<>();
@@ -58,8 +59,6 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
 //        Init
         scannerView = findViewById(R.id.zxscan);
-
-        loggedPatientId = FirebaseAuth.getInstance().getUid();
 
 //        Request Permission for using camera
         Dexter.withActivity(this)
@@ -91,10 +90,31 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
     @Override
     public void handleResult(Result rawResult) {
-        final String scannedMedicationId = rawResult.getText();
+        final String scannedInfo = rawResult.getText();
+        String[] info = scannedInfo.split(":");
+        String doctorId = info[0];
+        String patientId = info[1];
+        String medicationId = info[2];
 
-        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("Medications/" + scannedMedicationId);
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+        try {
+            BasicActions.checkDoctorPatientLink(doctorId, patientId);
+            String loggedPatientId = FirebaseAuth.getInstance().getUid();
+            if(!loggedPatientId.equals(patientId)) {
+                throw new WrongPatientScanningQRException();
+            }
+            addMedicationToDb(patientId, medicationId);
+        } catch (DoctorNotLinkedToPatientException e) {
+            BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
+        } catch (WrongPatientScanningQRException e) {
+            BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
+        }
+
+    }
+
+    private void addMedicationToDb(final String patientId, final String medicationId) {
+
+        DatabaseReference medicationsDbRef = FirebaseDatabase.getInstance().getReference("Medications/" + medicationId);
+        medicationsDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {     // medicația pe care o salvezi ulteorior în patient to medication
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
@@ -106,10 +126,10 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
                 }
                 Medication medication = dataSnapshot.getValue(Medication.class);
                 if(medication != null) {
-                    DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("PatientToMedications")
-                            .child(loggedPatientId)
-                            .child(scannedMedicationId);
-                    mDatabaseRef.setValue(medication);
+                    DatabaseReference patientToMedicationsDbRef = FirebaseDatabase.getInstance().getReference("PatientToMedications")
+                            .child(patientId)
+                            .child(medicationId);
+                    patientToMedicationsDbRef.setValue(medication);
 
                     //BasicActions.displaySnackBar(getWindow().getDecorView(), "Medicația a fost scanată cu succes");
                 }
@@ -124,6 +144,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
             }
         });
+
     }
 
     private void handleNotifications(String medicationId){

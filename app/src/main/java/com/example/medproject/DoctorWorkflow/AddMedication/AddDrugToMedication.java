@@ -183,9 +183,19 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         mDatabaseReference.child("doctorName").setValue(doctorName);
 
         finish();
-        Intent intent = new Intent(this, GenerateQRCode.class);
-        intent.putExtra("medicationId", medicationLinkId);
-        startActivity(intent);
+        getDataForQRCode(medicationLinkId);
+
+    }
+
+    private void getDataForQRCode(String medicationLinkId) {
+        Intent intentToGenerateQR = new Intent(this, GenerateQRCode.class);
+        intentToGenerateQR.putExtra("medicationId", medicationLinkId);
+
+        Intent intentFromAddMedication = getIntent();
+        String patientId = intentFromAddMedication.getStringExtra("patientId");
+        intentToGenerateQR.putExtra("patientId", patientId);
+
+        startActivity(intentToGenerateQR);
     }
 
     private void addDrugToMedication() {

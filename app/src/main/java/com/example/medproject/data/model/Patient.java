@@ -1,8 +1,18 @@
 package com.example.medproject.data.model;
 
+import android.os.Build;
+
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
+import com.example.medproject.data.model.Exceptions.NotLoggedAsPatientException;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Patient implements Serializable {
     private String id;
@@ -14,8 +24,14 @@ public class Patient implements Serializable {
     private String phone;
     private String address;
     private String CNP;
+    private String bloodType;
+    private String RH;
+    private String allergies;
+    private Contact emergencyContact;
+    private String gender;
 
-    public Patient(){}
+    public Patient() {
+    }
 
     public Patient(String firstName, String lastName, String birthDate, String phone, String CNP) {
         this.firstName = firstName;
@@ -46,7 +62,7 @@ public class Patient implements Serializable {
 
     @Override
     public boolean equals(@Nullable Object obj) {
-        if(obj instanceof Patient)
+        if (obj instanceof Patient)
             return ((Patient) obj).CNP == this.CNP;
         return false;
     }
@@ -59,70 +75,58 @@ public class Patient implements Serializable {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return firstName + " " + lastName;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() { return firstName + " " + lastName; }
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getBirthDate() {
         return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getCNP() {
         return CNP;
     }
 
-    public void setCNP(String CNP) {
-        this.CNP = CNP;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static int getAge(String birthDate) throws NotLoggedAsPatientException {
+        if(birthDate == null) {
+            throw new NotLoggedAsPatientException();
+        }
+        LocalDate today = LocalDate.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate birthday = LocalDate.parse(birthDate, formatter);
+        Period p = Period.between(birthday, today);
+
+        return p.getYears();
+    }
+
+    public Map<String, Object> setEmergencyDetails(String gender, String bloodType, String RHType, String allergies, Contact emergencyContact) {
+        Map<String, Object> emergencyDetails = new HashMap<String, Object>();
+        emergencyDetails.put("gender", gender);
+        emergencyDetails.put("bloodType", bloodType);
+        emergencyDetails.put("RH", RHType);
+        emergencyDetails.put("allergies", allergies);
+        emergencyDetails.put("emergencyContact", emergencyContact);
+//        this.allergies = Arrays.asList(allergies.split("\\s*,\\s*"));
+        return emergencyDetails;
     }
 
 }
