@@ -35,7 +35,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -130,11 +129,9 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
                             .child(patientId)
                             .child(medicationId);
                     patientToMedicationsDbRef.setValue(medication);
-
-                    //BasicActions.displaySnackBar(getWindow().getDecorView(), "Medicația a fost scanată cu succes");
                 }
 
-                handleNotifications(scannedMedicationId);
+                handleNotifications(medicationId);
                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Notificarile au fost setate cu succes");
                 finish();
             }
