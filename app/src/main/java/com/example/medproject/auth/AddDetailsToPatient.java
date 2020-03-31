@@ -53,12 +53,7 @@ public class AddDetailsToPatient extends AppCompatActivity{
         radioGroup = findViewById(R.id.gender);
         saveDetails = findViewById(R.id.saveChangesButton);
         saveDetails.setEnabled(true);
-        saveDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setEmergencyDetails();
-            }
-        });
+        saveDetails.setOnClickListener(v -> setEmergencyDetails());
 
     }
 
@@ -67,12 +62,7 @@ public class AddDetailsToPatient extends AppCompatActivity{
         ArrayAdapter< String > adapter = new ArrayAdapter<>
                 (this, android.R.layout.select_dialog_item, bloodTypes);
         chooseBloodType =  findViewById(R.id.bloodType);
-        chooseBloodType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyboard();
-            }
-        });
+        chooseBloodType.setOnClickListener(v -> hideKeyboard());
         chooseBloodType.setAdapter(adapter);
 
 
@@ -80,12 +70,7 @@ public class AddDetailsToPatient extends AppCompatActivity{
         ArrayAdapter< String > RHAdapter = new ArrayAdapter<>
                 (this, android.R.layout.select_dialog_item, RHTypes);
         chooseRHType =  findViewById(R.id.RHType);
-        chooseRHType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyboard();
-            }
-        });
+        chooseRHType.setOnClickListener(v -> hideKeyboard());
         chooseRHType.setAdapter(RHAdapter);
     }
 

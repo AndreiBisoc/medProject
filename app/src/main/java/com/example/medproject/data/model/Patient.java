@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class Patient implements Serializable {
     private String id;
-    private String email;
     private String password;
     private String firstName;
     private String lastName;
@@ -42,7 +41,6 @@ public class Patient implements Serializable {
     }
 
     public Patient(String email, String firstName, String lastName, String birthDate, String phone, String address, String CNP) {
-        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -119,7 +117,7 @@ public class Patient implements Serializable {
     }
 
     public Map<String, Object> setEmergencyDetails(String gender, String bloodType, String RHType, String allergies, Contact emergencyContact) {
-        Map<String, Object> emergencyDetails = new HashMap<String, Object>();
+        Map<String, Object> emergencyDetails = new HashMap<>();
         emergencyDetails.put("gender", gender);
         emergencyDetails.put("bloodType", bloodType);
         emergencyDetails.put("RH", RHType);

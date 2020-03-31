@@ -61,54 +61,48 @@ public class PatientDetails extends AppCompatActivity {
         }
 
         Button saveChangesButton = findViewById(R.id.saveChangesButton);
-        saveChangesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                disableControllers(true);
+        saveChangesButton.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            disableControllers(true);
 
-                String prenume = txtFirstname.getText().toString().trim();
-                String nume = txtLastname.getText().toString().trim();
-                String telefon = txtPhone.getText().toString().trim();
-                String adresaCabinet = txtAddress.getText().toString().trim();
-                String CNP = txtCNP.getText().toString().trim();
-                String birthDate = txtBirthDate.getText().toString().trim();
-                final Patient patient = new Patient(prenume, nume, birthDate, telefon, adresaCabinet,CNP);
-                FirebaseDatabase.getInstance().getReference("Patients")
-                        .child(loggedUser)
-                        .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
-                            finish();
-                        }
-                    }
-                });
+            String prenume = txtFirstname.getText().toString().trim();
+            String nume = txtLastname.getText().toString().trim();
+            String telefon = txtPhone.getText().toString().trim();
+            String adresaCabinet = txtAddress.getText().toString().trim();
+            String CNP = txtCNP.getText().toString().trim();
+            String birthDate = txtBirthDate.getText().toString().trim();
+            final Patient patient = new Patient(prenume, nume, birthDate, telefon, adresaCabinet,CNP);
+            FirebaseDatabase.getInstance().getReference("Patients")
+                    .child(loggedUser)
+                    .setValue(patient).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
+                    finish();
+                }
+            });
 
-                FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshotDoctors: dataSnapshot.getChildren()) {
-                                    for (DataSnapshot snapshotPatient: snapshotDoctors.getChildren()) {
-                                        if(snapshotPatient.getKey().equals(loggedUser)) {
-                                            FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                                                    .child(snapshotDoctors.getKey())
-                                                    .child(loggedUser)
-                                                    .child("patient")
-                                                    .setValue(patient);
-                                        }
+            FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshotDoctors: dataSnapshot.getChildren()) {
+                                for (DataSnapshot snapshotPatient: snapshotDoctors.getChildren()) {
+                                    if(snapshotPatient.getKey().equals(loggedUser)) {
+                                        FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                                                .child(snapshotDoctors.getKey())
+                                                .child(loggedUser)
+                                                .child("patient")
+                                                .setValue(patient);
                                     }
                                 }
                             }
+                        }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            }
-                        });
-            }
+                        }
+                    });
         });
 
         DatabaseReference mDatabaseReference;

@@ -54,11 +54,9 @@ public class ListActivity extends AppCompatActivity {
             case R.id.logout_menu:
                 AuthUI.getInstance()
                         .signOut(this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Log.d("Logout","Persoana a fost delogată!");
-                                FirebaseUtil.attachListener();
-                            }
+                        .addOnCompleteListener(task -> {
+                            Log.d("Logout","Persoana a fost delogată!");
+                            FirebaseUtil.attachListener();
                         });
                 FirebaseUtil.detachListener();
                 return true;

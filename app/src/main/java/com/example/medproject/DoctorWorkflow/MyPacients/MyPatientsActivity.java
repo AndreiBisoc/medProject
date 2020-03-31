@@ -48,12 +48,7 @@ public class MyPatientsActivity extends AppCompatActivity {
         rvPatients.setLayoutManager(patientsLayoutManager);
 
         Button addPatientToDoctor = findViewById(R.id.addPatientToDoctorButton);
-        addPatientToDoctor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToAddPatientPage();
-            }
-        });
+        addPatientToDoctor.setOnClickListener(v -> goToAddPatientPage());
     }
 
     @Override

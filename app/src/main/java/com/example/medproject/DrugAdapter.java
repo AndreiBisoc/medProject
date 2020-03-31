@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder>{
 
-    private ArrayList<Drug> drugs;
+    private final ArrayList<Drug> drugs;
 
     public DrugAdapter(){
         //FirebaseUtil.openFbReference("Drugs");
@@ -87,9 +87,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     }
 
     public class DrugViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView tvNume;
-        TextView tvScop;
-        TextView tvUnitate;
+        final TextView tvNume;
+        final TextView tvScop;
+        final TextView tvUnitate;
         DrugViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNume = itemView.findViewById(R.id.drugName);

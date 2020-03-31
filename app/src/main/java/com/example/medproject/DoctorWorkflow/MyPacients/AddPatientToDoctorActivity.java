@@ -44,7 +44,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference firebaseReferenceToPacients;
-    private List<String> CNPs = new ArrayList<>();
+    private final List<String> CNPs = new ArrayList<>();
     private AutoCompleteTextView searchForCNP;
     private int length = 0;
     private ProgressBar progressBar;
@@ -100,12 +100,9 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         searchForCNP =  findViewById(R.id.searchForCNP);
         searchForCNP.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
-        searchForCNP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(length==0) {
-                    searchForCNP.dismissDropDown();
-                }
+        searchForCNP.setOnClickListener(v -> {
+            if(length==0) {
+                searchForCNP.dismissDropDown();
             }
         });
         searchForCNP.addTextChangedListener(new TextWatcher() {
@@ -129,13 +126,10 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
             }
         });
 
-        addPatient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        addPatient.setOnClickListener(v -> {
 
-                final String searchedCNP = searchForCNP.getText().toString().trim();
-                addPatientToDoctor(searchedCNP);
-            }
+            final String searchedCNP = searchForCNP.getText().toString().trim();
+            addPatientToDoctor(searchedCNP);
         });
     }
 
@@ -156,18 +150,15 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
                             .child(doctorUid)
                             .child(patient.getId())
-                            .setValue(link).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul a fost adăugat cu succes");
-                                finish();
-                            }
-                            else{
-                                BasicActions.displaySnackBar(getWindow().getDecorView(),"Acest pacient este deja înscris");
-                            }
-                        }
-                    });
+                            .setValue(link).addOnCompleteListener(task -> {
+                                if(task.isSuccessful()){
+                                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul a fost adăugat cu succes");
+                                    finish();
+                                }
+                                else{
+                                    BasicActions.displaySnackBar(getWindow().getDecorView(),"Acest pacient este deja înscris");
+                                }
+                            });
                 }
             }
 
@@ -211,11 +202,9 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
             case R.id.logout_menu:
                 AuthUI.getInstance()
                         .signOut(this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Log.d("Logout","Persoana a fost delogată!");
-                                FirebaseUtil.attachListener();
-                            }
+                        .addOnCompleteListener(task -> {
+                            Log.d("Logout","Persoana a fost delogată!");
+                            FirebaseUtil.attachListener();
                         });
                 FirebaseUtil.detachListener();
                 return true;

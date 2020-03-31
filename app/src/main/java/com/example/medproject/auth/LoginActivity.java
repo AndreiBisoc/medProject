@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private FirebaseAuth mAuth;
     private EditText txtEmail;
     private EditText txtPassword;
@@ -134,59 +134,56 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         progressBar.setVisibility(View.VISIBLE);
         disableControllers(true);
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    final String userID = mAuth.getCurrentUser().getUid();
-                    databaseReference.child("Doctors")
-                            .child(userID)
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.exists()){ //este doctor
-                                        finish();
-                                        Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(intent);
-                                    }
-                                    else{ //este pacient sau administrator
-                                        databaseReference.child("Patients")
-                                                .child(userID)
-                                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        if(dataSnapshot.exists()){ //este pacient
-                                                            finish();
-                                                            Intent intent = new Intent(LoginActivity.this, MyMedications.class);
-                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                            startActivity(intent);
-                                                        }
-                                                        else{
-                                                            Intent intent = new Intent(LoginActivity.this, AddDrug.class);
-                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                            startActivity(intent);
-                                                        }
-                                                    }
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                    }
-                                                });
-                                    }
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                final String userID = mAuth.getCurrentUser().getUid();
+                databaseReference.child("Doctors")
+                        .child(userID)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){ //este doctor
+                                    finish();
+                                    Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
                                 }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                else{ //este pacient sau administrator
+                                    databaseReference.child("Patients")
+                                            .child(userID)
+                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    if(dataSnapshot.exists()){ //este pacient
+                                                        finish();
+                                                        Intent intent = new Intent(LoginActivity.this, MyMedications.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        startActivity(intent);
+                                                    }
+                                                    else{
+                                                        Intent intent = new Intent(LoginActivity.this, AddDrug.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        startActivity(intent);
+                                                    }
+                                                }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                                                }
+                                            });
                                 }
-                            });
-                }
-                else{
-                    BasicActions.displaySnackBar(getWindow().getDecorView(),"Nu există un cont asociat acestui mail");
-                }
-                progressBar.setVisibility(View.GONE);
-                disableControllers(false);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
             }
+            else{
+                BasicActions.displaySnackBar(getWindow().getDecorView(),"Nu există un cont asociat acestui mail");
+            }
+            progressBar.setVisibility(View.GONE);
+            disableControllers(false);
         });
     }
 

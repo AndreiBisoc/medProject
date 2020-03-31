@@ -27,7 +27,7 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private EditText txtNume, txtScop, txtUnitate, txtDescriere;
-    private Drug drug = new Drug();
+    private final Drug drug = new Drug();
     private boolean goToAddDrugToMedication = false;
     private Button saveButton;
     private ProgressBar progressBar;
