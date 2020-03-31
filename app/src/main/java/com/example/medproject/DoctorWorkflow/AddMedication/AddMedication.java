@@ -20,7 +20,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
     private EditText txtDiagnostic;
     private Button addDrugToMedicationButton, cancelButton;
     private ProgressBar progressBar;
-    private String patientId, doctorId;
+    private String patientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         addDrugToMedicationButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
-        doctorId = FirebaseAuth.getInstance().getUid();
+        String doctorId = FirebaseAuth.getInstance().getUid();
         patientId = getPatientId();
         try {
             BasicActions.checkDoctorPatientLink(doctorId, patientId);
@@ -51,8 +51,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
 
     private String getPatientId() {
         Intent intent = getIntent();
-        String patientId = intent.getStringExtra("patientId");
-        return patientId;
+        return intent.getStringExtra("patientId");
     }
 
     @Override

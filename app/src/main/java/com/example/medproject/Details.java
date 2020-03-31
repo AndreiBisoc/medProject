@@ -80,17 +80,7 @@ public class Details extends AppCompatActivity {
         }
         else{
             textView.setText("Email NOT verified (click to verify)");
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(Details.this, "Verification email sent", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
+            textView.setOnClickListener(v -> user.sendEmailVerification().addOnCompleteListener(task -> Toast.makeText(Details.this, "Verification email sent", Toast.LENGTH_SHORT).show()));
         }
     }
 }

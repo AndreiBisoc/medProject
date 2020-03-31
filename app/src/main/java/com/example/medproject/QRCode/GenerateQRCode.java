@@ -41,38 +41,32 @@ public class GenerateQRCode extends AppCompatActivity {
         imageView = findViewById(R.id.qrCode);
         backButton.setVisibility(View.GONE);
 
-        encodeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                disableControllers(true);
-                try {
-                    String medicationId = getIntent().getStringExtra("medicationId");
-                    String patientId = getIntent().getStringExtra("patientId");
-                    if(medicationId == null || patientId ==null) {
-                        throw new NullPointerException();
-                    }
-                    String qrData = getDataToEncode(patientId, medicationId);
-                    encodeButton.setVisibility(View.GONE);
-                    new ImageDownloaderTask(imageView).execute("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + qrData);
-                    backButton.setVisibility(View.VISIBLE);
-                } catch(NullPointerException e) {
-                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Eroare la completarea medicației");
-            }
-                progressBar.setVisibility(View.GONE);
-                disableControllers(false);
-            }
+        encodeButton.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            disableControllers(true);
+            try {
+                String medicationId = getIntent().getStringExtra("medicationId");
+                String patientId = getIntent().getStringExtra("patientId");
+                if(medicationId == null || patientId ==null) {
+                    throw new NullPointerException();
+                }
+                String qrData = getDataToEncode(patientId, medicationId);
+                encodeButton.setVisibility(View.GONE);
+                new ImageDownloaderTask(imageView).execute("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + qrData);
+                backButton.setVisibility(View.VISIBLE);
+            } catch(NullPointerException e) {
+                BasicActions.displaySnackBar(getWindow().getDecorView(), "Eroare la completarea medicației");
+        }
+            progressBar.setVisibility(View.GONE);
+            disableControllers(false);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                disableControllers(true);
-                finish();
-                Intent intent = new Intent(getApplicationContext(), MyPatientsActivity.class);
-                startActivity(intent);
-            }
+        backButton.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            disableControllers(true);
+            finish();
+            Intent intent = new Intent(getApplicationContext(), MyPatientsActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -98,11 +92,9 @@ public class GenerateQRCode extends AppCompatActivity {
             case R.id.logout_menu:
                 AuthUI.getInstance()
                         .signOut(this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Log.d("Logout","Persoana a fost delogată!");
-                                FirebaseUtil.attachListener();
-                            }
+                        .addOnCompleteListener(task -> {
+                            Log.d("Logout","Persoana a fost delogată!");
+                            FirebaseUtil.attachListener();
                         });
                 FirebaseUtil.detachListener();
                 return true;

@@ -33,8 +33,8 @@ import java.util.ArrayList;
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
 
     public boolean noPatientsToDisplay = true;
-    private ArrayList<Patient> patients;
-    private ArrayList<String> patientsCNPs = new ArrayList<>();
+    private final ArrayList<Patient> patients;
+    private final ArrayList<String> patientsCNPs = new ArrayList<>();
 
     public PatientAdapter(){
 
@@ -119,7 +119,9 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     public class PatientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private TextView name, dateOfBirth, phoneNumber;
+        private final TextView name;
+        private final TextView dateOfBirth;
+        private final TextView phoneNumber;
 
         PatientViewHolder(View itemView){
             super(itemView);
@@ -153,18 +155,15 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                             .setTitle("Ștergere " + selectedPatient.getName())
                             .setMessage("Sunteți sigur că doriți să ștergeți acest pacient?")
                             .setNegativeButton("Anulare", /* listener = */ null)
-                            .setPositiveButton("Ștergere", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                    String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                    databaseReference.child("DoctorsToPatients")
-                                            .child(doctorUid)
-                                            .child(selectedPatient.getId())
-                                            .removeValue();
+                            .setPositiveButton("Ștergere", (dialog, which) -> {
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                databaseReference.child("DoctorsToPatients")
+                                        .child(doctorUid)
+                                        .child(selectedPatient.getId())
+                                        .removeValue();
 
-                                    BasicActions.displaySnackBar(context, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes");
-                                }
+                                BasicActions.displaySnackBar(context, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes");
                             })
                             .show();
                     break;

@@ -49,18 +49,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         radioGroup = findViewById(R.id.rol);
         registerButton = findViewById(R.id.registerButton);
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton checkedRadioButton = radioGroup.findViewById(checkedId);
-                boolean isChecked = checkedRadioButton.isChecked();
-                if (!isChecked)
-                {   registerButton.setEnabled(false);
-                    registerButton.setBackgroundColor(Color.parseColor("#ffe082"));
-                } else {
-                    registerButton.setEnabled(true);
-                    registerButton.setBackgroundColor(Color.parseColor("#ffb300"));
-                }
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton checkedRadioButton = radioGroup.findViewById(checkedId);
+            boolean isChecked = checkedRadioButton.isChecked();
+            if (!isChecked)
+            {   registerButton.setEnabled(false);
+                registerButton.setBackgroundColor(Color.parseColor("#ffe082"));
+            } else {
+                registerButton.setEnabled(true);
+                registerButton.setBackgroundColor(Color.parseColor("#ffb300"));
             }
         });
 
