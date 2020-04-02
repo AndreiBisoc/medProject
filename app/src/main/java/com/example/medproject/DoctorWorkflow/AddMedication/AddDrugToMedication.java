@@ -1,11 +1,19 @@
 package com.example.medproject.DoctorWorkflow.AddMedication;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,11 +39,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
-    private EditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
-    private AutoCompleteTextView searchDrugName;
+    private EditText searchDrugName, txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
     private TextView noOfInsertedDrugs;
 
     private List<String> drugs = new ArrayList<>();
@@ -62,13 +70,17 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         progressBar = findViewById(R.id.progressBar);
+        searchDrugName = findViewById(R.id.searchDrug);
         txtDosage = findViewById(R.id.txtDosage);
         txtNoOfDays = findViewById(R.id.txtNoOfDays);
         txtNoOfTimes = findViewById(R.id.txtNoOfTimes);
         txtStartDay = findViewById(R.id.txtStartDay);
+        txtStartDay.setInputType(InputType.TYPE_NULL);
         txtStartHour = findViewById(R.id.txtStartHour);
+        txtStartHour.setInputType(InputType.TYPE_NULL);
         Button addAnotherDrugButton = findViewById(R.id.addDrugButton);
         Button saveMedicationButton = findViewById(R.id.saveMedicationButton);
+        Button addDrugDetailsButton = findViewById(R.id.addDrugDetailsButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
 
         if (noOfDrugs == 0) {
@@ -79,13 +91,15 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
         addAnotherDrugButton.setOnClickListener(this);
         saveMedicationButton.setOnClickListener(this);
+        addDrugDetailsButton.setOnClickListener(this);
+        txtStartDay.setOnClickListener(this);
+        txtStartHour.setOnClickListener(this);
 
         //Creating the instance of ArrayAdapter containing list of CNPs
-        ArrayAdapter<String> adapter = new ArrayAdapter<>
-                (this, android.R.layout.select_dialog_item, drugs);
-        searchDrugName = findViewById(R.id.searchDrug);
-        searchDrugName.setThreshold(1); // will start working from first character
-        searchDrugName.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
+        //ArrayAdapter<String> adapter = new ArrayAdapter<>
+          //      (this, android.R.layout.select_dialog_item, drugs);
+        //searchDrugName.setThreshold(1); // will start working from first character
+        //searchDrugName.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
 
         Intent newDrugIntent = getIntent();
         String drugToAdd = newDrugIntent.getStringExtra("drugId");
@@ -160,6 +174,15 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.saveMedicationButton:
                 saveMedication();
+                break;
+            case R.id.addDrugDetailsButton:
+                getSpeechInput();
+                break;
+            case R.id.txtStartDay:
+                openDatePicker();
+                break;
+            case R.id.txtStartHour:
+                openTimePicker();
                 break;
         }
     }
@@ -249,6 +272,143 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         noOfDrugs++;
         noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
     }
+
+    private void openDatePicker(){
+        final Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        // Date picker dialog
+        DatePickerDialog datePickerDialog= new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK,
+                (view, year1, monthOfYear, dayOfMonth) ->
+                        txtStartDay.setText(String.format("%d/%d/%d", dayOfMonth, monthOfYear + 1, year1))
+                , year, month, day);
+        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        datePickerDialog.setTitle("Selectați data de început");
+        datePickerDialog.show();
+    }
+
+    private void openTimePicker(){
+        // Time picker dialog
+        TimePickerDialog timePickerDialog= new TimePickerDialog(this, AlertDialog.THEME_HOLO_DARK,
+                (view, hour, minute) -> {
+                    String h = hour < 10 ? "0" + hour : "" + hour;
+                    String m = minute < 10 ? "0" + minute : "" + minute;
+                    txtStartHour.setText(String.format("%s:%s", h, m));
+                }, 8, 0, true);
+        timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        timePickerDialog.setTitle("Selectați ora de început");
+        timePickerDialog.show();
+    }
+
+// Speech Recognition -->
+    private void getSpeechInput(){
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ro_RO");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"ex: Paracetamol, câte 3 comprimate, 10 zile");
+
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 13);
+        } else{
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Speech recognition is not supported by your device");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 13) {
+            if (resultCode == RESULT_OK && data != null) {
+                ArrayList<String> resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); // array of possible versions of text
+                String result = resultArray.get(0); // the first version is the most precise one
+                handleDosage_SpeechRecognition(result);
+                handleDrugName_SpeechRecognition(result, false);
+                handleNoOfDays_SpeechRecognition(result);
+            }
+        }
+    }
+
+    private void handleDosage_SpeechRecognition(String result) {
+        int indexOfCate = result.indexOf("câte ");
+        boolean cate2Exist = result.substring(indexOfCate + 4 ,result.length() - 1).contains("câte");
+        if (indexOfCate == -1 || cate2Exist) { // Cuvantul "câte " nu a fost rostit
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+        }
+        else {
+            char dosage = result.charAt(indexOfCate + 5);
+            if (dosage == 'u') { // ..un comprimat
+                txtDosage.setText("1");
+            }
+            else if (dosage == 'd') { // ..două comprimate
+                txtDosage.setText("2");
+            }
+            else { // 3 - 9 comprimate
+                txtDosage.setText(String.format("%c", dosage));
+            }
+        }
+    }
+
+    private void handleDrugName_SpeechRecognition(String result, boolean alone) {
+        if(alone){
+            searchDrugName.setText(String.format("%s%s", drugName.substring(0, 1).toUpperCase(), drugName.substring(1)));
+        }
+        else {
+            int indexOfCate = result.indexOf("câte ");
+            boolean cate2Exist = result.substring(indexOfCate + 4, result.length() - 1).contains("câte");
+            if (indexOfCate == -1 || cate2Exist) { // Cuvantul "câte " nu a fost rostit
+                BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+            } else {
+                String drugName = result.substring(0, indexOfCate - 1);
+                searchDrugName.setText(String.format("%s%s", drugName.substring(0, 1).toUpperCase(), drugName.substring(1)));
+            }
+        }
+    }
+
+    private void handleNoOfDays_SpeechRecognition(String result) {
+        int indexOfComprimate = result.indexOf("comprimate ");
+        int indexOfComprimat = result.indexOf("comprimat ");
+        boolean comprimate2Exist = result.substring(indexOfComprimate + 11 ,result.length() - 1).contains("comprimate");
+        if ((indexOfComprimat == -1 && indexOfComprimate == -1) || comprimate2Exist) { // Cuvantul "câte " nu a fost rostit
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+        } else {
+            String str = indexOfComprimat == -1 ? result.substring(indexOfComprimate + 11) : result.substring(indexOfComprimat + 10);
+            String number = str.replaceAll("[^0-9]", "");
+            int nr = -1;
+            if(number.equals("")){ // o sau două
+                if(str.contains("o ")) {
+                    nr = 1;
+                }
+                else if(str.contains("două ")) {
+                    nr = 2;
+                }
+                else {
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+                }
+            } else { // 3+
+                nr = Integer.parseInt(number);
+            }
+
+            if(nr == -1){
+                BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+            }else {
+                if (str.contains("zi") || str.contains("zile")) {
+                    txtNoOfDays.setText(String.format("%d", nr));
+                } else if (str.contains("săptămână") || str.contains("săptămâni")) {
+                    txtNoOfDays.setText(String.format("%d", nr * 7));
+                } else if (str.contains("lună") || str.contains("luni")) {
+                    txtNoOfDays.setText(String.format("%d", nr * 30));
+                } else if (str.contains("an") || str.contains("ani")) {
+                    txtNoOfDays.setText(String.format("%d", nr * 365));
+                } else {
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+                }
+            }
+        }
+    }
+// Speech Recognition <--
 
     @Override
     protected void onStart() {

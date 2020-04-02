@@ -1,7 +1,10 @@
 package com.example.medproject.auth;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
@@ -98,14 +102,15 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
-                picker = new DatePickerDialog(RegisterPacientActivity.this,
+                picker = new DatePickerDialog(RegisterPacientActivity.this, AlertDialog.THEME_HOLO_DARK,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 birthDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
                         }, year, month, day);
-
+                picker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                picker.setTitle("Selectați data nașterii");
                 picker.show();
             }
         });

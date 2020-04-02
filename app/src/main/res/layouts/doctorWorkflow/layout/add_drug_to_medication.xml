@@ -20,51 +20,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addDrugDetailsButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/white"
+                android:text="Adaugă detalii medicament"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                android:textColor="@color/amber"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_microphone_24dp"
+                app:iconTint="@color/amber"
+                app:iconGravity="end"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/drug_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/amber"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="20dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/searchDrug"
                     android:layout_below="@+id/add_patient_message"
                     android:textSize="16sp"
                     android:ems="10"
                     android:layout_width="match_parent"
+                    android:focusable="false"
                     android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
-                android:layout_marginEnd="24dp"
-                android:hint="@string/dosage"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/amber"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="20dp">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtDosage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,6 +84,30 @@
                     android:gravity="center"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
+                    android:hint="@string/dosage"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/amber"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtDosage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:focusable="false"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:hint="@string/NoOfDays"
                     android:inputType="text"
                     app:boxStrokeColor="@color/amber"
@@ -98,9 +116,20 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtNoOfDays"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:focusable="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -136,12 +165,11 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:hint="@string/startDate"
-                    android:inputType="text"
                     app:boxStrokeColor="@color/amber"
                     tools:layout_editor_absoluteX="20dp">
 
@@ -149,7 +177,8 @@
                         android:id="@+id/txtStartDay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:focusable="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,7 +191,6 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     android:hint="@string/startHour"
-                    android:inputType="text"
                     app:boxStrokeColor="@color/amber"
                     tools:layout_editor_absoluteX="20dp">
 
@@ -170,7 +198,8 @@
                         android:id="@+id/txtStartHour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:focusable="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
