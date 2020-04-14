@@ -30,6 +30,7 @@ import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.MedicationLink;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -43,8 +44,9 @@ import java.util.Calendar;
 import java.util.List;
 
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
-    private EditText searchDrugName, txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
+    private EditText searchDrugName, txtDosage, txtNoOfDays, txtStartDay, txtStartHour;
     private TextView noOfInsertedDrugs;
+    private MaterialButtonToggleGroup NoOfTimes;
 
     private List<String> drugs = new ArrayList<>();
     private List<String> drugIDs = new ArrayList<>();
@@ -60,6 +62,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private String doctorName;
     private static int noOfDrugs = 0;
     private ProgressBar progressBar;
+    private int timesPerDay = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         searchDrugName = findViewById(R.id.searchDrug);
         txtDosage = findViewById(R.id.txtDosage);
         txtNoOfDays = findViewById(R.id.txtNoOfDays);
-        txtNoOfTimes = findViewById(R.id.txtNoOfTimes);
+        NoOfTimes = findViewById(R.id.NoOfTimes);
         txtStartDay = findViewById(R.id.txtStartDay);
         txtStartDay.setInputType(InputType.TYPE_NULL);
         txtStartHour = findViewById(R.id.txtStartHour);
@@ -94,6 +97,15 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         addDrugDetailsButton.setOnClickListener(this);
         txtStartDay.setOnClickListener(this);
         txtStartHour.setOnClickListener(this);
+        NoOfTimes.addOnButtonCheckedListener((toggleButton, checkedId, isChecked) -> {
+            if(checkedId == R.id.morningButton){
+                timesPerDay++;
+            }else if(checkedId == R.id.noonButton){
+                timesPerDay++;
+            }else if(checkedId == R.id.eveningButton){
+                timesPerDay++;
+            }
+        });
 
         //Creating the instance of ArrayAdapter containing list of CNPs
         //ArrayAdapter<String> adapter = new ArrayAdapter<>
@@ -230,7 +242,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
         drugAdministration.setStartDay(txtStartDay.getText().toString().trim());
         drugAdministration.setStartHour(txtStartHour.getText().toString().trim());
-        drugAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
+        //drugAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
         drugAdministrationList.add(drugAdministration);
 
         if(validareDrugAdministration(drugAdministration)){
@@ -426,7 +438,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         searchDrugName.setText("");
         txtDosage.setText("");
         txtNoOfDays.setText("");
-        txtNoOfTimes.setText("");
+        //txtNoOfTimes.setText("");
         txtStartDay.setText("");
         txtStartHour.setText("");
     }
@@ -445,8 +457,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
 
         if(drugAdministration.getNoOfTimes().isEmpty()){
-            txtNoOfTimes.setError("Introduceți nr. de dăți");
-            txtNoOfTimes.requestFocus();
+            //txtNoOfTimes.setError("Introduceți nr. de dăți");
+            NoOfTimes.requestFocus();
             return true;
         }
 
@@ -468,7 +480,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         searchDrugName.setEnabled(!isEnabled);
         txtDosage.setEnabled(!isEnabled);
         txtNoOfDays.setEnabled(!isEnabled);
-        txtNoOfTimes.setEnabled(!isEnabled);
+        NoOfTimes.setEnabled(!isEnabled);
         txtStartDay.setEnabled(!isEnabled);
         txtStartHour.setEnabled(!isEnabled);
     }

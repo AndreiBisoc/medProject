@@ -73,7 +73,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -123,35 +123,42 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/NoOfTimes"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginTop="24dp"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                app:checkedButton="@id/morningButton"
+                app:selectionRequired="true">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/morningButton"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Dimineața"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:hint="@string/administrare_zi"
-                    android:inputType="text"
-                    app:boxStrokeColor="@color/amber"
-                    tools:layout_editor_absoluteX="20dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txtNoOfTimes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
+                    style="?attr/materialButtonOutlinedStyle"
+                    />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/noonButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prânz"
+                    android:layout_weight="1"
+                    style="?attr/materialButtonOutlinedStyle"
+                    />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/eveningButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seara"
+                    android:layout_weight="1"
+                    style="?attr/materialButtonOutlinedStyle"
+                    />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <LinearLayout
                 android:orientation="horizontal"
