@@ -251,7 +251,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         clean();
         BasicActions.displaySnackBar(getWindow().getDecorView(), "Ați adăugat " + drugName);
         noOfDrugs++;
-        noOfInsertedDrugs.setText(String.format(locale, "%s", "Ați adăugat până acum " + noOfDrugs + " medicamente."));
+        noOfInsertedDrugs.setText(String.format(locale, "%s", "Ați adăugat până acum " + noOfDrugs + " medicamente"));
     }
 
     private void openDatePicker(){
