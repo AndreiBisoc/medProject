@@ -25,6 +25,7 @@ public class SpeechToText extends AppCompatActivity {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ro_RO");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"ex: Paracetamol, 3 comprimate, 10 zile");
 
         if(intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, 13);

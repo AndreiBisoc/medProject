@@ -59,9 +59,9 @@
 
     <string name="diagnostic">Diagnostic</string>
     <string name="dosage">Dozaj</string>
-    <string name="NoOfDays">Număr de zile</string>
+    <string name="NoOfDays">Total zile</string>
     <string name="NoOfTimes">Număr de dăți</string>
-    <string name="startDate">Zi de început</string>
+    <string name="startDate">Dată de început</string>
     <string name="startHour">Oră de început</string>
 
     <string name="introdu_spec">Alege specializare</string>
