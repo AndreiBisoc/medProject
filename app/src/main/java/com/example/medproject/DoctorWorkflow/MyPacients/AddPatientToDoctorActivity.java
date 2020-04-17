@@ -1,11 +1,6 @@
 package com.example.medproject.DoctorWorkflow.MyPacients;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,16 +13,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.R;
-import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -50,8 +46,9 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button addPatient;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.activity_add_patient);
         BasicActions.hideActionBar(this);
 
@@ -210,15 +207,6 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mAuth.getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
     }
 
     private void hideKeyboard() {

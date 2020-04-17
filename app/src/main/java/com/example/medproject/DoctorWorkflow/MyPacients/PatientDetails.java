@@ -1,7 +1,6 @@
 package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,8 +31,9 @@ public class PatientDetails extends AppCompatActivity {
     private ProgressBar progressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.patient_details);
 
         // hiding keyboard when the container is clicked

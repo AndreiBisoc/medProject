@@ -1,7 +1,6 @@
 package com.example.medproject.PatientWorkflow.DrugDetails;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,8 +16,6 @@ import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,8 +32,9 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
     private boolean canEditMedicationFlag;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.drug_details_administration);
 
         ScrollView container = findViewById(R.id.container);

@@ -6,7 +6,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.InputType;
 import android.util.Log;
@@ -23,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.BasicActions;
 import com.example.medproject.QRCode.GenerateQRCode;
 import com.example.medproject.R;
-import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
@@ -64,9 +62,12 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private Locale locale = Locale.forLanguageTag("ro_RO");
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.add_drug_to_medication);
+        progressBar.setVisibility(View.GONE);
+        disableControllers(false);
 
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
@@ -385,18 +386,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
     }
 // Speech Recognition <--
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
-
-        progressBar.setVisibility(View.GONE);
-        disableControllers(false);
-    }
 
     private void clean() {
         searchDrugName.setText("");

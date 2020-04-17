@@ -1,7 +1,6 @@
 package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
@@ -29,8 +29,9 @@ public class MyPatientsActivity extends AppCompatActivity {
     //private ProgressBar progressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.activity_my_patients);
 
 //        logged as a patient => loggedAsDoctor = false;
@@ -114,17 +115,6 @@ public class MyPatientsActivity extends AppCompatActivity {
             rvList.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
-        //progressBar.setVisibility(View.GONE);
-        //disableControllers(false);
     }
 
 //    private void disableControllers(boolean isEnabled){

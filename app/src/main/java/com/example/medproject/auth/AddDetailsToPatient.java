@@ -1,15 +1,13 @@
 package com.example.medproject.auth;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
@@ -39,8 +37,9 @@ public class AddDetailsToPatient extends AppCompatActivity{
     private Button saveDetails;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.activity_add_details_to_patient);
         BasicActions.hideActionBar(this);
 
