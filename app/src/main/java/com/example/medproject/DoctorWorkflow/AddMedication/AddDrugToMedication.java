@@ -1,10 +1,16 @@
 package com.example.medproject.DoctorWorkflow.AddMedication;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -22,6 +28,7 @@ import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.MedicationLink;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,12 +38,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
-    private EditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
-    private AutoCompleteTextView searchDrugName;
+    private EditText searchDrugName, txtDosage, txtNoOfDays, txtStartDay, txtStartHour;
     private TextView noOfInsertedDrugs;
+    private MaterialButtonToggleGroup NoOfTimes;
 
     private final List<String> drugs = new ArrayList<>();
     private final List<String> drugIDs = new ArrayList<>();
@@ -52,6 +61,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private String doctorName;
     private static int noOfDrugs = 0;
     private ProgressBar progressBar;
+    private Locale locale = Locale.forLanguageTag("ro_RO");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,30 +72,30 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         progressBar = findViewById(R.id.progressBar);
+        searchDrugName = findViewById(R.id.searchDrug);
         txtDosage = findViewById(R.id.txtDosage);
         txtNoOfDays = findViewById(R.id.txtNoOfDays);
-        txtNoOfTimes = findViewById(R.id.txtNoOfTimes);
+        NoOfTimes = findViewById(R.id.NoOfTimes);
         txtStartDay = findViewById(R.id.txtStartDay);
+        txtStartDay.setInputType(InputType.TYPE_NULL);
         txtStartHour = findViewById(R.id.txtStartHour);
+        txtStartHour.setInputType(InputType.TYPE_NULL);
         Button addAnotherDrugButton = findViewById(R.id.addDrugButton);
         Button saveMedicationButton = findViewById(R.id.saveMedicationButton);
+        Button addDrugDetailsButton = findViewById(R.id.addDrugDetailsButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
 
         if (noOfDrugs == 0) {
-            noOfInsertedDrugs.setText("Niciun medicament asociat");
+            noOfInsertedDrugs.setText(String.format(locale, "%s", "Niciun medicament asociat"));
         } else {
-            noOfInsertedDrugs.setText("Aveți adăugate " + noOfDrugs + " medicamente");
+            noOfInsertedDrugs.setText(String.format(locale, "%s", "Aveți adăugate " + noOfDrugs + " medicamente"));
         }
 
         addAnotherDrugButton.setOnClickListener(this);
         saveMedicationButton.setOnClickListener(this);
-
-        //Creating the instance of ArrayAdapter containing list of CNPs
-        ArrayAdapter<String> adapter = new ArrayAdapter<>
-                (this, android.R.layout.select_dialog_item, drugs);
-        searchDrugName = findViewById(R.id.searchDrug);
-        searchDrugName.setThreshold(1); // will start working from first character
-        searchDrugName.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
+        addDrugDetailsButton.setOnClickListener(this);
+        txtStartDay.setOnClickListener(this);
+        txtStartHour.setOnClickListener(this);
 
         Intent newDrugIntent = getIntent();
         String drugToAdd = newDrugIntent.getStringExtra("drugId");
@@ -129,13 +139,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                     }
                 });
 
-//        Intent newDrugIntent = getIntent();
-//        Drug drugToAdd = (Drug) newDrugIntent.getSerializableExtra("drug");
-//        if(drugToAdd != null) {
-//            drugID = drugIDs.get(drugs.indexOf(drugToAdd.getNume()));
-//            finishAddingDrug();
-//        }
-
         //get Doctor's name
         String doctorID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseReference = mFirebaseDatabase.getReference("Doctors/" + doctorID);
@@ -156,10 +159,20 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addDrugButton:
+                Log.d("MyActivity", " NoOfTimes" + NoOfTimes.getCheckedButtonIds().size());
                 addDrugToMedication();
                 break;
             case R.id.saveMedicationButton:
                 saveMedication();
+                break;
+            case R.id.addDrugDetailsButton:
+                getSpeechInput();
+                break;
+            case R.id.txtStartDay:
+                openDatePicker();
+                break;
+            case R.id.txtStartHour:
+                openTimePicker();
                 break;
         }
     }
@@ -184,7 +197,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
         finish();
         getDataForQRCode(medicationLinkId);
-
     }
 
     private void getDataForQRCode(String medicationLinkId) {
@@ -207,7 +219,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
         drugAdministration.setStartDay(txtStartDay.getText().toString().trim());
         drugAdministration.setStartHour(txtStartHour.getText().toString().trim());
-        drugAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
+        drugAdministration.setNoOfTimes(String.format(locale,"%d", NoOfTimes.getCheckedButtonIds().size()));
         drugAdministrationList.add(drugAdministration);
 
         if(validareDrugAdministration(drugAdministration)){
@@ -216,25 +228,17 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugName = searchDrugName.getText().toString().trim();
         try {
             String drugID = drugIDs.get(drugs.indexOf(drugName));
-            finishAddingDrug(drugID);
+            if(medicationDrugIDs.contains(drugID)){
+                searchDrugName.setError("Acest medicament este adăugat deja");
+                searchDrugName.requestFocus();
+            }
+            else{
+                finishAddingDrug(drugID);
+            }
 
         } catch (Exception e) {
             searchDrugName.setError("Acest medicament nu există");
             searchDrugName.requestFocus();
-            return;
-
-//            new MaterialAlertDialogBuilder(getWindow().getDecorView().getContext())
-//                    .setMessage("Medicamentul " + drugName + " nu există în baza de date. Doriți să îl adăugați?")
-//                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            Intent intentToAddDrug = new Intent(AddDrugToMedication.this, AddDrug.class);
-//                            intentToAddDrug.putExtra("drugName", drugName);
-//                            startActivity(intentToAddDrug);
-//                        }
-//                    })
-//                    .setNegativeButton("Nu", /* listener = */ null)
-//                    .show();
         }
     }
 
@@ -245,10 +249,142 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         medicationLinkList.add(medicationLink);
 
         clean();
-//        Toast.makeText(this, "Ați adăugat " + drugName, Toast.LENGTH_LONG).show();
+        BasicActions.displaySnackBar(getWindow().getDecorView(), "Ați adăugat " + drugName);
         noOfDrugs++;
-        noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
+        noOfInsertedDrugs.setText(String.format(locale, "%s", "Ați adăugat până acum " + noOfDrugs + " medicamente"));
     }
+
+    private void openDatePicker(){
+        final Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        // Date picker dialog
+        DatePickerDialog datePickerDialog= new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK,
+                (view, year1, monthOfYear, dayOfMonth) ->
+                        txtStartDay.setText(String.format(locale,"%d/%d/%d", dayOfMonth, monthOfYear + 1, year1))
+                , year, month, day);
+        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        datePickerDialog.setTitle("Selectați data de început");
+        datePickerDialog.show();
+    }
+
+    private void openTimePicker(){
+        // Time picker dialog
+        TimePickerDialog timePickerDialog= new TimePickerDialog(this, AlertDialog.THEME_HOLO_DARK,
+                (view, hour, minute) -> {
+                    String h = hour < 10 ? "0" + hour : "" + hour;
+                    String m = minute < 10 ? "0" + minute : "" + minute;
+                    txtStartHour.setText(String.format("%s:%s", h, m));
+                }, 8, 0, true);
+        timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        timePickerDialog.setTitle("Selectați ora de început");
+        timePickerDialog.show();
+    }
+
+// Speech Recognition -->
+    private void getSpeechInput(){
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ro_RO");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"ex: Paracetamol, câte 3 comprimate, 10 zile");
+
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 13);
+        } else{
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Speech recognition is not supported by your device");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 13) {
+            if (resultCode == RESULT_OK && data != null) {
+                ArrayList<String> resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); // array of possible versions of text
+                String result = resultArray.get(0); // the first version is the most precise one
+                handleDosage_SpeechRecognition(result);
+                handleDrugName_SpeechRecognition(result);
+                handleNoOfDays_SpeechRecognition(result);
+            }
+        }
+    }
+
+    private void handleDosage_SpeechRecognition(String result) {
+        int indexOfCate = result.indexOf("câte ");
+        boolean cate2Exist = result.substring(indexOfCate + 4 ,result.length() - 1).contains("câte");
+        if (indexOfCate == -1 || cate2Exist) { // Cuvantul "câte " nu a fost rostit
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+        }
+        else {
+            char dosage = result.charAt(indexOfCate + 5);
+            if (dosage == 'u') { // ..un comprimat
+                txtDosage.setText("1");
+            }
+            else if (dosage == 'd') { // ..două comprimate
+                txtDosage.setText("2");
+            }
+            else { // 3 - 9 comprimate
+                txtDosage.setText(String.format("%c", dosage));
+            }
+        }
+    }
+
+    private void handleDrugName_SpeechRecognition(String result) {
+        int indexOfCate = result.indexOf("câte ");
+        boolean cate2Exist = result.substring(indexOfCate + 4, result.length() - 1).contains("câte");
+        if (indexOfCate == -1 || cate2Exist) { // Cuvantul "câte " nu a fost rostit
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+        } else {
+            String drugName = result.substring(0, indexOfCate - 1);
+            searchDrugName.setText(String.format("%s%s", drugName.substring(0, 1).toUpperCase(), drugName.substring(1)));
+        }
+    }
+
+    private void handleNoOfDays_SpeechRecognition(String result) {
+        int indexOfComprimate = result.indexOf("comprimate ");
+        int indexOfComprimat = result.indexOf("comprimat ");
+        boolean comprimate2Exist = result.substring(indexOfComprimate + 11 ,result.length() - 1).contains("comprimate");
+        if ((indexOfComprimat == -1 && indexOfComprimate == -1) || comprimate2Exist) { // Cuvantul "câte " nu a fost rostit
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+        } else {
+            String str = indexOfComprimat == -1 ? result.substring(indexOfComprimate + 11) : result.substring(indexOfComprimat + 10);
+            String number = str.replaceAll("[^0-9]", "");
+            int nr = -1;
+            if(number.equals("")){ // o sau două
+                if(str.contains("o ")) {
+                    nr = 1;
+                }
+                else if(str.contains("două ")) {
+                    nr = 2;
+                }
+                else {
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+                }
+            } else { // 3+
+                nr = Integer.parseInt(number);
+            }
+
+            if(nr == -1){
+                BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+            }else {
+                if (str.contains("zi") || str.contains("zile")) {
+                    txtNoOfDays.setText(String.format(locale,"%d", nr));
+                } else if (str.contains("săptămână") || str.contains("săptămâni")) {
+                    txtNoOfDays.setText(String.format(locale, "%d", nr * 7));
+                } else if (str.contains("lună") || str.contains("luni")) {
+                    txtNoOfDays.setText(String.format(locale, "%d", nr * 30));
+                } else if (str.contains("an") || str.contains("ani")) {
+                    txtNoOfDays.setText(String.format(locale, "%d", nr * 365));
+                } else {
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+                }
+            }
+        }
+    }
+// Speech Recognition <--
 
     @Override
     protected void onStart() {
@@ -266,9 +402,17 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         searchDrugName.setText("");
         txtDosage.setText("");
         txtNoOfDays.setText("");
-        txtNoOfTimes.setText("");
         txtStartDay.setText("");
         txtStartHour.setText("");
+
+        NoOfTimes.clearChecked();
+        NoOfTimes.check(R.id.morningButton);
+
+        searchDrugName.clearFocus();
+        txtDosage.clearFocus();
+        txtNoOfDays.clearFocus();
+        txtStartDay.clearFocus();
+        txtStartHour.clearFocus();
     }
 
     private boolean validareDrugAdministration(DrugAdministration drugAdministration){
@@ -281,12 +425,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         if(drugAdministration.getNoOfDays().isEmpty()){
             txtNoOfDays.setError("Introduceți nr. de zile");
             txtNoOfDays.requestFocus();
-            return true;
-        }
-
-        if(drugAdministration.getNoOfTimes().isEmpty()){
-            txtNoOfTimes.setError("Introduceți nr. de dăți");
-            txtNoOfTimes.requestFocus();
             return true;
         }
 
@@ -308,7 +446,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         searchDrugName.setEnabled(!isEnabled);
         txtDosage.setEnabled(!isEnabled);
         txtNoOfDays.setEnabled(!isEnabled);
-        txtNoOfTimes.setEnabled(!isEnabled);
+        NoOfTimes.setEnabled(!isEnabled);
         txtStartDay.setEnabled(!isEnabled);
         txtStartHour.setEnabled(!isEnabled);
     }
