@@ -44,15 +44,15 @@
                 android:name=".QRCode.GenerateQRCode"
                 tools:ignore="InnerclassSeparator" />
         <!-- Auth workflow -->
-            <activity
-                android:name=".auth.LoginActivity"
-                android:windowSoftInputMode="stateVisible|adjustPan">
+        <activity
+            android:name=".auth.LoginActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan">
 
-            </activity>
-            <activity android:name=".auth.AddDetailsToPatient"/>
-            <activity android:name=".auth.RegisterActivity" />
-            <activity android:name=".auth.RegisterPacientActivity" />
-            <activity android:name=".auth.RegisterDoctorActivity" />
+        </activity>
+        <activity android:name=".auth.AddDetailsToPatient"/>
+        <activity android:name=".auth.RegisterActivity" />
+        <activity android:name=".auth.RegisterPacientActivity" />
+        <activity android:name=".auth.RegisterDoctorActivity"></activity>
         <!-- Patient workflow -->
             <activity
                 android:name=".PatientWorkflow.MyMedications.MyMedications"

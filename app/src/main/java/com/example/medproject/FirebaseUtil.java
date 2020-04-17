@@ -5,6 +5,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.Medication;
 import com.example.medproject.data.model.MedicationLink;
@@ -31,6 +32,7 @@ public class FirebaseUtil {
     private static ListActivity caller;
     private static boolean isAdmin;
     public static ArrayList<Drug> mDrugs;
+    public static ArrayList<Doctor> mDoctors;
     public static ArrayList<Patient> mPatients;
     public static ArrayList<Medication> mMedications;
     public static ArrayList<MedicationLink> mMedicationLink;
@@ -56,6 +58,7 @@ public class FirebaseUtil {
         }
 
         mDrugs = new ArrayList<>();
+        mDoctors = new ArrayList<>();
         mPatients = new ArrayList<>();
         mMedications = new ArrayList<>();
         mMedicationLink = new ArrayList<>();

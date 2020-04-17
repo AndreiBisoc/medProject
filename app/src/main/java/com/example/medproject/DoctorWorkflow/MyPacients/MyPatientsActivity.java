@@ -1,10 +1,5 @@
 package com.example.medproject.DoctorWorkflow.MyPacients;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
@@ -21,34 +21,53 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MyPatientsActivity extends AppCompatActivity {
 
-
-    private FirebaseAuth mAuth;
-    private static RecyclerView rvPatients;
+    private static RecyclerView rvList;
     private static TextView emptyView;
-    private static final PatientAdapter adapter = new PatientAdapter();
+    private static PatientAdapter PATIENT_ADAPTER;
+    private static DoctorAdapter DOCTOR_ADAPTER;
+    private boolean loggedAsDoctor;
     //private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_patients);
-        setTitle("Pacienții mei");
 
-        mAuth = FirebaseAuth.getInstance();
+//        logged as a patient => loggedAsDoctor = false;
+        loggedAsDoctor = false;
 
+        rvList = findViewById(R.id.rvList);
+
+        if(loggedAsDoctor) {
+            PATIENT_ADAPTER = new PatientAdapter();
+//            loggedAsDoctor needs Patient Adapter because the doctor sees his list of patients
+            rvList.setAdapter(PATIENT_ADAPTER);
+            initializePage("Pacienții mei", View.VISIBLE);
+        } else {
+            DOCTOR_ADAPTER = new DoctorAdapter();
+            rvList.setAdapter(DOCTOR_ADAPTER);
+            initializePage("Doctorii mei", View.GONE);
+        }
         //progressBar = findViewById(R.id.progressBar);
-        rvPatients = findViewById(R.id.rvPatients);
-        rvPatients.setAdapter(adapter);
+    }
+
+    private void initializePage(String title, int showAddPatientButton) {
+        setTitle(title);
+
         emptyView = findViewById(R.id.empty_view);
 
-        displayMessageOrPatientsList();
-
-        LinearLayoutManager patientsLayoutManager =
+        LinearLayoutManager listLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvPatients.setLayoutManager(patientsLayoutManager);
+        rvList.setLayoutManager(listLayoutManager);
+
+        displayMessageOrList(loggedAsDoctor);
 
         Button addPatientToDoctor = findViewById(R.id.addPatientToDoctorButton);
-        addPatientToDoctor.setOnClickListener(v -> goToAddPatientPage());
+        addPatientToDoctor.setVisibility(showAddPatientButton);
+        if(showAddPatientButton == View.VISIBLE) {
+            addPatientToDoctor.setEnabled(true);
+            addPatientToDoctor.setOnClickListener(v -> goToAddPatientPage());
+        }
     }
 
     @Override
@@ -68,7 +87,10 @@ public class MyPatientsActivity extends AppCompatActivity {
             case R.id.logout_menu:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
+                Intent toLoginPage = new Intent(this, LoginActivity.class);
+                toLoginPage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                toLoginPage.putExtra("logOut", "logOut");
+                startActivity(toLoginPage);
                 break;
         }
         return true;
@@ -78,14 +100,18 @@ public class MyPatientsActivity extends AppCompatActivity {
         startActivity(new Intent(this, AddPatientToDoctorActivity.class));
     }
 
-    public static void displayMessageOrPatientsList() {
-        if(adapter.noPatientsToDisplay)
+    public static void displayMessageOrList(boolean loggedAsDoctor) {
+        boolean listIsEmpty = loggedAsDoctor ? PATIENT_ADAPTER.noPatientsToDisplay : DOCTOR_ADAPTER.noDoctorsToDisplay;
+        if(listIsEmpty)
         {
-            rvPatients.setVisibility(View.GONE);
+            rvList.setVisibility(View.GONE);
+            if(!loggedAsDoctor) {
+                emptyView.setText(R.string.no_doctor_to_display);
+            }
             emptyView.setVisibility(View.VISIBLE);
         }
         else {
-            rvPatients.setVisibility(View.VISIBLE);
+            rvList.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
     }
@@ -93,7 +119,7 @@ public class MyPatientsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mAuth.getCurrentUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
