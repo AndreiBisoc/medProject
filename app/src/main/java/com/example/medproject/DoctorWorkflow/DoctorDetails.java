@@ -17,8 +17,6 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Doctor;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +31,7 @@ public class DoctorDetails extends AppCompatActivity {
     private Button saveChangesButton;
     private ProgressBar progressBar;
     private String doctorName;
+    private boolean canEditForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +39,20 @@ public class DoctorDetails extends AppCompatActivity {
         setContentView(R.layout.doctor_details);
         setTitle("Contul meu");
 
-        final String doctorId = FirebaseAuth.getInstance().getUid();
-        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorId);
+        final String loggedUser = FirebaseAuth.getInstance().getUid();
 
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
+
+        Intent intent = getIntent();
+        String doctorID = intent.getStringExtra("doctorID");
+
+        canEditForm = doctorID == null; // logged as doctor or not
+        if(canEditForm) {
+            setTitle("Contul meu");
+        } else {
+            setTitle("Detalii doctor");
+        }
 
         txtLastname = findViewById(R.id.txtLastname);
         txtFirstname = findViewById(R.id.txtFirstName);
@@ -65,7 +73,7 @@ public class DoctorDetails extends AppCompatActivity {
             String specialization = txtSpecializare.getText().toString().trim();
             Doctor doctor = new Doctor(prenume, nume, specialization, telefon, adresaCabinet);
             FirebaseDatabase.getInstance().getReference("Doctors")
-                    .child(doctorId)
+                    .child(loggedUser)
                     .setValue(doctor).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
@@ -118,6 +126,14 @@ public class DoctorDetails extends AppCompatActivity {
                     });
         });
 
+        DatabaseReference mDatabaseReference;
+        if(canEditForm) {
+            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + loggedUser);
+        } else {
+            mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorID);
+            saveChangesButton.setVisibility(View.GONE);
+        }
+
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -127,9 +143,8 @@ public class DoctorDetails extends AppCompatActivity {
                 txtSpecializare.setText(doctor.getSpecialization());
                 txtPhone.setText(doctor.getPhone());
                 txtAddress.setText(doctor.getAdresaCabinet());
-
                 doctorName = txtLastname.getText() + " " + txtFirstname.getText();
-                disableControllers(false);
+                disableControllers(!canEditForm);
             }
 
             @Override

@@ -34,6 +34,7 @@
 
     <string name="add_patient_button">Adaugă pacient</string>
     <string name="no_patient_to_display">Momentan nu aveți niciun pacient conectat contului dumneavoastră. Vă rugăm adăugați pacienți.</string>
+    <string name="no_doctor_to_display">Momentan nu sunteți înregistrat la cabinetul niciunui doctor.</string>
     <string name="delete_patient">Șterge pacient</string>
     <string name="add_patient_to_doctor">Introduceți CNP-ul pacientului.</string>
 

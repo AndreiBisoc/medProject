@@ -18,8 +18,6 @@ import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Patient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,14 +39,6 @@ public class PatientDetails extends AppCompatActivity {
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
-        txtLastname = findViewById(R.id.txtLastname);
-        txtFirstname = findViewById(R.id.txtFirstName);
-        txtCNP = findViewById(R.id.txtCNP);
-        txtBirthDate = findViewById(R.id.txtBirthDate);
-        txtPhone = findViewById(R.id.txtPhone);
-        txtAddress = findViewById(R.id.txtAddress);
-        progressBar = findViewById(R.id.progressBar);
-
         Intent intent = getIntent();
         String patientID = intent.getStringExtra("patientID");
         final String loggedUser = FirebaseAuth.getInstance().getUid();
@@ -59,6 +49,14 @@ public class PatientDetails extends AppCompatActivity {
         } else {
             setTitle("Detalii pacient");
         }
+
+        txtLastname = findViewById(R.id.txtLastname);
+        txtFirstname = findViewById(R.id.txtFirstName);
+        txtCNP = findViewById(R.id.txtCNP);
+        txtBirthDate = findViewById(R.id.txtBirthDate);
+        txtPhone = findViewById(R.id.txtPhone);
+        txtAddress = findViewById(R.id.txtAddress);
+        progressBar = findViewById(R.id.progressBar);
 
         Button saveChangesButton = findViewById(R.id.saveChangesButton);
         saveChangesButton.setOnClickListener(v -> {

@@ -17,7 +17,7 @@
         android:scrollbarStyle="outsideInset">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPatients"
+            android:id="@+id/rvList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

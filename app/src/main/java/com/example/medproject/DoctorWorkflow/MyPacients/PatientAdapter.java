@@ -1,7 +1,6 @@
 package com.example.medproject.DoctorWorkflow.MyPacients;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("DoctorsToPatients", l);
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference.child(loggedDoctorUid);
-        patients = FirebaseUtil.mPatients;
+        patients = new ArrayList<>();
         ChildEventListener mChildListener = new ChildEventListener() {
 
             @Override
@@ -55,8 +54,10 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     patients.add(patient);
                     patientsCNPs.add(patient.getCNP());
                     notifyItemInserted(patients.size() - 1);
-                    noPatientsToDisplay = false;
-                    MyPatientsActivity.displayMessageOrPatientsList();
+                    if(noPatientsToDisplay) {
+                        noPatientsToDisplay = false;
+                        MyPatientsActivity.displayMessageOrList(true);
+                    }
                 }
             }
 
@@ -79,7 +80,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 notifyItemRemoved(position);
                 if (patients.size() == 0) {
                     noPatientsToDisplay = true;
-                    MyPatientsActivity.displayMessageOrPatientsList();
+                    MyPatientsActivity.displayMessageOrList(true);
                 }
             }
 
