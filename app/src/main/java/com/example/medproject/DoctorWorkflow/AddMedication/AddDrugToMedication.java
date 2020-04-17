@@ -47,15 +47,15 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private TextView noOfInsertedDrugs;
     private MaterialButtonToggleGroup NoOfTimes;
 
-    private List<String> drugs = new ArrayList<>();
-    private List<String> drugIDs = new ArrayList<>();
+    private final List<String> drugs = new ArrayList<>();
+    private final List<String> drugIDs = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private MedicationLink medicationLink = new MedicationLink();
-    private ArrayList<MedicationLink> medicationLinkList = new ArrayList<>();
+    private final ArrayList<MedicationLink> medicationLinkList = new ArrayList<>();
     private DrugAdministration drugAdministration = new DrugAdministration();
-    private ArrayList<DrugAdministration> drugAdministrationList = new ArrayList<>();
-    private ArrayList<String> medicationDrugIDs = new ArrayList<>();
+    private final ArrayList<DrugAdministration> drugAdministrationList = new ArrayList<>();
+    private final ArrayList<String> medicationDrugIDs = new ArrayList<>();
     private String diagnostic;
     private String drugName;
     private String doctorName;

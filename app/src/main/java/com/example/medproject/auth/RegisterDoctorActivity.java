@@ -31,7 +31,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
     private ProgressBar progressBar;
     private Button registerButton;
     private FirebaseAuth mAuth;
-    private String[] SPECIALISATIONS = new String[] {"Cardiolog", "Chirurg","Dermatolog", "Endocrinolog", "Hematolog",
+    private final String[] SPECIALISATIONS = new String[] {"Cardiolog", "Chirurg","Dermatolog", "Endocrinolog", "Hematolog",
             "Medic de familie", "Neurolog", "Oncolog", "Pediatru", "Psiholog", "Psihiatru"};
 
     @Override
@@ -97,36 +97,29 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         disableControllers(true);
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Doctor doctor = new Doctor(email, prenume, nume, specialisation, telefon, adresaCabinet);
-                            doctor.setId(mAuth.getUid());
-                            FirebaseDatabase.getInstance().getReference("Doctors")
-                                    .child(mAuth.getUid())
-                                    .setValue(doctor).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
-                                        finishAffinity();
-                                        Intent intent = new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class);
-                                        startActivity(intent);
-                                    }
-                                    else {
-                                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Există deja un cont cu acest email");
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                        }
-                                    }
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Doctor doctor = new Doctor(email, prenume, nume, specialisation, telefon, adresaCabinet);
+                        doctor.setId(mAuth.getUid());
+                        FirebaseDatabase.getInstance().getReference("Doctors")
+                                .child(mAuth.getUid())
+                                .setValue(doctor).addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
+                                finishAffinity();
+                                Intent intent1 = new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class);
+                                startActivity(intent1);
+                            } else {
+                                if (task1.getException() instanceof FirebaseAuthUserCollisionException) {
+                                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Există deja un cont cu acest email");
+                                } else {
+                                    Toast.makeText(getApplicationContext(), task1.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
-                            });
-                        }
-                        else{
-                            Toast.makeText(RegisterDoctorActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
+                            }
+                        });
+                    }
+                    else{
+                        Toast.makeText(RegisterDoctorActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }

@@ -31,12 +31,7 @@ public class DeleteMedicationPopupActivity extends Activity {
         numeDoctor.setText(medication.getDoctorName());
 
         Button deleteButton = findViewById(R.id.deletebtn);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteMedication();
-            }
-        });
+        deleteButton.setOnClickListener(v -> deleteMedication());
     }
 
     private void deleteMedication(){

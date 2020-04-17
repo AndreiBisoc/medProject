@@ -31,12 +31,9 @@ public class BasicActions {
     }
 
     public static void hideKeyboardWithClick(View element, final AppCompatActivity activity) {
-        element.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hideKeyboard(activity);
-                return true;
-            }
+        element.setOnTouchListener((v, event) -> {
+            hideKeyboard(activity);
+            return true;
         });
     }
 

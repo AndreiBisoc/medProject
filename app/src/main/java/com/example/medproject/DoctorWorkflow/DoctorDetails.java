@@ -54,74 +54,68 @@ public class DoctorDetails extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         saveChangesButton = findViewById(R.id.saveChangesButton);
-        saveChangesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                disableControllers(true);
+        saveChangesButton.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            disableControllers(true);
 
-                final String prenume = txtFirstname.getText().toString().trim();
-                final String nume = txtLastname.getText().toString().trim();
-                String telefon = txtPhone.getText().toString().trim();
-                String adresaCabinet = txtAddress.getText().toString().trim();
-                String specialization = txtSpecializare.getText().toString().trim();
-                Doctor doctor = new Doctor(prenume, nume, specialization, telefon, adresaCabinet);
-                FirebaseDatabase.getInstance().getReference("Doctors")
-                        .child(doctorId)
-                        .setValue(doctor).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
-                                finish();
+            final String prenume = txtFirstname.getText().toString().trim();
+            final String nume = txtLastname.getText().toString().trim();
+            String telefon = txtPhone.getText().toString().trim();
+            String adresaCabinet = txtAddress.getText().toString().trim();
+            String specialization = txtSpecializare.getText().toString().trim();
+            Doctor doctor = new Doctor(prenume, nume, specialization, telefon, adresaCabinet);
+            FirebaseDatabase.getInstance().getReference("Doctors")
+                    .child(doctorId)
+                    .setValue(doctor).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
+                    finish();
+                }
+            });
+
+            FirebaseDatabase.getInstance().getReference("Medications")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshotMedication: dataSnapshot.getChildren()) {
+                                if(snapshotMedication.child("doctorName").getValue().equals(doctorName) ) {
+                                    FirebaseDatabase.getInstance().getReference("Medications")
+                                            .child(snapshotMedication.getKey())
+                                            .child("doctorName")
+                                            .setValue(nume + " " + prenume);
+                                }
+
                             }
-                    }
-                });
+                        }
 
-                FirebaseDatabase.getInstance().getReference("Medications")
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshotMedication: dataSnapshot.getChildren()) {
-                                    if(snapshotMedication.child("doctorName").getValue().equals(doctorName) ) {
-                                        FirebaseDatabase.getInstance().getReference("Medications")
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+            FirebaseDatabase.getInstance().getReference("PatientToMedications")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshotPatient: dataSnapshot.getChildren()) {
+                                for (DataSnapshot snapshotMedication: snapshotPatient.getChildren()) {
+                                    if(snapshotMedication.child("doctorName").getValue().equals(doctorName)) {
+                                        FirebaseDatabase.getInstance().getReference("PatientToMedications")
+                                                .child(snapshotPatient.getKey())
                                                 .child(snapshotMedication.getKey())
                                                 .child("doctorName")
                                                 .setValue(nume + " " + prenume);
                                     }
-
                                 }
                             }
+                        }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            }
-                        });
-
-                FirebaseDatabase.getInstance().getReference("PatientToMedications")
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshotPatient: dataSnapshot.getChildren()) {
-                                    for (DataSnapshot snapshotMedication: snapshotPatient.getChildren()) {
-                                        if(snapshotMedication.child("doctorName").getValue().equals(doctorName)) {
-                                            FirebaseDatabase.getInstance().getReference("PatientToMedications")
-                                                    .child(snapshotPatient.getKey())
-                                                    .child(snapshotMedication.getKey())
-                                                    .child("doctorName")
-                                                    .setValue(nume + " " + prenume);
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-            }
+                        }
+                    });
         });
 
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

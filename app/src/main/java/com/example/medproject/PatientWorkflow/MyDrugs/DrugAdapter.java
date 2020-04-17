@@ -31,10 +31,10 @@ import java.util.HashMap;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder> {
 
-    private ArrayList<MedicationLink> medicationLink;
+    private final ArrayList<MedicationLink> medicationLink;
     private FirebaseDatabase mFirebaseDatabase;
-    private boolean canEditMedicationFlag;
-    private Drawable syrupBottleCopy;
+    private final boolean canEditMedicationFlag;
+    private final Drawable syrupBottleCopy;
 
     public DrugAdapter(String medicationID, boolean canEditMedicationFlag, Drawable syrupBottle) {
         final ListActivity l = new ListActivity();
@@ -101,8 +101,10 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     }
 
     public class DrugViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView drugName, drugScop, drugUnitate;
-        ImageView drugIcon;
+        final TextView drugName;
+        final TextView drugScop;
+        final TextView drugUnitate;
+        final ImageView drugIcon;
 
         DrugViewHolder(@NonNull View itemView) {
             super(itemView);

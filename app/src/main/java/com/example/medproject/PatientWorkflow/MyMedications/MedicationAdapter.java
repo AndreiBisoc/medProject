@@ -36,10 +36,10 @@ import static android.view.View.GONE;
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
 
     public boolean noMedicationsToDisplay = true;
-    public boolean loggedAsDoctor;
-    private String currentUser;
-    private ArrayList<Medication> medications;
-    private String patientIdCopy;
+    public final boolean loggedAsDoctor;
+    private final String currentUser;
+    private final ArrayList<Medication> medications;
+    private final String patientIdCopy;
 
     public MedicationAdapter(String patientId) {
         patientIdCopy = patientId;
@@ -124,8 +124,9 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
     public class MedicationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView diagnostic, numeDoctor;
-        private Button deleteIcon;
+        private final TextView diagnostic;
+        private final TextView numeDoctor;
+        private final Button deleteIcon;
         private boolean canEditMedicationFlag = false;
 
         void canEdit(final String numeDoctor) {
@@ -180,21 +181,18 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                             .setTitle("Ștergere " + selectedMedication.getDiagnostic())
                             .setMessage("Sunteți sigur că doriți să ștergeți această medicație?")
                             .setNegativeButton("Anulare", /* listener = */ null)
-                            .setPositiveButton("Ștergere", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                    databaseReference.child("PatientToMedications")
-                                            .child(patientIdCopy)
-                                            .child(selectedMedication.getId())
-                                            .removeValue();
+                            .setPositiveButton("Ștergere", (dialog, which) -> {
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                databaseReference.child("PatientToMedications")
+                                        .child(patientIdCopy)
+                                        .child(selectedMedication.getId())
+                                        .removeValue();
 
-                                    databaseReference.child("Medications")
-                                            .child(selectedMedication.getId())
-                                            .removeValue();
+                                databaseReference.child("Medications")
+                                        .child(selectedMedication.getId())
+                                        .removeValue();
 
-                                    BasicActions.displaySnackBar(context, "Medicația " + selectedMedication.getDiagnostic() + " a fost ștearsă cu succes");
-                                }
+                                BasicActions.displaySnackBar(context, "Medicația " + selectedMedication.getDiagnostic() + " a fost ștearsă cu succes");
                             }).show();
                     break;
 

@@ -1,8 +1,5 @@
 package com.example.medproject.QRCode;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -11,14 +8,19 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.R;
 import com.example.medproject.Notifications.ReminderBroadcast;
+import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
+import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
 import com.example.medproject.data.model.Exceptions.WrongPatientScanningQRException;
-import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.Medication;
 import com.example.medproject.data.model.MedicationAdministration;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,7 +51,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
     private ZXingScannerView scannerView;
     private ArrayList<String> drugIDs = new ArrayList<>();
-    private List<MedicationAdministration> medicationAdministrationList = new ArrayList<>();
+    private final List<MedicationAdministration> medicationAdministrationList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +108,19 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
             BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
         } catch (WrongPatientScanningQRException e) {
             BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
+        } finally {
+            final Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                finish();
+                goToMyMedicationPage();
+            }, 500);
+
         }
 
+    }
+
+    private void goToMyMedicationPage(){
+        startActivity(new Intent(this, MyMedications.class));
     }
 
     private void addMedicationToDb(final String patientId, final String medicationId) {

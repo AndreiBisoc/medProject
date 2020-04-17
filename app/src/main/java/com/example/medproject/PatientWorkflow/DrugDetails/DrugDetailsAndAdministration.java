@@ -104,29 +104,23 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
         if(!canEditMedicationFlag) {
             saveChanges.setVisibility(View.INVISIBLE);
         }
-        saveChanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DrugAdministration changedAdministration = new DrugAdministration();
+        saveChanges.setOnClickListener(v -> {
+            DrugAdministration changedAdministration = new DrugAdministration();
 
-                changedAdministration.setDosage(txtDosage.getText().toString().trim());
-                changedAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
-                changedAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
-                changedAdministration.setStartDay(txtStartDay.getText().toString().trim());
-                changedAdministration.setStartHour(txtStartHour.getText().toString().trim());
+            changedAdministration.setDosage(txtDosage.getText().toString().trim());
+            changedAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
+            changedAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
+            changedAdministration.setStartDay(txtStartDay.getText().toString().trim());
+            changedAdministration.setStartHour(txtStartHour.getText().toString().trim());
 
-                FirebaseDatabase.getInstance().getReference("DrugAdministration")
-                        .child(drugAdministrationID)
-                        .setValue(changedAdministration).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Medicația a fost editată cu succes");
-                            finish();
-                        }
-                    }
-                });
-            }
+            FirebaseDatabase.getInstance().getReference("DrugAdministration")
+                    .child(drugAdministrationID)
+                    .setValue(changedAdministration).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Medicația a fost editată cu succes");
+                    finish();
+                }
+            });
         });
     }
 

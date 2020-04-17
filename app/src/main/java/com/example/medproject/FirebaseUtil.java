@@ -43,18 +43,15 @@ public class FirebaseUtil {
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mFirebaseAuth = FirebaseAuth.getInstance();
             caller = callerActivity;
-            mAuthListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    if(firebaseAuth.getCurrentUser() == null) {
-                        FirebaseUtil.signIn();
-                    }
-                    else{
-                        String userId = firebaseAuth.getUid();
-                        checkAdmin(userId);
-                    }
-                    Toast.makeText(callerActivity.getBaseContext(),"Bine ați revenit!",Toast.LENGTH_LONG).show();
+            mAuthListener = firebaseAuth -> {
+                if(firebaseAuth.getCurrentUser() == null) {
+                    FirebaseUtil.signIn();
                 }
+                else{
+                    String userId = firebaseAuth.getUid();
+                    checkAdmin(userId);
+                }
+                Toast.makeText(callerActivity.getBaseContext(),"Bine ați revenit!",Toast.LENGTH_LONG).show();
             };
         }
 

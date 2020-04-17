@@ -94,25 +94,17 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
 
         birthDateEditText = findViewById(R.id.birthDateEditText);
         birthDateEditText.setInputType(InputType.TYPE_NULL);
-        birthDateEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                picker = new DatePickerDialog(RegisterPacientActivity.this, AlertDialog.THEME_HOLO_DARK,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                birthDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                            }
-                        }, year, month, day);
+        birthDateEditText.setOnClickListener(v -> {
+            final Calendar cldr = Calendar.getInstance();
+            int day = cldr.get(Calendar.DAY_OF_MONTH);
+            int month = cldr.get(Calendar.MONTH);
+            int year = cldr.get(Calendar.YEAR);
+            // date picker dialog
+            picker = new DatePickerDialog(RegisterPacientActivity.this,
+                    (view, year1, monthOfYear, dayOfMonth) -> birthDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1), year, month, day);
                 picker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 picker.setTitle("Selectați data nașterii");
-                picker.show();
-            }
+            picker.show();
         });
 
         txtAdresa = findViewById(R.id.address);
@@ -160,37 +152,29 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         disableControllers(true);
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Patient patient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
-                            patient.setId(mAuth.getUid());
-                            FirebaseDatabase.getInstance().getReference("Patients")
-                                    .child(mAuth.getUid())
-                                    .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
-                                        finishAffinity();
-                                        Intent intent = new Intent(RegisterPacientActivity.this, MyMedications.class);
-                                        startActivity(intent);
-                                    }
-                                    else{
-                                        if(task.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
-                                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Există deja un cont cu acest email");
-                                        }
-                                        else{
-                                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                        }
-                                    }
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Patient patient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
+                        patient.setId(mAuth.getUid());
+                        FirebaseDatabase.getInstance().getReference("Patients")
+                                .child(mAuth.getUid())
+                                .setValue(patient).addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
+                                finishAffinity();
+                                Intent intent1 = new Intent(RegisterPacientActivity.this, MyMedications.class);
+                                startActivity(intent1);
+                            } else {
+                                if (task1.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
+                                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Există deja un cont cu acest email");
+                                } else {
+                                    Toast.makeText(getApplicationContext(), task1.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
-                            });
-                        }
-                        else{
-                            Toast.makeText(RegisterPacientActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
+                            }
+                        });
+                    }
+                    else{
+                        Toast.makeText(RegisterPacientActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
