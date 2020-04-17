@@ -9,11 +9,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
     private EditText searchDrugName, txtDosage, txtNoOfDays, txtStartDay, txtStartHour;
@@ -62,7 +61,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private String doctorName;
     private static int noOfDrugs = 0;
     private ProgressBar progressBar;
-    private int timesPerDay = 0;
+    private Locale locale = Locale.forLanguageTag("ro_RO");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +86,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
 
         if (noOfDrugs == 0) {
-            noOfInsertedDrugs.setText("Niciun medicament asociat");
+            noOfInsertedDrugs.setText(String.format(locale, "%s", "Niciun medicament asociat"));
         } else {
-            noOfInsertedDrugs.setText("Aveți adăugate " + noOfDrugs + " medicamente");
+            noOfInsertedDrugs.setText(String.format(locale, "%s", "Aveți adăugate " + noOfDrugs + " medicamente"));
         }
 
         addAnotherDrugButton.setOnClickListener(this);
@@ -97,21 +96,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         addDrugDetailsButton.setOnClickListener(this);
         txtStartDay.setOnClickListener(this);
         txtStartHour.setOnClickListener(this);
-        NoOfTimes.addOnButtonCheckedListener((toggleButton, checkedId, isChecked) -> {
-            if(checkedId == R.id.morningButton){
-                timesPerDay++;
-            }else if(checkedId == R.id.noonButton){
-                timesPerDay++;
-            }else if(checkedId == R.id.eveningButton){
-                timesPerDay++;
-            }
-        });
-
-        //Creating the instance of ArrayAdapter containing list of CNPs
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>
-          //      (this, android.R.layout.select_dialog_item, drugs);
-        //searchDrugName.setThreshold(1); // will start working from first character
-        //searchDrugName.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
 
         Intent newDrugIntent = getIntent();
         String drugToAdd = newDrugIntent.getStringExtra("drugId");
@@ -155,13 +139,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                     }
                 });
 
-//        Intent newDrugIntent = getIntent();
-//        Drug drugToAdd = (Drug) newDrugIntent.getSerializableExtra("drug");
-//        if(drugToAdd != null) {
-//            drugID = drugIDs.get(drugs.indexOf(drugToAdd.getNume()));
-//            finishAddingDrug();
-//        }
-
         //get Doctor's name
         String doctorID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseReference = mFirebaseDatabase.getReference("Doctors/" + doctorID);
@@ -182,6 +159,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addDrugButton:
+                Log.d("MyActivity", " NoOfTimes" + NoOfTimes.getCheckedButtonIds().size());
                 addDrugToMedication();
                 break;
             case R.id.saveMedicationButton:
@@ -219,7 +197,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
         finish();
         getDataForQRCode(medicationLinkId);
-
     }
 
     private void getDataForQRCode(String medicationLinkId) {
@@ -242,7 +219,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
         drugAdministration.setStartDay(txtStartDay.getText().toString().trim());
         drugAdministration.setStartHour(txtStartHour.getText().toString().trim());
-        //drugAdministration.setNoOfTimes(txtNoOfTimes.getText().toString().trim());
+        drugAdministration.setNoOfTimes(String.format(locale,"%d", NoOfTimes.getCheckedButtonIds().size()));
         drugAdministrationList.add(drugAdministration);
 
         if(validareDrugAdministration(drugAdministration)){
@@ -251,25 +228,17 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugName = searchDrugName.getText().toString().trim();
         try {
             String drugID = drugIDs.get(drugs.indexOf(drugName));
-            finishAddingDrug(drugID);
+            if(medicationDrugIDs.contains(drugID)){
+                searchDrugName.setError("Acest medicament este adăugat deja");
+                searchDrugName.requestFocus();
+            }
+            else{
+                finishAddingDrug(drugID);
+            }
 
         } catch (Exception e) {
             searchDrugName.setError("Acest medicament nu există");
             searchDrugName.requestFocus();
-            return;
-
-//            new MaterialAlertDialogBuilder(getWindow().getDecorView().getContext())
-//                    .setMessage("Medicamentul " + drugName + " nu există în baza de date. Doriți să îl adăugați?")
-//                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            Intent intentToAddDrug = new Intent(AddDrugToMedication.this, AddDrug.class);
-//                            intentToAddDrug.putExtra("drugName", drugName);
-//                            startActivity(intentToAddDrug);
-//                        }
-//                    })
-//                    .setNegativeButton("Nu", /* listener = */ null)
-//                    .show();
         }
     }
 
@@ -280,9 +249,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         medicationLinkList.add(medicationLink);
 
         clean();
-//        Toast.makeText(this, "Ați adăugat " + drugName, Toast.LENGTH_LONG).show();
+        BasicActions.displaySnackBar(getWindow().getDecorView(), "Ați adăugat " + drugName);
         noOfDrugs++;
-        noOfInsertedDrugs.setText("Ați adăugat până acum " + noOfDrugs + " medicamente.");
+        noOfInsertedDrugs.setText(String.format(locale, "%s", "Ați adăugat până acum " + noOfDrugs + " medicamente."));
     }
 
     private void openDatePicker(){
@@ -294,7 +263,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         // Date picker dialog
         DatePickerDialog datePickerDialog= new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK,
                 (view, year1, monthOfYear, dayOfMonth) ->
-                        txtStartDay.setText(String.format("%d/%d/%d", dayOfMonth, monthOfYear + 1, year1))
+                        txtStartDay.setText(String.format(locale,"%d/%d/%d", dayOfMonth, monthOfYear + 1, year1))
                 , year, month, day);
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.setTitle("Selectați data de început");
@@ -337,7 +306,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                 ArrayList<String> resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); // array of possible versions of text
                 String result = resultArray.get(0); // the first version is the most precise one
                 handleDosage_SpeechRecognition(result);
-                handleDrugName_SpeechRecognition(result, false);
+                handleDrugName_SpeechRecognition(result);
                 handleNoOfDays_SpeechRecognition(result);
             }
         }
@@ -363,19 +332,14 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void handleDrugName_SpeechRecognition(String result, boolean alone) {
-        if(alone){
+    private void handleDrugName_SpeechRecognition(String result) {
+        int indexOfCate = result.indexOf("câte ");
+        boolean cate2Exist = result.substring(indexOfCate + 4, result.length() - 1).contains("câte");
+        if (indexOfCate == -1 || cate2Exist) { // Cuvantul "câte " nu a fost rostit
+            BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
+        } else {
+            String drugName = result.substring(0, indexOfCate - 1);
             searchDrugName.setText(String.format("%s%s", drugName.substring(0, 1).toUpperCase(), drugName.substring(1)));
-        }
-        else {
-            int indexOfCate = result.indexOf("câte ");
-            boolean cate2Exist = result.substring(indexOfCate + 4, result.length() - 1).contains("câte");
-            if (indexOfCate == -1 || cate2Exist) { // Cuvantul "câte " nu a fost rostit
-                BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
-            } else {
-                String drugName = result.substring(0, indexOfCate - 1);
-                searchDrugName.setText(String.format("%s%s", drugName.substring(0, 1).toUpperCase(), drugName.substring(1)));
-            }
         }
     }
 
@@ -407,13 +371,13 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
             }else {
                 if (str.contains("zi") || str.contains("zile")) {
-                    txtNoOfDays.setText(String.format("%d", nr));
+                    txtNoOfDays.setText(String.format(locale,"%d", nr));
                 } else if (str.contains("săptămână") || str.contains("săptămâni")) {
-                    txtNoOfDays.setText(String.format("%d", nr * 7));
+                    txtNoOfDays.setText(String.format(locale, "%d", nr * 7));
                 } else if (str.contains("lună") || str.contains("luni")) {
-                    txtNoOfDays.setText(String.format("%d", nr * 30));
+                    txtNoOfDays.setText(String.format(locale, "%d", nr * 30));
                 } else if (str.contains("an") || str.contains("ani")) {
-                    txtNoOfDays.setText(String.format("%d", nr * 365));
+                    txtNoOfDays.setText(String.format(locale, "%d", nr * 365));
                 } else {
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
                 }
@@ -438,9 +402,17 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         searchDrugName.setText("");
         txtDosage.setText("");
         txtNoOfDays.setText("");
-        //txtNoOfTimes.setText("");
         txtStartDay.setText("");
         txtStartHour.setText("");
+
+        NoOfTimes.clearChecked();
+        NoOfTimes.check(R.id.morningButton);
+
+        searchDrugName.clearFocus();
+        txtDosage.clearFocus();
+        txtNoOfDays.clearFocus();
+        txtStartDay.clearFocus();
+        txtStartHour.clearFocus();
     }
 
     private boolean validareDrugAdministration(DrugAdministration drugAdministration){
@@ -453,12 +425,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         if(drugAdministration.getNoOfDays().isEmpty()){
             txtNoOfDays.setError("Introduceți nr. de zile");
             txtNoOfDays.requestFocus();
-            return true;
-        }
-
-        if(drugAdministration.getNoOfTimes().isEmpty()){
-            //txtNoOfTimes.setError("Introduceți nr. de dăți");
-            NoOfTimes.requestFocus();
             return true;
         }
 
