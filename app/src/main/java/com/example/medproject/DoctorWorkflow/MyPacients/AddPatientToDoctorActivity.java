@@ -45,6 +45,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
     private int length = 0;
     private ProgressBar progressBar;
     private Button addPatient;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -95,7 +96,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
                 (this, android.R.layout.select_dialog_item, CNPs);
 
         progressBar = findViewById(R.id.progressBar);
-        searchForCNP =  findViewById(R.id.searchForCNP);
+        searchForCNP = findViewById(R.id.searchForCNP);
         searchForCNP.setAdapter(adapter); // setting the adapter data into the AutoCompleteTextView
         searchForCNP.setOnClickListener(v -> {
             if(length==0) {
@@ -124,7 +125,6 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
         });
 
         addPatient.setOnClickListener(v -> {
-
             final String searchedCNP = searchForCNP.getText().toString().trim();
             addPatientToDoctor(searchedCNP);
         });
