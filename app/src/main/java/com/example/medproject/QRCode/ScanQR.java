@@ -120,7 +120,9 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
     }
 
     private void goToMyMedicationPage(){
-        startActivity(new Intent(this, MyMedications.class));
+        Intent intent = new Intent(this, MyMedications.class);
+        intent.putExtra("loggedAsDoctor", false);
+        startActivity(intent);
     }
 
     private void addMedicationToDb(final String patientId, final String medicationId) {

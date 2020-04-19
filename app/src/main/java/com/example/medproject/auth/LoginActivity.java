@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if(dataSnapshot.exists()){ //este doctor
                                 finish();
                                 Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                intent.putExtra("loggedAsDoctor", true);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 if(dataSnapshot.exists()){ //este pacient
                                                     finish();
                                                     Intent intent = new Intent(LoginActivity.this, MyMedications.class);
+                                                    intent.putExtra("loggedAsDoctor", false);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                     startActivity(intent);
                                                 }
@@ -145,6 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 if(dataSnapshot.exists()){ //este doctor
                                     finish();
                                     Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
+                                    intent.putExtra("loggedAsDoctor", true);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                 }
@@ -157,6 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                     if(dataSnapshot.exists()){ //este pacient
                                                         finish();
                                                         Intent intent = new Intent(LoginActivity.this, MyMedications.class);
+                                                        intent.putExtra("loggedAsDoctor", false);
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         startActivity(intent);
                                                     }

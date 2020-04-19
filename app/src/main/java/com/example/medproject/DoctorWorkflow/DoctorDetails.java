@@ -1,7 +1,6 @@
 package com.example.medproject.DoctorWorkflow;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,8 +33,9 @@ public class DoctorDetails extends AppCompatActivity {
     private boolean canEditForm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.doctor_details);
         setTitle("Contul meu");
 

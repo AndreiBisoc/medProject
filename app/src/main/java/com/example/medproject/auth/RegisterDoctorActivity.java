@@ -1,7 +1,6 @@
 package com.example.medproject.auth;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -10,17 +9,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,8 +29,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
             "Medic de familie", "Neurolog", "Oncolog", "Pediatru", "Psiholog", "Psihiatru"};
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         setContentView(R.layout.activity_doctor_register);
         BasicActions.hideActionBar(this);
 
@@ -61,12 +55,6 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         registerButton.setOnClickListener(this);
         registerButton.setEnabled(true);
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -108,6 +96,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
                                 finishAffinity();
                                 Intent intent1 = new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class);
+                                intent1.putExtra("loggedAsDoctor", true);
                                 startActivity(intent1);
                             } else {
                                 if (task1.getException() instanceof FirebaseAuthUserCollisionException) {

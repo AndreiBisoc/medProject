@@ -1,16 +1,15 @@
 package com.example.medproject.auth;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
@@ -24,8 +23,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private RadioGroup radioGroup;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         setContentView(R.layout.activity_register);
         BasicActions.hideActionBar(this);
 
@@ -62,13 +61,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
 
         registerButton.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        progressBar.setVisibility(View.GONE);
-        disableControllers(false);
     }
 
     @Override

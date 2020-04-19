@@ -22,7 +22,7 @@ public class Patient implements Serializable {
     private String birthDate;
     private String phone;
     private String address;
-    private String CNP;
+    private String cnp;
     private String bloodType;
     private String RH;
     private String allergies;
@@ -32,36 +32,36 @@ public class Patient implements Serializable {
     public Patient() {
     }
 
-    public Patient(String firstName, String lastName, String birthDate, String phone, String CNP) {
+    public Patient(String firstName, String lastName, String birthDate, String phone, String cnp) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.phone = phone;
-        this.CNP = CNP;
+        this.cnp = cnp;
     }
 
-    public Patient(String email, String firstName, String lastName, String birthDate, String phone, String address, String CNP) {
+    public Patient(String email, String firstName, String lastName, String birthDate, String phone, String address, String cnp) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.phone = phone;
         this.address = address;
-        this.CNP = CNP;
+        this.cnp = cnp;
     }
 
-    public Patient(String firstName, String lastName, String birthDate, String phone, String address, String CNP) {
+    public Patient(String firstName, String lastName, String birthDate, String phone, String address, String cnp) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.phone = phone;
         this.address = address;
-        this.CNP = CNP;
+        this.cnp = cnp;
     }
 
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof Patient)
-            return ((Patient) obj).CNP == this.CNP;
+            return ((Patient) obj).cnp == this.cnp;
         return false;
     }
 
@@ -98,7 +98,7 @@ public class Patient implements Serializable {
     }
 
     public String getCNP() {
-        return CNP;
+        return cnp;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -126,5 +126,4 @@ public class Patient implements Serializable {
 //        this.allergies = Arrays.asList(allergies.split("\\s*,\\s*"));
         return emergencyDetails;
     }
-
 }

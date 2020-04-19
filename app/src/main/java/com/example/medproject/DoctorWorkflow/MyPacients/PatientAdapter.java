@@ -180,6 +180,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     intent = new Intent(view.getContext(), MyMedications.class);
                     intent.putExtra("patientName", selectedPatient.getName());
                     intent.putExtra("patientId", selectedPatient.getId());
+                    intent.putExtra("loggedAsDoctor",true);
                     view.getContext().startActivity(intent);
                     break;
             }

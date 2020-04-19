@@ -1,7 +1,6 @@
 package com.example.medproject.DoctorWorkflow.AddMedication;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.BasicActions;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
-import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -23,8 +21,9 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
     private String patientId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
+        BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.add_medication);
 
         BasicActions.hideActionBar(this);
@@ -64,6 +63,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
                 finish();
                 Intent intent = new Intent(this, MyMedications.class);
                 intent.putExtra("patientId", patientId);
+                intent.putExtra("loggedAsDoctor", true);
                 startActivity(intent);
                 break;
         }
@@ -92,15 +92,6 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
             return true;
         }
         return false;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }
     }
 
     private void disableControllers(boolean isEnabled){
