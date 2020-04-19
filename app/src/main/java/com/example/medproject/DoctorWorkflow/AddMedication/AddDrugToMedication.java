@@ -66,8 +66,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         super.onStart();
         BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.add_drug_to_medication);
-        progressBar.setVisibility(View.GONE);
-        disableControllers(false);
 
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
@@ -85,6 +83,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         Button saveMedicationButton = findViewById(R.id.saveMedicationButton);
         Button addDrugDetailsButton = findViewById(R.id.addDrugDetailsButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
+
+        progressBar.setVisibility(View.GONE);
+        disableControllers(false);
 
         if (noOfDrugs == 0) {
             noOfInsertedDrugs.setText(String.format(locale, "%s", "Niciun medicament asociat"));

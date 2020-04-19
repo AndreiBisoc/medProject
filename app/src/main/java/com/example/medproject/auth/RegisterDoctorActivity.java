@@ -96,6 +96,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
                                 finishAffinity();
                                 Intent intent1 = new Intent(RegisterDoctorActivity.this, MyPatientsActivity.class);
+                                intent1.putExtra("loggedAsDoctor", true);
                                 startActivity(intent1);
                             } else {
                                 if (task1.getException() instanceof FirebaseAuthUserCollisionException) {

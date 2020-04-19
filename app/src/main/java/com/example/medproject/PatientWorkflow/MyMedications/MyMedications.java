@@ -30,11 +30,14 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     private static MedicationAdapter secondAdapter;
     private static TextView emptyView;
     private String patientId;
+    private boolean loggedAsDoctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_medications);
+
+        loggedAsDoctor = getIntent().getBooleanExtra("loggedAsDoctor", false);
 
         patientId = getIntent().getStringExtra("patientId");
         String patientName = getIntent().getStringExtra("patientName");

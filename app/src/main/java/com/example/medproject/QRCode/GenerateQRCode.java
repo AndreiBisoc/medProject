@@ -66,6 +66,7 @@ public class GenerateQRCode extends AppCompatActivity {
             disableControllers(true);
             finish();
             Intent intent = new Intent(getApplicationContext(), MyPatientsActivity.class);
+            intent.putExtra("loggedAsDoctor", true);
             startActivity(intent);
         });
     }

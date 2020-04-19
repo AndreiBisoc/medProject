@@ -35,7 +35,7 @@ public class MyPatientsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_patients);
 
 //        logged as a patient => loggedAsDoctor = false;
-        loggedAsDoctor = false;
+        loggedAsDoctor = getIntent().getBooleanExtra("loggedAsDoctor", false);
 
         rvList = findViewById(R.id.rvList);
 

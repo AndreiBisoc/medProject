@@ -63,6 +63,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
                 finish();
                 Intent intent = new Intent(this, MyMedications.class);
                 intent.putExtra("patientId", patientId);
+                intent.putExtra("loggedAsDoctor", true);
                 startActivity(intent);
                 break;
         }

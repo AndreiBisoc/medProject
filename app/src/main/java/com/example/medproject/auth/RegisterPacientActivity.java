@@ -149,6 +149,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
                                 finishAffinity();
                                 Intent intent1 = new Intent(RegisterPacientActivity.this, MyMedications.class);
+                                intent1.putExtra("loggedAsDoctor", false);
                                 startActivity(intent1);
                             } else {
                                 if (task1.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
