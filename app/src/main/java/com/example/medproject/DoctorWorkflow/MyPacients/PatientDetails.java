@@ -17,6 +17,7 @@ import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Patient;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PatientDetails extends AppCompatActivity {
     private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
-    private boolean canEditForm;
+    private boolean loggedAsDoctor;
     private ProgressBar progressBar;
 
     @Override
@@ -41,14 +42,15 @@ public class PatientDetails extends AppCompatActivity {
 
         Intent intent = getIntent();
         String patientID = intent.getStringExtra("patientID");
-        final String loggedUser = FirebaseAuth.getInstance().getUid();
 
-        canEditForm = patientID == null; // logged as doctor or not
-        if(canEditForm) {
+        loggedAsDoctor = intent.getBooleanExtra("loggedAsDoctor", false);
+        if(!loggedAsDoctor) {
             setTitle("Contul meu");
         } else {
             setTitle("Detalii pacient");
         }
+
+        final String loggedUser = FirebaseAuth.getInstance().getUid();
 
         txtLastname = findViewById(R.id.txtLastname);
         txtFirstname = findViewById(R.id.txtFirstName);
@@ -57,6 +59,9 @@ public class PatientDetails extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhone);
         txtAddress = findViewById(R.id.txtAddress);
         progressBar = findViewById(R.id.progressBar);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
         Button saveChangesButton = findViewById(R.id.saveChangesButton);
         saveChangesButton.setOnClickListener(v -> {
@@ -75,7 +80,8 @@ public class PatientDetails extends AppCompatActivity {
                     .setValue(patient).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
-                    finish();
+                    progressBar.setVisibility(View.GONE);
+                    disableControllers(false);
                 }
             });
 
@@ -104,7 +110,7 @@ public class PatientDetails extends AppCompatActivity {
         });
 
         DatabaseReference mDatabaseReference;
-        if(canEditForm) {
+        if(!loggedAsDoctor) {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + loggedUser);
         } else {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + patientID);
@@ -121,7 +127,7 @@ public class PatientDetails extends AppCompatActivity {
                 txtBirthDate.setText(patient.getBirthDate());
                 txtPhone.setText(patient.getPhone());
                 txtAddress.setText(patient.getAddress());
-                disableControllers(!canEditForm);
+                disableControllers(loggedAsDoctor);
             }
 
             @Override
@@ -141,15 +147,10 @@ public class PatientDetails extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.edit_account:
-                startActivity(new Intent(this, DoctorDetails.class));
-                break;
-            case R.id.logout_menu:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
-                break;
+        if (item.getItemId() == R.id.logout_menu) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
         }
         return true;
     }

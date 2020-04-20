@@ -3,7 +3,9 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
+import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
 import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;import com.example.medproject.QRCode.ScanQR;
 import com.example.medproject.auth.LoginActivity;
@@ -21,6 +23,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.medproject.R;
+import com.example.medproject.auth.RegisterDoctorActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MyMedications extends AppCompatActivity implements View.OnClickListener {
@@ -62,6 +67,9 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         addMedicationButton.setOnClickListener(this);
         scanMedicationButton.setOnClickListener(this);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
+
         if(!secondAdapter.loggedAsDoctor) {
             setTitle("Medicațiile mele");
             addMedicationButton.setVisibility(View.GONE);
@@ -84,19 +92,10 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.edit_account:
-                if(secondAdapter.loggedAsDoctor) {
-                    startActivity(new Intent(this, DoctorDetails.class));
-                } else {
-                    startActivity(new Intent(this, PatientDetails.class));
-                }
-                break;
-            case R.id.logout_menu:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
-                break;
+        if (item.getItemId() == R.id.logout_menu) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
         }
         return true;
     }

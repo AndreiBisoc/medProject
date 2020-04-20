@@ -202,6 +202,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                     intent.putExtra("diagnostic", selectedMedication.getDiagnostic());
                     intent.putExtra("MedicationID", medicationID);
                     intent.putExtra("canEditMedicationFlag", canEditMedicationFlag);
+                    intent.putExtra("loggedAsDoctor", loggedAsDoctor);
                     view.getContext().startActivity(intent);
                     break;
             }

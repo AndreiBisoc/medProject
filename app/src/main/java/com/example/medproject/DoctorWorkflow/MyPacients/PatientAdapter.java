@@ -172,8 +172,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 case R.id.seeMore:
                     Intent intent = new Intent(view.getContext(), PatientDetails.class);
                     intent.putExtra("patientID", selectedPatient.getId());
+                    intent.putExtra("loggedAsDoctor",true);
                     view.getContext().startActivity(intent);
-
                     break;
 
                 default:

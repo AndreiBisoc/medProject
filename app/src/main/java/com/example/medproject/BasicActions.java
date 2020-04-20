@@ -9,8 +9,13 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.DoctorWorkflow.DoctorDetails;
+import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
+import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
+import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -75,6 +80,64 @@ public class BasicActions {
             activity.finish();
             activity.startActivity(new Intent(activity, LoginActivity.class));
         }
+    }
+
+    public static void manageNavigationView(AppCompatActivity activity, BottomNavigationView bottomNavigationView, boolean loggedAsDoctor) {
+        if(loggedAsDoctor) {
+            bottomNavigationView.getMenu().removeItem(R.id.my_medications);
+            bottomNavigationView.getMenu().removeItem(R.id.my_doctors);
+        }
+        else {
+            bottomNavigationView.getMenu().removeItem(R.id.my_patients);
+        }
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Intent intent;
+            switch (item.getItemId()){
+                case R.id.my_medications:
+                    if(!activity.getClass().equals(MyMedications.class)) {
+                        activity.finish();
+                        intent = new Intent(activity.getApplicationContext(), MyMedications.class);
+                        intent.putExtra("loggedAsDoctor", loggedAsDoctor);
+                        activity.startActivity(intent);
+                    }
+                    break;
+                case R.id.my_patients:
+                    if(!activity.getClass().equals(MyPatientsActivity.class)) {
+                        activity.finish();
+                        intent = new Intent(activity.getApplicationContext(), MyPatientsActivity.class);
+                        intent.putExtra("loggedAsDoctor", true);
+                        activity.startActivity(intent);
+                    }
+                    break;
+                case R.id.my_doctors:
+                    if(!activity.getClass().equals(MyPatientsActivity.class)) {
+                        activity.finish();
+                        intent = new Intent(activity.getApplicationContext(), MyPatientsActivity.class);
+                        intent.putExtra("loggedAsDoctor", false);
+                        activity.startActivity(intent);
+                    }
+                    break;
+                case R.id.my_profile:
+                        if (loggedAsDoctor) {
+                            if(!activity.getClass().equals(DoctorDetails.class)) {
+                                activity.finish();
+                                intent = new Intent(activity.getApplicationContext(), DoctorDetails.class);
+                                intent.putExtra("loggedAsDoctor", true);
+                                activity.startActivity(intent);
+                            }
+                        } else {
+                            if(!activity.getClass().equals(PatientDetails.class)) {
+                                activity.finish();
+                                intent = new Intent(activity.getApplicationContext(), PatientDetails.class);
+                                intent.putExtra("loggedAsDoctor", false);
+                                activity.startActivity(intent);
+                            }
+                        }
+                    break;
+            }
+            return false;
+        });
     }
 
 }

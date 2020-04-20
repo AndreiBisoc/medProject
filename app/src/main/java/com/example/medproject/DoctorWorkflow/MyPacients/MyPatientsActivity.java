@@ -17,6 +17,8 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.data.model.Patient;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MyPatientsActivity extends AppCompatActivity {
@@ -45,10 +47,14 @@ public class MyPatientsActivity extends AppCompatActivity {
             rvList.setAdapter(PATIENT_ADAPTER);
             initializePage("Pacienții mei", View.VISIBLE);
         } else {
-            DOCTOR_ADAPTER = new DoctorAdapter();
+            DOCTOR_ADAPTER = new DoctorAdapter(loggedAsDoctor);
             rvList.setAdapter(DOCTOR_ADAPTER);
             initializePage("Doctorii mei", View.GONE);
         }
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
+
         //progressBar = findViewById(R.id.progressBar);
     }
 
@@ -81,18 +87,13 @@ public class MyPatientsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.edit_account:
-                startActivity(new Intent(this, DoctorDetails.class));
-                break;
-            case R.id.logout_menu:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                Intent toLoginPage = new Intent(this, LoginActivity.class);
-                toLoginPage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                toLoginPage.putExtra("logOut", "logOut");
-                startActivity(toLoginPage);
-                break;
+        if (item.getItemId() == R.id.logout_menu) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            Intent toLoginPage = new Intent(this, LoginActivity.class);
+            toLoginPage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            toLoginPage.putExtra("logOut", "logOut");
+            startActivity(toLoginPage);
         }
         return true;
     }

@@ -16,6 +16,7 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Doctor;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +31,7 @@ public class DoctorDetails extends AppCompatActivity {
     private Button saveChangesButton;
     private ProgressBar progressBar;
     private String doctorName;
-    private boolean canEditForm;
+    private boolean loggedAsDoctor;
 
     @Override
     protected void onStart() {
@@ -47,12 +48,15 @@ public class DoctorDetails extends AppCompatActivity {
         Intent intent = getIntent();
         String doctorID = intent.getStringExtra("doctorID");
 
-        canEditForm = doctorID == null; // logged as doctor or not
-        if(canEditForm) {
+        loggedAsDoctor = intent.getBooleanExtra("loggedAsDoctor", false);
+        if(loggedAsDoctor) {
             setTitle("Contul meu");
         } else {
             setTitle("Detalii doctor");
         }
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
         txtLastname = findViewById(R.id.txtLastname);
         txtFirstname = findViewById(R.id.txtFirstName);
@@ -77,7 +81,8 @@ public class DoctorDetails extends AppCompatActivity {
                     .setValue(doctor).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
-                    finish();
+                    progressBar.setVisibility(View.GONE);
+                    disableControllers(false);
                 }
             });
 
@@ -127,7 +132,7 @@ public class DoctorDetails extends AppCompatActivity {
         });
 
         DatabaseReference mDatabaseReference;
-        if(canEditForm) {
+        if(loggedAsDoctor) {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + loggedUser);
         } else {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorID);
@@ -144,7 +149,7 @@ public class DoctorDetails extends AppCompatActivity {
                 txtPhone.setText(doctor.getPhone());
                 txtAddress.setText(doctor.getAdresaCabinet());
                 doctorName = txtLastname.getText() + " " + txtFirstname.getText();
-                disableControllers(!canEditForm);
+                disableControllers(!loggedAsDoctor);
             }
 
             @Override
@@ -159,18 +164,15 @@ public class DoctorDetails extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
         menu.removeItem(R.id.insert_menu);
-        menu.removeItem(R.id.edit_account);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.logout_menu:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
-                break;
+        if (item.getItemId() == R.id.logout_menu) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
         }
         return true;
     }

@@ -33,11 +33,13 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
 
     public boolean noDoctorsToDisplay = true;
     private final ArrayList<Doctor> doctors;
+    private boolean loggedAsDoctor;
 
-    public DoctorAdapter(){
+    public DoctorAdapter(boolean loggedAsDoctor){
 
         String loggedPatientUid = FirebaseAuth.getInstance().getUid();
 
+        this.loggedAsDoctor = loggedAsDoctor;
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("DoctorsToPatients", l);
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
@@ -200,6 +202,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                 case R.id.seeDoctorDetails:
                     Intent intent = new Intent(view.getContext(), DoctorDetails.class);
                     intent.putExtra("doctorID", selectedDoctor.getId());
+                    intent.putExtra("loggedAsDoctor", loggedAsDoctor);
                     view.getContext().startActivity(intent);
 
                     break;
