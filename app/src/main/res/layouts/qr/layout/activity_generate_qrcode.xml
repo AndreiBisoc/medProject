@@ -4,47 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QRCode.GenerateQRCode">
+    tools:context=".QRCode.MedicationQRCode.GenerateMedicationQRCode">
 
-    <LinearLayout
-        android:id="@+id/generateButton"
+    <TextView
+        android:id="@+id/empty_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="48dp"
+        android:gravity="center"
+        android:text="@string/description_generate_medication_QR_code"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/generateCode"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="48dp"
-            android:backgroundTint="@color/amber"
-            android:text="@string/generate_qr"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/qrCodeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="5dp"
-        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/empty_view"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <ImageView
             android:id="@+id/qrCode"
@@ -57,45 +45,5 @@
             tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/backButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qrCodeLayout">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/backToMyPatients"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="@color/amber"
-            android:text="@string/back_to_patients"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:indeterminateDrawable="@drawable/progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

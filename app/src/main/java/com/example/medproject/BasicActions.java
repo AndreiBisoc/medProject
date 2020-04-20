@@ -58,6 +58,12 @@ public class BasicActions {
                 .show();
     }
 
+    public static void displaySnackBarLonger(View context, String message) {
+        Snackbar.make(context, message, Snackbar.LENGTH_LONG)
+                .setTextColor(Color.parseColor("#ffb300"))
+                .show();
+    }
+
     public static void checkDoctorPatientLink(String doctorId, String patientId) {
         DatabaseReference doctorToPatientLinkRef = FirebaseDatabase.getInstance().getReference("DoctorsToPatients").child(doctorId).child(patientId);
 
