@@ -20,10 +20,17 @@
 
         <!-- Prototypes -->
         <activity android:name=".NotificationActivity" />
-        <activity android:name=".SpeechToText" /> <!-- Administrator -->
+        <activity android:name=".SpeechToText" />
+        <activity android:name=".DoctorWorkflow.Profile_details"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="InnerclassSeparator">
+        </activity>
+        <!-- Administrator -->
         <activity
             android:name=".Administrator.AddDrug"
-            tools:ignore="InnerclassSeparator" /> <!-- Notifications -->
+            tools:ignore="InnerclassSeparator" />
+
+        <!-- Notifications -->
         <receiver
             android:name=".Notifications.ReminderBroadcast"
             tools:ignore="InnerclassSeparator" />
@@ -32,13 +39,17 @@
             tools:ignore="InnerclassSeparator" />
         <receiver
             android:name=".Notifications.SnoozeActionBroadcast"
-            tools:ignore="InnerclassSeparator" /> <!-- QR Codes -->
+            tools:ignore="InnerclassSeparator" />
+
+        <!-- QR Codes -->
         <activity
             android:name=".QRCode.ScanQR"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".QRCode.GenerateQRCode"
-            tools:ignore="InnerclassSeparator" /> <!-- Auth workflow -->
+            tools:ignore="InnerclassSeparator" />
+
+        <!-- Auth workflow -->
         <activity
             android:name=".auth.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
@@ -87,7 +98,6 @@
             android:name=".DoctorWorkflow.AddMedication.AddDrugToMedication"
             tools:ignore="InnerclassSeparator" />
         <activity android:name=".ListActivity" />
-        <activity android:name=".Details" />
     </application>
 
 </manifest>

@@ -6,8 +6,14 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="profile">Profile</string>
-    <string name="doctors">Doctors</string>
-    <string name="patients">Patients</string>
-    <string name="medications">Medications</string>
+    <string name="profile">Profil</string>
+    <string name="doctors">Doctori</string>
+    <string name="patients">Pacienți</string>
+    <string name="medications">Medicații</string>
+    <string name="verify_password">Verificare parolă</string>
+    <string name="new_password">Parolă nouă</string>
+    <string name="current_password">Parolă curentă</string>
+    <string name="email_not_verified">E-mailul nu a fost validat</string>
+    <string name="resend_mail">Retrimite e-mail</string>
+    <string name="change_password">Schimbare parolă</string>
 </resources>

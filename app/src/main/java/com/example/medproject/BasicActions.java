@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
+import com.example.medproject.DoctorWorkflow.Profile_details;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
@@ -119,21 +120,12 @@ public class BasicActions {
                     }
                     break;
                 case R.id.my_profile:
-                        if (loggedAsDoctor) {
-                            if(!activity.getClass().equals(DoctorDetails.class)) {
-                                activity.finish();
-                                intent = new Intent(activity.getApplicationContext(), DoctorDetails.class);
-                                intent.putExtra("loggedAsDoctor", true);
-                                activity.startActivity(intent);
-                            }
-                        } else {
-                            if(!activity.getClass().equals(PatientDetails.class)) {
-                                activity.finish();
-                                intent = new Intent(activity.getApplicationContext(), PatientDetails.class);
-                                intent.putExtra("loggedAsDoctor", false);
-                                activity.startActivity(intent);
-                            }
-                        }
+                    if(!activity.getClass().equals(Profile_details.class)) {
+                        activity.finish();
+                        intent = new Intent(activity.getApplicationContext(), Profile_details.class);
+                        intent.putExtra("loggedAsDoctor", loggedAsDoctor);
+                        activity.startActivity(intent);
+                    }
                     break;
             }
             return false;
