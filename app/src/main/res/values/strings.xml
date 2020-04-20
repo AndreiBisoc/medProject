@@ -37,6 +37,12 @@
     <string name="no_doctor_to_display">Momentan nu sunteți înregistrat la cabinetul niciunui doctor.</string>
     <string name="delete_patient">Șterge pacient</string>
     <string name="add_patient_to_doctor">Introduceți CNP-ul pacientului.</string>
+    <string name="description_generate_patient_QR_code">Codul QR de mai jos conține informațiile contului dumneavoastră.
+        Pentru a vă înregistra la cabinetul unui doctor, acesta va trebui să scaneze codul de mai jos.</string>
+    <string name="description_generate_medication_QR_code">Codul QR de mai jos conține informațiile medicației introduse de dumneavoastră.
+        Pentru ca pacientul să aibă acces la ea, acesta va trebui să scaneze codul de mai jos.</string>
+    <string name="description_scan_patient_QR_code">Scanați codul QR al pacientului pe care doriți să îl adăugați în lista dumneavoastră.</string>
+
 
     <string name="age">Vârsta</string>
     <string name="gender">Sex</string>

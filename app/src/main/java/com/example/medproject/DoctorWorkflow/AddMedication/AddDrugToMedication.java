@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.QRCode.GenerateQRCode;
+import com.example.medproject.QRCode.MedicationQRCode.GenerateMedicationQRCode;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Drug;
@@ -202,7 +202,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     }
 
     private void getDataForQRCode(String medicationLinkId) {
-        Intent intentToGenerateQR = new Intent(this, GenerateQRCode.class);
+        Intent intentToGenerateQR = new Intent(this, GenerateMedicationQRCode.class);
         intentToGenerateQR.putExtra("medicationId", medicationLinkId);
 
         Intent intentFromAddMedication = getIntent();

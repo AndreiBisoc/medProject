@@ -32,13 +32,25 @@
             tools:ignore="InnerclassSeparator" />
         <receiver
             android:name=".Notifications.SnoozeActionBroadcast"
-            tools:ignore="InnerclassSeparator" /> <!-- QR Codes -->
+            tools:ignore="InnerclassSeparator" />
+
+        <!-- QR Codes -->
         <activity
-            android:name=".QRCode.ScanQR"
+            android:name=".QRCode.MedicationQRCode.ScanMedicationId"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".QRCode.GenerateQRCode"
-            tools:ignore="InnerclassSeparator" /> <!-- Auth workflow -->
+            android:name=".QRCode.MedicationQRCode.GenerateMedicationQRCode"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".QRCode.PatientQRCode.ScanPatientId"
+            tools:ignore="InnerclassSeparator">
+        </activity>
+        <activity
+            android:name=".QRCode.PatientQRCode.GeneratePatientQRCode"
+            tools:ignore="InnerclassSeparator">
+        </activity>
+
+        <!-- Auth workflow -->
         <activity
             android:name=".auth.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">

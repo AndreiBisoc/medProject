@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.DoctorDetails;
-import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
-import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
-import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;import com.example.medproject.QRCode.ScanQR;
+import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;
+import com.example.medproject.QRCode.MedicationQRCode.ScanMedicationId;
 import com.example.medproject.auth.LoginActivity;
 
 import androidx.annotation.NonNull;
@@ -23,8 +21,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.medproject.R;
-import com.example.medproject.auth.RegisterDoctorActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -111,7 +107,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.scanMedicationButton:
-                intent = new Intent(view.getContext(), ScanQR.class);
+                intent = new Intent(view.getContext(), ScanMedicationId.class);
                 view.getContext().startActivity(intent);
                 break;
 

@@ -1,4 +1,4 @@
-package com.example.medproject.QRCode;
+package com.example.medproject.QRCode.MedicationQRCode;
 
 import android.Manifest;
 import android.app.AlarmManager;
@@ -47,10 +47,9 @@ import java.util.Objects;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ScanQR extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class ScanMedicationId extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private ZXingScannerView scannerView;
-    private ArrayList<String> drugIDs = new ArrayList<>();
     private final List<MedicationAdministration> medicationAdministrationList = new ArrayList<>();
 
     @Override
@@ -67,13 +66,13 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        scannerView.setResultHandler(ScanQR.this);
+                        scannerView.setResultHandler(ScanMedicationId.this);
                         scannerView.startCamera();
                     }
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Trebuie să accepți utilizarea camerei.");
+                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Trebuie să acceptați utilizarea camerei.");
                     }
 
                     @Override
@@ -130,7 +129,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
         DatabaseReference medicationsDbRef = FirebaseDatabase.getInstance().getReference("Medications/" + medicationId);
         medicationsDbRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {     // medicația pe care o salvezi ulteorior în patient to medication
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {     // medicația pe care o salvezi ulterior în patient to medication
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     if(!Objects.equals(postSnapshot.getKey(), "diagnostic") && !Objects.equals(postSnapshot.getKey(), "doctorName")) {
                         MedicationAdministration med = postSnapshot.getValue(MedicationAdministration.class);
@@ -146,7 +145,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
                     patientToMedicationsDbRef.setValue(medication);
                 }
 
-                handleNotifications(medicationId);
+                handleNotifications();
                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Notificarile au fost setate cu succes");
                 finish();
             }
@@ -159,7 +158,7 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
     }
 
-    private void handleNotifications(String medicationId){
+    private void handleNotifications(){
         createNotificationChannel();
 
         DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("DrugAdministration");
