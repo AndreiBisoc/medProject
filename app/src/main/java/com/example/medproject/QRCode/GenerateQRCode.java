@@ -86,19 +86,15 @@ public class GenerateQRCode extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.edit_account:
-                startActivity(new Intent(this, DoctorDetails.class));
-                break;
-            case R.id.logout_menu:
-                AuthUI.getInstance()
-                        .signOut(this)
-                        .addOnCompleteListener(task -> {
-                            Log.d("Logout","Persoana a fost delogată!");
-                            FirebaseUtil.attachListener();
-                        });
-                FirebaseUtil.detachListener();
-                return true;
+        if (item.getItemId() == R.id.logout_menu) {
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(task -> {
+                        Log.d("Logout", "Persoana a fost delogată!");
+                        FirebaseUtil.attachListener();
+                    });
+            FirebaseUtil.detachListener();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

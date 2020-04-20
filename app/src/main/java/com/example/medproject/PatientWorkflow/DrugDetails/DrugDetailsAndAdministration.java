@@ -10,12 +10,14 @@ import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +39,7 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
         BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.drug_details_administration);
 
-        ScrollView container = findViewById(R.id.container);
+        ConstraintLayout container = findViewById(R.id.container1);
         BasicActions.hideKeyboardWithClick(container, this);
 
         txtScop = findViewById(R.id.txtScop);
@@ -54,6 +56,10 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
         String drugID = intent.getStringExtra("drugID");
         drugAdministrationID = intent.getStringExtra("drugAdministrationID");
         canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
+        boolean loggedAsDoctor = intent.getBooleanExtra("loggedAsDoctor", false);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
         DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("Drugs/" + drugID);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -140,12 +146,10 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.logout_menu:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
-                break;
+        if (item.getItemId() == R.id.logout_menu) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
         }
         return true;
     }

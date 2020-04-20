@@ -4,9 +4,6 @@
     <item android:id="@+id/insert_menu"
         android:title="Adaugă medicament"
         app:showAsAction="never" />
-    <item android:id="@+id/edit_account"
-        android:title="Editare cont"
-        app:showAsAction="never" />
     <item android:id="@+id/logout_menu"
         android:title="Logout"
         app:showAsAction="never" />

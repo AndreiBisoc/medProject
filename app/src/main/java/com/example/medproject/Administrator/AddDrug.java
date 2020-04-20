@@ -69,12 +69,10 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.logout_menu:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
-                break;
+        if (item.getItemId() == R.id.logout_menu) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
         }
         return true;
     }

@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medproject.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MyDrugs extends AppCompatActivity implements View.OnClickListener  {
@@ -31,8 +33,14 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
         Intent intent = getIntent();
         Resources res = getResources();
         Drawable syrupBottle = res.getDrawable(R.drawable.medicine_bottle);
+
+        boolean loggedAsDoctor = intent.getBooleanExtra("loggedAsDoctor", false);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
+
+
         boolean canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
-        DrugAdapter adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag, syrupBottle);
+        DrugAdapter adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), loggedAsDoctor, canEditMedicationFlag, syrupBottle);
         String diagnostic = intent.getStringExtra("diagnostic");
         setTitle(diagnostic);
 
@@ -42,7 +50,6 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
         LinearLayoutManager drugsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvDrugs.setLayoutManager(drugsLayoutManager);
-
     }
 
     @Override
@@ -55,12 +62,10 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.logout_menu:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
-                break;
+        if (item.getItemId() == R.id.logout_menu) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
         }
         return true;
     }

@@ -19,77 +19,75 @@
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
 
         <!-- Prototypes -->
-        <activity android:name=".NotificationActivity"/>
-        <activity android:name=".SpeechToText">
-
-        </activity>
-
-
-        <!-- Administrator -->
-            <activity
-                android:name=".Administrator.AddDrug"
-                tools:ignore="InnerclassSeparator" />
-        <!-- Notifications -->
-            <receiver android:name=".Notifications.ReminderBroadcast"
-                tools:ignore="InnerclassSeparator"/>
-            <receiver android:name=".Notifications.TakenActionBroadcast"
-                tools:ignore="InnerclassSeparator"/>
-            <receiver android:name=".Notifications.SnoozeActionBroadcast"
-                tools:ignore="InnerclassSeparator"/>
-        <!-- QR Codes -->
-            <activity
-                android:name=".QRCode.ScanQR"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".QRCode.GenerateQRCode"
-                tools:ignore="InnerclassSeparator" />
-        <!-- Auth workflow -->
+        <activity android:name=".NotificationActivity" />
+        <activity android:name=".SpeechToText" /> <!-- Administrator -->
+        <activity
+            android:name=".Administrator.AddDrug"
+            tools:ignore="InnerclassSeparator" /> <!-- Notifications -->
+        <receiver
+            android:name=".Notifications.ReminderBroadcast"
+            tools:ignore="InnerclassSeparator" />
+        <receiver
+            android:name=".Notifications.TakenActionBroadcast"
+            tools:ignore="InnerclassSeparator" />
+        <receiver
+            android:name=".Notifications.SnoozeActionBroadcast"
+            tools:ignore="InnerclassSeparator" /> <!-- QR Codes -->
+        <activity
+            android:name=".QRCode.ScanQR"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".QRCode.GenerateQRCode"
+            tools:ignore="InnerclassSeparator" /> <!-- Auth workflow -->
         <activity
             android:name=".auth.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.AddDetailsToPatient"/>
+        <activity android:name=".auth.AddDetailsToPatient" />
         <activity android:name=".auth.RegisterActivity" />
         <activity android:name=".auth.RegisterPacientActivity" />
-        <activity android:name=".auth.RegisterDoctorActivity"/>
-        <!-- Patient workflow -->
-            <activity
-                android:name=".PatientWorkflow.MyMedications.MyMedications"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".PatientWorkflow.MyDrugs.MyDrugs"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"
-                android:windowSoftInputMode="stateVisible|adjustNothing"
-                tools:ignore="InnerclassSeparator" />
-        <!-- Doctor workflow -->
-            <activity
-                android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".DoctorWorkflow.MyPacients.PatientDetails"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".DoctorWorkflow.DoctorDetails"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".DoctorWorkflow.AddMedication.AddMedication"
-                tools:ignore="InnerclassSeparator" />
-            <activity
-                android:name=".DoctorWorkflow.AddMedication.AddDrugToMedication"
-                tools:ignore="InnerclassSeparator">
+        <activity android:name=".auth.RegisterDoctorActivity" />
 
-            </activity>
-            <activity android:name=".ListActivity" />
-            <activity android:name=".Details" />
+        <!-- Patient workflow -->
+        <activity
+            android:name=".PatientWorkflow.MyMedications.MyMedications"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".PatientWorkflow.MyDrugs.MyDrugs"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"
+            android:windowSoftInputMode="stateVisible|adjustNothing"
+            tools:ignore="InnerclassSeparator" />
+
+        <!-- Doctor workflow -->
+        <activity
+            android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".DoctorWorkflow.MyPacients.PatientDetails"
+            tools:ignore="InnerclassSeparator"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".DoctorWorkflow.DoctorDetails"
+            tools:ignore="InnerclassSeparator"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".DoctorWorkflow.AddMedication.AddMedication"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".DoctorWorkflow.AddMedication.AddDrugToMedication"
+            tools:ignore="InnerclassSeparator" />
+        <activity android:name=".ListActivity" />
+        <activity android:name=".Details" />
     </application>
 
 </manifest>

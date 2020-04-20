@@ -24,6 +24,7 @@ import com.example.medproject.R;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +46,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
     private int length = 0;
     private ProgressBar progressBar;
     private Button addPatient;
+    private boolean loggedAsDoctor = true;
 
     @Override
     protected void onStart() {
@@ -55,6 +57,9 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
 
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -192,19 +197,15 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.edit_account:
-                startActivity(new Intent(this, DoctorDetails.class));
-                break;
-            case R.id.logout_menu:
-                AuthUI.getInstance()
-                        .signOut(this)
-                        .addOnCompleteListener(task -> {
-                            Log.d("Logout","Persoana a fost delogată!");
-                            FirebaseUtil.attachListener();
-                        });
-                FirebaseUtil.detachListener();
-                return true;
+        if (item.getItemId() == R.id.logout_menu) {
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(task -> {
+                        Log.d("Logout", "Persoana a fost delogată!");
+                        FirebaseUtil.attachListener();
+                    });
+            FirebaseUtil.detachListener();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
