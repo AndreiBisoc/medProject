@@ -9,20 +9,23 @@ public class Medication implements Serializable {
     private String id;
     private String diagnostic;
     private String doctorName;
+    private String doctorId;
     private List<Drug> drugList;
     private List<DrugAdministration> drugAdministrationList;
 
     public Medication(){}
 
-    public Medication(String diagnostic, String doctorName){
+    public Medication(String diagnostic, String doctorName, String doctorId){
         this.diagnostic = diagnostic;
         this.doctorName = doctorName;
+        this.doctorId = doctorId;
     }
 
-    public Medication(String id, String diagnostic, String doctorName, List<Drug> drugList, List<DrugAdministration> drugAdministrationList) {
+    public Medication(String id, String diagnostic, String doctorName, String doctorId, List<Drug> drugList, List<DrugAdministration> drugAdministrationList) {
         this.id = id;
         this.diagnostic = diagnostic;
         this.doctorName = doctorName;
+        this.doctorId = doctorId;
         this.drugList = drugList;
         this.drugAdministrationList = drugAdministrationList;
     }
@@ -44,6 +47,14 @@ public class Medication implements Serializable {
 
     public String getDiagnostic() {
         return diagnostic;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     public void setDiagnostic(String diagnostic) {
