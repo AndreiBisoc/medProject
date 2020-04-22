@@ -1,7 +1,6 @@
 package com.example.medproject.PatientWorkflow.MyMedications;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static android.view.View.GONE;
 
@@ -41,11 +41,12 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     private final ArrayList<Medication> medications;
     private final String patientIdCopy;
 
-    public MedicationAdapter(String patientId) {
+    public MedicationAdapter(String patientId, String doctorId) {
         patientIdCopy = patientId;
         loggedAsDoctor = patientId != null;
         currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
+        boolean displayOnlyOneDoctorsMedication = doctorId != null && !Objects.equals(doctorId, "");
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
@@ -56,12 +57,13 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
                 medication.setId(dataSnapshot.getKey());
-                if(medication != null) {
+                boolean addMedicationToArray = !displayOnlyOneDoctorsMedication || medication.getDoctorId().equals(doctorId);
+                if(addMedicationToArray) {
                     noMedicationsToDisplay = false;
                     MyMedications.displayMessageOrMedicationsList();
+                    medications.add(medication);
+                    notifyItemInserted(medications.size() - 1);
                 }
-                medications.add(medication);
-                notifyItemInserted(medications.size() - 1);
             }
 
             @Override
