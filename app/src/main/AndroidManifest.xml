@@ -20,10 +20,17 @@
 
         <!-- Prototypes -->
         <activity android:name=".NotificationActivity" />
-        <activity android:name=".SpeechToText" /> <!-- Administrator -->
+        <activity android:name=".SpeechToText" />
+        <activity android:name=".DoctorWorkflow.Profile_details"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="InnerclassSeparator">
+        </activity>
+        <!-- Administrator -->
         <activity
             android:name=".Administrator.AddDrug"
-            tools:ignore="InnerclassSeparator" /> <!-- Notifications -->
+            tools:ignore="InnerclassSeparator" />
+
+        <!-- Notifications -->
         <receiver
             android:name=".Notifications.ReminderBroadcast"
             tools:ignore="InnerclassSeparator" />
@@ -99,7 +106,6 @@
             android:name=".DoctorWorkflow.AddMedication.AddDrugToMedication"
             tools:ignore="InnerclassSeparator" />
         <activity android:name=".ListActivity" />
-        <activity android:name=".Details" />
     </application>
 
 </manifest>

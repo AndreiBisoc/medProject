@@ -2,6 +2,7 @@ package com.example.medproject.auth;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.InputFilter;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
-
+        txtPassword.setFilters(new InputFilter[] { new InputFilter.LengthFilter(35) });
         if(email != null && password != null) {
             txtEmail.setText(email);
             txtPassword.setText(password);
