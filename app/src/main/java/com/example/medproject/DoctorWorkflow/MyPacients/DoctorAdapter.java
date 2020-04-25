@@ -16,6 +16,7 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
+import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.data.model.Doctor;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -28,18 +29,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorViewHolder> {
 
     public boolean noDoctorsToDisplay = true;
     private final ArrayList<Doctor> doctors;
-    private boolean loggedAsDoctor;
 
     public DoctorAdapter(boolean loggedAsDoctor){
 
         String loggedPatientUid = FirebaseAuth.getInstance().getUid();
 
-        this.loggedAsDoctor = loggedAsDoctor;
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("DoctorsToPatients", l);
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
@@ -79,7 +79,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                 String removedDoctorId = dataSnapshot.getKey();
                 int position = 0;
                 for(Doctor doctor : doctors) {
-                    if(doctor.getId() == removedDoctorId) {
+                    if(Objects.equals(doctor.getId(), removedDoctorId)) {
                         doctors.remove(doctor);
                         break;
                     }
@@ -99,7 +99,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                 String removedDoctorId = dataSnapshot.getKey();
                 int position = 0;
                 for(Doctor doctor : doctors) {
-                    if(doctor.getId() == removedDoctorId) {
+                    if(Objects.equals(doctor.getId(), removedDoctorId)) {
                         doctors.remove(doctor);
                         break;
                     }
@@ -179,7 +179,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
 
             int position = getAdapterPosition();
             final Doctor selectedDoctor = doctors.get(position);
-            String doctorId = selectedDoctor.getId();
             final View context = view;
             switch (view.getId()) {
                 case R.id.deleteIcon:
@@ -202,13 +201,16 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                 case R.id.seeDoctorDetails:
                     Intent intent = new Intent(view.getContext(), DoctorDetails.class);
                     intent.putExtra("doctorID", selectedDoctor.getId());
-                    intent.putExtra("loggedAsDoctor", loggedAsDoctor);
+                    intent.putExtra("loggedAsDoctor", false);
                     view.getContext().startActivity(intent);
-
                     break;
 
                 default:
-//                    A patient should see the medications entered by a doctor when he clicks that doctor's name
+                    Intent displayMedicationsEnteredByThisDoctor = new Intent(view.getContext(), MyMedications.class);
+                    displayMedicationsEnteredByThisDoctor.putExtra("doctorId", selectedDoctor.getId());
+                    displayMedicationsEnteredByThisDoctor.putExtra("doctorName", selectedDoctor.getName());
+                    displayMedicationsEnteredByThisDoctor.putExtra("loggedAsDoctor", false);
+                    view.getContext().startActivity(displayMedicationsEnteredByThisDoctor);
                     break;
             }
         }

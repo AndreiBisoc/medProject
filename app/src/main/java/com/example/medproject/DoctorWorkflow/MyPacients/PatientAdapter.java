@@ -33,7 +33,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     public boolean noPatientsToDisplay = true;
     private final ArrayList<Patient> patients;
-    private final ArrayList<String> patientsCNPs = new ArrayList<>();
+    public final ArrayList<String> patientsCNPs = new ArrayList<>();
 
     public PatientAdapter(){
 

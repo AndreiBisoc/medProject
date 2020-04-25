@@ -14,10 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.DoctorDetails;
+import com.example.medproject.QRCode.PatientQRCode.ScanPatientId;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
-import com.example.medproject.data.model.Patient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -99,7 +98,9 @@ public class MyPatientsActivity extends AppCompatActivity {
     }
 
     private void goToAddPatientPage(){
-        startActivity(new Intent(this, AddPatientToDoctorActivity.class));
+        Intent addNewPatient = new Intent(this, ScanPatientId.class);
+        addNewPatient.putExtra("patientsCNPs",PATIENT_ADAPTER.patientsCNPs);
+        startActivity(addNewPatient);
     }
 
     public static void displayMessageOrList(boolean loggedAsDoctor) {

@@ -2,19 +2,6 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.DoctorDetails;
-import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
-import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
-import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;import com.example.medproject.QRCode.ScanQR;
-import com.example.medproject.auth.LoginActivity;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,33 +9,47 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.medproject.BasicActions;
+import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;
+import com.example.medproject.QRCode.MedicationQRCode.ScanMedicationId;
 import com.example.medproject.R;
-import com.example.medproject.auth.RegisterDoctorActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.example.medproject.auth.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 public class MyMedications extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private static RecyclerView rvMedications;
-    private static MedicationAdapter secondAdapter;
+    private static MedicationAdapter MEDICATION_ADAPTER;
     private static TextView emptyView;
+    private static String emptyViewString = "Nu aveți nicio medicație adăugată de doctor.";
     private String patientId;
-    private boolean loggedAsDoctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_medications);
 
-        loggedAsDoctor = getIntent().getBooleanExtra("loggedAsDoctor", false);
+        boolean loggedAsDoctor = getIntent().getBooleanExtra("loggedAsDoctor", false);
+        String doctorId = getIntent().getStringExtra("doctorId");
+        String doctorName = getIntent().getStringExtra("doctorName");
+        if(doctorName!=null && !Objects.equals(doctorName, "")) {
+            emptyViewString = "Momentan doctorul " + doctorName + " nu v-a recomandat nicio medicație.";
+        }
 
         patientId = getIntent().getStringExtra("patientId");
         String patientName = getIntent().getStringExtra("patientName");
 
-        final MedicationAdapter adapter = new MedicationAdapter(patientId);
-        secondAdapter = adapter;
+        final MedicationAdapter adapter = new MedicationAdapter(patientId, doctorId);
+        MEDICATION_ADAPTER = adapter;
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -70,7 +71,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
-        if(!secondAdapter.loggedAsDoctor) {
+        if(!MEDICATION_ADAPTER.loggedAsDoctor) {
             setTitle("Medicațiile mele");
             addMedicationButton.setVisibility(View.GONE);
             scanMedicationButton.setVisibility(View.VISIBLE);
@@ -111,7 +112,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.scanMedicationButton:
-                intent = new Intent(view.getContext(), ScanQR.class);
+                intent = new Intent(view.getContext(), ScanMedicationId.class);
                 view.getContext().startActivity(intent);
                 break;
 
@@ -121,7 +122,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
     }
 
     public static void displayMessageOrMedicationsList() {
-        if(!secondAdapter.noMedicationsToDisplay)
+        if(!MEDICATION_ADAPTER.noMedicationsToDisplay)
         {
             rvMedications.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
@@ -129,8 +130,8 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         }
         else
         {   rvMedications.setVisibility(View.GONE);
-            if(!secondAdapter.loggedAsDoctor) {
-                emptyView.setText("Nu aveți nicio medicație adăugată de doctor.");
+            if(!MEDICATION_ADAPTER.loggedAsDoctor) {
+                emptyView.setText(emptyViewString);
             }
             emptyView.setVisibility(View.VISIBLE);
         }
