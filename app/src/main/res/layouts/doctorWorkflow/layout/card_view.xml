@@ -86,7 +86,6 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@color/white"
                 app:iconGravity="textEnd"
-                app:rippleColor="#797979"
                 app:iconSize="36dp"
                 app:iconTint="#797979"
                 />
