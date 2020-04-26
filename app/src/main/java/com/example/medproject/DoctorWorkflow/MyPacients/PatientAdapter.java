@@ -12,30 +12,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.medproject.BasicActions;
 import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
 
-    public boolean noPatientsToDisplay = true;
+    boolean noPatientsToDisplay = true;
     private final ArrayList<Patient> patients;
-    public final ArrayList<String> patientsCNPs = new ArrayList<>();
+    final ArrayList<String> patientsCNPs = new ArrayList<>();
 
-    public PatientAdapter(){
+    PatientAdapter() {
 
         String loggedDoctorUid = FirebaseAuth.getInstance().getUid();
 
@@ -54,7 +54,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     patients.add(patient);
                     patientsCNPs.add(patient.getCNP());
                     notifyItemInserted(patients.size() - 1);
-                    if(noPatientsToDisplay) {
+                    if (noPatientsToDisplay) {
                         noPatientsToDisplay = false;
                         MyPatientsActivity.displayMessageOrList(true);
                     }
@@ -102,7 +102,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     public PatientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.patient, parent, false);
+                .inflate(R.layout.card_view, parent, false);
 
         return new PatientViewHolder(itemView);
     }
@@ -118,30 +118,35 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         return patients.size();
     }
 
-    public class PatientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class PatientViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView name;
-        private final TextView dateOfBirth;
         private final TextView phoneNumber;
+        private CircleImageView userIcon;
 
-        PatientViewHolder(View itemView){
+        PatientViewHolder(View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.patientName);
-            dateOfBirth = itemView.findViewById(R.id.patientDateOfBirth);
-            phoneNumber = itemView.findViewById(R.id.patientPhoneNumber);
-            Button deleteIcon = itemView.findViewById(R.id.deleteIcon);
-            deleteIcon.setOnClickListener(this);
+            name = itemView.findViewById(R.id.cardView_title);
+            phoneNumber = itemView.findViewById(R.id.cardView_subtitle);
+            userIcon = itemView.findViewById(R.id.cardView_icon);
 
-            Button seeMedications = itemView.findViewById(R.id.seeMore);
+            Button seeMedications = itemView.findViewById(R.id.cardView_button);
             seeMedications.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
 
-        void bind(Patient patient){
+        void bind(Patient patient) {
             name.setText(patient.getName());
-            dateOfBirth.setText(patient.getBirthDate());
             phoneNumber.setText(patient.getPhone());
+            String imageUrl = patient.getImage().getImageUrl();
+            if (imageUrl != null) {
+                Picasso.get()
+                        .load(imageUrl)
+                        .into(userIcon);
+            } else {
+                userIcon.setBackgroundResource(R.drawable.icon_male);
+            }
         }
 
         @Override
@@ -149,42 +154,21 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
             int position = getAdapterPosition();
             final Patient selectedPatient = patients.get(position);
-            final View context = view;
-            switch (view.getId()) {
-                case R.id.deleteIcon:
-                    new MaterialAlertDialogBuilder(view.getContext())
-                            .setTitle("Ștergere " + selectedPatient.getName())
-                            .setMessage("Sunteți sigur că doriți să ștergeți acest pacient?")
-                            .setNegativeButton("Anulare", /* listener = */ null)
-                            .setPositiveButton("Ștergere", (dialog, which) -> {
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                databaseReference.child("DoctorsToPatients")
-                                        .child(doctorUid)
-                                        .child(selectedPatient.getId())
-                                        .removeValue();
 
-                                BasicActions.displaySnackBar(context, "Pacientul " + selectedPatient.getName() + " a fost șters cu succes");
-                            })
-                            .show();
-                    break;
-
-                case R.id.seeMore:
-                    Intent intent = new Intent(view.getContext(), PatientDetails.class);
-                    intent.putExtra("patientID", selectedPatient.getId());
-                    intent.putExtra("loggedAsDoctor",true);
-                    view.getContext().startActivity(intent);
-                    break;
-
-                default:
-                    intent = new Intent(view.getContext(), MyMedications.class);
-                    intent.putExtra("patientName", selectedPatient.getName());
-                    intent.putExtra("patientId", selectedPatient.getId());
-                    intent.putExtra("loggedAsDoctor",true);
-                    view.getContext().startActivity(intent);
-                    break;
+            if (view.getId() == R.id.cardView_button) {
+                Intent intent = new Intent(view.getContext(), MyMedications.class);
+                intent.putExtra("patientName", selectedPatient.getName());
+                intent.putExtra("patientId", selectedPatient.getId());
+                intent.putExtra("loggedAsDoctor", true);
+                view.getContext().startActivity(intent);
+            } else {
+                Intent intent;
+                intent = new Intent(view.getContext(), PatientDetails.class);
+                intent.putExtra("patientID", selectedPatient.getId());
+                intent.putExtra("patientName", selectedPatient.getName());
+                intent.putExtra("loggedAsDoctor", true);
+                view.getContext().startActivity(intent);
             }
         }
-
     }
 }

@@ -18,6 +18,7 @@ import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Patient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,10 +27,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class PatientDetails extends AppCompatActivity {
+public class PatientDetails extends AppCompatActivity implements View.OnClickListener {
     private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
     private boolean loggedAsDoctor;
     private ProgressBar progressBar;
+    private String loggedUser;
+    private String patientID;
+    private String patientName;
 
     @Override
     protected void onStart() {
@@ -41,16 +45,17 @@ public class PatientDetails extends AppCompatActivity {
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         Intent intent = getIntent();
-        String patientID = intent.getStringExtra("patientID");
+        patientID = intent.getStringExtra("patientID");
+        patientName = intent.getStringExtra("patientName");
 
         loggedAsDoctor = intent.getBooleanExtra("loggedAsDoctor", false);
-        if(!loggedAsDoctor) {
+        if (!loggedAsDoctor) {
             setTitle("Contul meu");
         } else {
             setTitle("Detalii pacient");
         }
 
-        final String loggedUser = FirebaseAuth.getInstance().getUid();
+        loggedUser = FirebaseAuth.getInstance().getUid();
 
         txtLastname = findViewById(R.id.txtLastname);
         txtFirstname = findViewById(R.id.txtFirstName);
@@ -63,58 +68,18 @@ public class PatientDetails extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
-        Button saveChangesButton = findViewById(R.id.saveChangesButton);
-        saveChangesButton.setOnClickListener(v -> {
-            progressBar.setVisibility(View.VISIBLE);
-            disableControllers(true);
-
-            String prenume = txtFirstname.getText().toString().trim();
-            String nume = txtLastname.getText().toString().trim();
-            String telefon = txtPhone.getText().toString().trim();
-            String adresaCabinet = txtAddress.getText().toString().trim();
-            String CNP = txtCNP.getText().toString().trim();
-            String birthDate = txtBirthDate.getText().toString().trim();
-            final Patient patient = new Patient(prenume, nume, birthDate, telefon, adresaCabinet,CNP);
-            FirebaseDatabase.getInstance().getReference("Patients")
-                    .child(loggedUser)
-                    .setValue(patient).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
-                    progressBar.setVisibility(View.GONE);
-                    disableControllers(false);
-                }
-            });
-
-            FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshotDoctors: dataSnapshot.getChildren()) {
-                                for (DataSnapshot snapshotPatient: snapshotDoctors.getChildren()) {
-                                    if(snapshotPatient.getKey().equals(loggedUser)) {
-                                        FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                                                .child(snapshotDoctors.getKey())
-                                                .child(loggedUser)
-                                                .child("patient")
-                                                .setValue(patient);
-                                    }
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-        });
+        Button buttonDeletePatient = findViewById(R.id.buttonDeletePatient);
+        Button buttonSaveChanges = findViewById(R.id.saveChangesButton);
+        buttonDeletePatient.setOnClickListener(this);
+        buttonSaveChanges.setOnClickListener(this);
 
         DatabaseReference mDatabaseReference;
-        if(!loggedAsDoctor) {
+        if (!loggedAsDoctor) {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + loggedUser);
+            buttonDeletePatient.setVisibility(View.GONE);
         } else {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + patientID);
-            saveChangesButton.setVisibility(View.GONE);
+            buttonSaveChanges.setVisibility(View.GONE);
         }
 
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -138,6 +103,81 @@ public class PatientDetails extends AppCompatActivity {
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.saveChangesButton:
+                saveChanges();
+                break;
+            case R.id.buttonDeletePatient:
+                deletePatient();
+                break;
+        }
+    }
+
+    private void deletePatient() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Ștergere " + patientName)
+                .setMessage("Sunteți sigur că doriți să ștergeți acest pacient?")
+                .setNegativeButton("Anulare", /* listener = */ null)
+                .setPositiveButton("Ștergere", (dialog, which) -> {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    databaseReference.child("DoctorsToPatients")
+                            .child(doctorUid)
+                            .child(patientID)
+                            .removeValue();
+
+                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul " + patientName + " a fost șters cu succes");
+                })
+                .show();
+    }
+
+    private void saveChanges() {
+        progressBar.setVisibility(View.VISIBLE);
+        disableControllers(true);
+
+        String prenume = txtFirstname.getText().toString().trim();
+        String nume = txtLastname.getText().toString().trim();
+        String telefon = txtPhone.getText().toString().trim();
+        String adresaCabinet = txtAddress.getText().toString().trim();
+        String CNP = txtCNP.getText().toString().trim();
+        String birthDate = txtBirthDate.getText().toString().trim();
+        final Patient patient = new Patient(prenume, nume, birthDate, telefon, adresaCabinet, CNP);
+        FirebaseDatabase.getInstance().getReference("Patients")
+                .child(loggedUser)
+                .setValue(patient).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
+                progressBar.setVisibility(View.GONE);
+                disableControllers(false);
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshotDoctors : dataSnapshot.getChildren()) {
+                            for (DataSnapshot snapshotPatient : snapshotDoctors.getChildren()) {
+                                if (snapshotPatient.getKey().equals(loggedUser)) {
+                                    FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                                            .child(snapshotDoctors.getKey())
+                                            .child(loggedUser)
+                                            .child("patient")
+                                            .setValue(patient);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
@@ -155,7 +195,7 @@ public class PatientDetails extends AppCompatActivity {
         return true;
     }
 
-    private void disableControllers(boolean isEnabled){
+    private void disableControllers(boolean isEnabled) {
         txtLastname.setEnabled(!isEnabled);
         txtFirstname.setEnabled(!isEnabled);
         txtCNP.setEnabled(!isEnabled);
