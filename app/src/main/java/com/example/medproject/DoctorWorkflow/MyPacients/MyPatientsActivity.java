@@ -18,6 +18,8 @@ import com.example.medproject.QRCode.PatientQRCode.ScanPatientId;
 import com.example.medproject.R;
 import com.example.medproject.auth.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MyPatientsActivity extends AppCompatActivity {
@@ -35,7 +37,6 @@ public class MyPatientsActivity extends AppCompatActivity {
         BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.activity_my_patients);
 
-//        logged as a patient => loggedAsDoctor = false;
         loggedAsDoctor = getIntent().getBooleanExtra("loggedAsDoctor", false);
 
         rvList = findViewById(R.id.rvList);
@@ -68,7 +69,7 @@ public class MyPatientsActivity extends AppCompatActivity {
 
         displayMessageOrList(loggedAsDoctor);
 
-        Button addPatientToDoctor = findViewById(R.id.addPatientToDoctorButton);
+        ExtendedFloatingActionButton addPatientToDoctor = findViewById(R.id.addPatientToDoctorButton);
         addPatientToDoctor.setVisibility(showAddPatientButton);
         if(showAddPatientButton == View.VISIBLE) {
             addPatientToDoctor.setEnabled(true);

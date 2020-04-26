@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class Patient implements Serializable {
     private String id;
-    private String password;
     private String firstName;
     private String lastName;
     private String birthDate;
@@ -28,6 +27,7 @@ public class Patient implements Serializable {
     private String allergies;
     private Contact emergencyContact;
     private String gender;
+    private UploadedImage image;
 
     public Patient() {
     }
@@ -56,6 +56,16 @@ public class Patient implements Serializable {
         this.phone = phone;
         this.address = address;
         this.cnp = cnp;
+    }
+
+    public Patient(String firstName, String lastName, String birthDate, String phone, String address, String cnp, UploadedImage image) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.address = address;
+        this.cnp = cnp;
+        this.image = image;
     }
 
     @Override
@@ -100,6 +110,15 @@ public class Patient implements Serializable {
     public String getCNP() {
         return cnp;
     }
+
+    public UploadedImage getImage() {
+        return image;
+    }
+
+    public void setImage(UploadedImage image) {
+        this.image = image;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static int getAge(String birthDate) throws NotLoggedAsPatientException {
