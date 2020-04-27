@@ -41,7 +41,7 @@ public class AddDetailsToPatient extends AppCompatActivity{
     protected void onStart() {
         super.onStart();
         BasicActions.checkIfUserIsLogged(this);
-        setContentView(R.layout.activity_add_details_to_patient);
+        setContentView(R.layout.patient_emergency_details);
         BasicActions.hideActionBar(this);
 
 //        hiding keyboard when the container is clicked
