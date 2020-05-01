@@ -9,9 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
-import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
 import com.example.medproject.DoctorWorkflow.Profile_details;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.auth.LoginActivity;

@@ -50,13 +50,12 @@ public class Profile_details extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(loggedAsDoctor) {
             adapter.addFragment(new DoctorDetails_Fragment(), "Profil");
-            adapter.addFragment(new AccountDetails_Fragment(loggedAsDoctor), "Cont");
         }
         else {
             adapter.addFragment(new PatientDetails_Fragment(), "Profil");
-            adapter.addFragment(new AccountDetails_Fragment(loggedAsDoctor), "Cont");
-//            adapter.addFragment(new DoctorDetails_Fragment(), "Urgență");
+            adapter.addFragment(new PatientEmergencyDetails_Fragment(), "Urgență");
         }
+		adapter.addFragment(new AccountDetails_Fragment(), "Cont");
         viewPager.setAdapter(adapter);
     }
 

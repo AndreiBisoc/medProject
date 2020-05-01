@@ -111,6 +111,46 @@ public class Patient implements Serializable {
         return cnp;
     }
 
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getRH() {
+        return RH;
+    }
+
+    public void setRH(String RH) {
+        this.RH = RH;
+    }
+
+    public String getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(String allergies) {
+        this.allergies = allergies;
+    }
+
+    public Contact getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public void setEmergencyContact(Contact emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public UploadedImage getImage() {
         return image;
     }
