@@ -13,6 +13,7 @@ public class Doctor {
     private String phone;
     private String adresaCabinet;
     private List<Patient> patientList;
+    private UploadedImage image;
 
     public Doctor() {}
 
@@ -33,6 +34,17 @@ public class Doctor {
         this.phone = phone;
         this.adresaCabinet = adresaCabinet;
         this.patientList = new ArrayList<>();
+    }
+
+    public Doctor(String email, String firstName, String lastName, String specialization, String phone, String adresaCabinet, UploadedImage image) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.specialization = specialization;
+        this.phone = phone;
+        this.adresaCabinet = adresaCabinet;
+        this.patientList = new ArrayList<>();
+        this.image = image;
     }
 
     public String getName() {
@@ -93,9 +105,15 @@ public class Doctor {
         this.adresaCabinet = adresaCabinet;
     }
 
-
     public List<Patient> getPatientList() { return patientList; }
 
     public void addPatient(Patient patient) { this.patientList.add(patient); }
 
+    public UploadedImage getImage() {
+        return image;
+    }
+
+    public void setImage(UploadedImage image) {
+        this.image = image;
+    }
 }

@@ -79,6 +79,60 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="@dimen/text_margin_standard"
                     android:layout_marginEnd="24dp"
+                    android:text="@string/change_icon"
+                    android:textSize="24sp"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/amber"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="20dp">
+
+                </com.google.android.material.textview.MaterialTextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/user_icon"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="@dimen/text_margin_standard"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginBottom="24dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/icon_male"
+                            tools:srcCompat="@tools:sample/avatars"
+                            android:contentDescription="@string/icon"
+                            />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chooseImageButton"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/amber"
+                        android:text="@string/upload_image"
+                        android:textSize="16sp"
+
+                        />
+
+                </LinearLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
                     android:text="@string/change_password"
                     android:textSize="24sp"
                     app:boxBackgroundColor="@color/white"

@@ -27,9 +27,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorViewHolder> {
 
@@ -152,6 +155,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
         private final TextView name;
         private final TextView specialization;
         private final TextView phoneNumber;
+        private CircleImageView userIcon;
 
         DoctorViewHolder(View itemView){
             super(itemView);
@@ -159,6 +163,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             name = itemView.findViewById(R.id.doctorName);
             specialization = itemView.findViewById(R.id.doctorSpecialization);
             phoneNumber = itemView.findViewById(R.id.doctorPhoneNumber);
+            //userIcon = itemView.findViewById(R.id.cardView_icon);
 
             Button deleteIcon = itemView.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(this);
@@ -172,6 +177,14 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             name.setText(doctor.getName());
             specialization.setText(doctor.getSpecialization());
             phoneNumber.setText(doctor.getPhone());
+//            String imageUrl = patient.getImage().getImageUrl();
+//            if (imageUrl != null) {
+//                Picasso.get()
+//                        .load(imageUrl)
+//                        .into(userIcon);
+//            } else {
+//                userIcon.setBackgroundResource(R.drawable.icon_male);
+//            }
         }
 
         @Override
