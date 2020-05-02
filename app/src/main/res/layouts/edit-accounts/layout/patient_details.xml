@@ -34,15 +34,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/appLogo"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/patientIcon"
                     android:layout_width="126dp"
                     android:layout_height="127dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="32dp"
-                    android:contentDescription="@string/logo"
                     android:src="@drawable/patient"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    tools:srcCompat="@tools:sample/avatars"
+                    android:contentDescription="@string/icon"
+                    />
 
             </LinearLayout>
 

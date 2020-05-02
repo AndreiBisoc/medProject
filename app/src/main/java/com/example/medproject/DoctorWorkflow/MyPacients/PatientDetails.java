@@ -7,14 +7,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.DoctorDetails;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.auth.LoginActivity;
 import com.example.medproject.data.model.Patient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,10 +26,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 public class PatientDetails extends AppCompatActivity implements View.OnClickListener {
     private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
+    private ImageView userIcon;
     private boolean loggedAsDoctor;
     private ProgressBar progressBar;
     private String loggedUser;
@@ -57,6 +60,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
 
         loggedUser = FirebaseAuth.getInstance().getUid();
 
+        userIcon = findViewById(R.id.patientIcon);
         txtLastname = findViewById(R.id.txtLastname);
         txtFirstname = findViewById(R.id.txtFirstName);
         txtCNP = findViewById(R.id.txtCNP);
@@ -86,6 +90,13 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
+                String imageUrl = ResourcesHelper.ICONS.get("defaultPatientIconURL");
+                if(patient.getImage() != null) {
+                    imageUrl = patient.getImage().getImageUrl();
+                }
+                Picasso.get()
+                        .load(imageUrl)
+                        .into(userIcon);
                 txtLastname.setText(patient.getLastName());
                 txtFirstname.setText(patient.getFirstName());
                 txtCNP.setText(patient.getCNP());

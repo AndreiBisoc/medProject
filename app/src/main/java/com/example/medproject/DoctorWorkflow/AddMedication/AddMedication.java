@@ -18,7 +18,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
     private EditText txtDiagnostic;
     private Button addDrugToMedicationButton, cancelButton;
     private ProgressBar progressBar;
-    private String patientId;
+    private String patientId, patientName;
 
     @Override
     protected void onStart() {
@@ -39,7 +39,8 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         cancelButton.setOnClickListener(this);
 
         String doctorId = FirebaseAuth.getInstance().getUid();
-        patientId = getPatientId();
+        getPatientDetails();
+
         try {
             BasicActions.checkDoctorPatientLink(doctorId, patientId);
         } catch (DoctorNotLinkedToPatientException e) {
@@ -48,9 +49,10 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private String getPatientId() {
+    private void getPatientDetails() {
         Intent intent = getIntent();
-        return intent.getStringExtra("patientId");
+        patientId = intent.getStringExtra("patientId");
+        patientName = intent.getStringExtra("patientName");
     }
 
     @Override
@@ -63,6 +65,7 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
                 finish();
                 Intent intent = new Intent(this, MyMedications.class);
                 intent.putExtra("patientId", patientId);
+                intent.putExtra("patientName", patientName);
                 intent.putExtra("loggedAsDoctor", true);
                 startActivity(intent);
                 break;

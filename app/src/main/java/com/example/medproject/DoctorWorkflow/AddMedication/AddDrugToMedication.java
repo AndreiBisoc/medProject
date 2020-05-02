@@ -4,10 +4,13 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.speech.RecognizerIntent;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +30,7 @@ import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.DrugAdministration;
 import com.example.medproject.data.model.MedicationLink;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -70,8 +74,34 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
+        TextInputLayout medicineNameInputLayout = findViewById(R.id.medicineNameInputLayout);
+        medicineNameInputLayout.setEndIconCheckable(true);
         progressBar = findViewById(R.id.progressBar);
         searchDrugName = findViewById(R.id.searchDrug);
+        searchDrugName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String introducedDrugName = s.toString();
+                switch(introducedDrugName.length() %2) {
+                    case 0:
+                        displayInteraction(medicineNameInputLayout, R.drawable.ic_check_24dp, getColorStateList(R.color.forestgreen), introducedDrugName, "Paracetamol", false);
+                        break;
+                    case 1:
+                        displayInteraction(medicineNameInputLayout, R.drawable.ic_close_24dp, getColorStateList(R.color.red), introducedDrugName, "Paracetamol", true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         txtDosage = findViewById(R.id.txtDosage);
         txtNoOfDays = findViewById(R.id.txtNoOfDays);
         NoOfTimes = findViewById(R.id.NoOfTimes);
@@ -155,6 +185,22 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    private void displayInteraction(TextInputLayout medicineNameInputLayout, int iconId, ColorStateList color, String introducedDrugName, String secondDrugName, boolean displayError) {
+        medicineNameInputLayout.setErrorIconDrawable(iconId);
+        if(introducedDrugName != null && introducedDrugName.length() > 0)
+            introducedDrugName = introducedDrugName.substring(0, 1).toUpperCase() + introducedDrugName.substring(1);
+        if(displayError) {
+            medicineNameInputLayout.setError(introducedDrugName + " NU este recomandat cu " + secondDrugName);
+        }
+        else {
+            medicineNameInputLayout.setError(introducedDrugName + " este recomandat cu " + secondDrugName);
+        }
+        medicineNameInputLayout.setErrorIconTintList(color);
+        medicineNameInputLayout.setErrorTextColor(color);
+        medicineNameInputLayout.setBoxStrokeErrorColor(color);
+        medicineNameInputLayout.setHintTextColor(color);
     }
 
     @Override
