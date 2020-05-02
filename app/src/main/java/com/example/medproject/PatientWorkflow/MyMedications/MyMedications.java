@@ -18,20 +18,25 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;
 import com.example.medproject.QRCode.MedicationQRCode.ScanMedicationId;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.auth.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyMedications extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private static RecyclerView rvMedications;
     private static MedicationAdapter MEDICATION_ADAPTER;
+    private static CircleImageView noMedicationFoundIcon;
     private static TextView emptyView;
     private static String emptyViewString = "Nu aveți nicio medicație adăugată de doctor.";
-    private String patientId;
+    private String patientId, patientName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         }
 
         patientId = getIntent().getStringExtra("patientId");
-        String patientName = getIntent().getStringExtra("patientName");
+        patientName = getIntent().getStringExtra("patientName");
 
         final MedicationAdapter adapter = new MedicationAdapter(patientId, doctorId);
         MEDICATION_ADAPTER = adapter;
@@ -56,6 +61,11 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         rvMedications = findViewById(R.id.rvMedications);
         rvMedications.setAdapter(adapter);
         emptyView = findViewById(R.id.empty_view);
+        noMedicationFoundIcon = findViewById(R.id.noResultFound);
+        String imageUrl = ResourcesHelper.ICONS.get("noResultsFound");
+        Picasso.get()
+                .load(imageUrl)
+                .into(noMedicationFoundIcon);
 
         displayMessageOrMedicationsList();
 
@@ -108,6 +118,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
             case R.id.addMedicationButton:
                 Intent intent = new Intent(view.getContext(), AddMedication.class);
                 intent.putExtra("patientId", patientId);
+                intent.putExtra("patientName", patientName);
                 view.getContext().startActivity(intent);
                 break;
 
@@ -125,6 +136,8 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         if(!MEDICATION_ADAPTER.noMedicationsToDisplay)
         {
             rvMedications.setVisibility(View.VISIBLE);
+            noMedicationFoundIcon.setVisibility(View.GONE);
+            String imageUrl = ResourcesHelper.ICONS.get("defaultPatientIconURL");
             emptyView.setVisibility(View.GONE);
 
         }
@@ -133,6 +146,7 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
             if(!MEDICATION_ADAPTER.loggedAsDoctor) {
                 emptyView.setText(emptyViewString);
             }
+            noMedicationFoundIcon.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         }
     }

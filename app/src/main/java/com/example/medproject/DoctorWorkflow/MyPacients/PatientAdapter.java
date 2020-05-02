@@ -16,6 +16,7 @@ import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.data.model.DoctorToPatientLink;
 import com.example.medproject.data.model.Patient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -139,14 +140,13 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         void bind(Patient patient) {
             name.setText(patient.getName());
             phoneNumber.setText(patient.getPhone());
-            String imageUrl = patient.getImage().getImageUrl();
-            if (imageUrl != null) {
-                Picasso.get()
-                        .load(imageUrl)
-                        .into(userIcon);
-            } else {
-                userIcon.setBackgroundResource(R.drawable.icon_male);
+            String imageUrl = ResourcesHelper.ICONS.get("defaultPatientIconURL");
+            if(patient.getImage() != null) {
+                imageUrl = patient.getImage().getImageUrl();
             }
+            Picasso.get()
+                    .load(imageUrl)
+                    .into(userIcon);
         }
 
         @Override
