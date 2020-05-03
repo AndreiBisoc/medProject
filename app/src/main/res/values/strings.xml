@@ -64,6 +64,7 @@
     <string name="delete_drug">Delete Drug</string>
 
     <string name="diagnostic">Diagnostic</string>
+    <string name="prescriptionDate">Data prescrierii</string>
     <string name="dosage">Dozaj</string>
     <string name="NoOfDays">Total zile</string>
     <string name="NoOfTimes">Număr de dăți</string>
