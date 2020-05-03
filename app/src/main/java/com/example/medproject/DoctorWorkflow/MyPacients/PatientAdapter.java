@@ -39,6 +39,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     PatientAdapter() {
 
         String loggedDoctorUid = FirebaseAuth.getInstance().getUid();
+        if(loggedDoctorUid == null)
+            loggedDoctorUid = "";
 
         final ListActivity l = new ListActivity();
         FirebaseUtil.openFbReference("DoctorsToPatients", l);

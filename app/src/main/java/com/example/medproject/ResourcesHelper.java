@@ -10,8 +10,5 @@ public class ResourcesHelper {
         put("noResultsFound", "https://firebasestorage.googleapis.com/v0/b/medproject-d78df.appspot.com/o/icons%2FnoResultFound.png?alt=media&token=fdc2d324-bb77-4b83-bf0a-488026fc6cb0");
     }};
 
-//    public static Map<String, Color> COLORS = new HashMap<String, Color>() {{
-//        put("amber", Color.valueOf(255,191,0));
-//    }}
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,11 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.BasicActions;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
-import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AddMedication extends AppCompatActivity implements View.OnClickListener {
-    private EditText txtDiagnostic;
+    private EditText txtDiagnostic, txtPrescriptionDate;
+    private ImageView addMedicationImage;
     private Button addDrugToMedicationButton, cancelButton;
     private ProgressBar progressBar;
     private String patientId, patientName;
@@ -31,6 +36,12 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
+        addMedicationImage = findViewById(R.id.addMedicationImage);
+        txtPrescriptionDate = findViewById(R.id.txtPrescriptionDate);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date todayDate = new Date();
+        txtPrescriptionDate.setText(dateFormat.format(todayDate));
+
         progressBar = findViewById(R.id.progressBar);
         txtDiagnostic = findViewById(R.id.txtDiagnostic);
         addDrugToMedicationButton = findViewById(R.id.addDrugsToMedicationButton);
@@ -41,11 +52,11 @@ public class AddMedication extends AppCompatActivity implements View.OnClickList
         String doctorId = FirebaseAuth.getInstance().getUid();
         getPatientDetails();
 
-        try {
-            BasicActions.checkDoctorPatientLink(doctorId, patientId);
-        } catch (DoctorNotLinkedToPatientException e) {
-            BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
-        }
+//        try {
+//            BasicActions.checkDoctorPatientLink(doctorId, patientId);
+//        } catch (DoctorNotLinkedToPatientException e) {
+//            BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
+//        }
 
     }
 
