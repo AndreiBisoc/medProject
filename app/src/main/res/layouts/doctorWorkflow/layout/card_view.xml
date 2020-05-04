@@ -87,7 +87,7 @@
                 android:backgroundTint="@color/white"
                 app:iconGravity="textEnd"
                 app:iconSize="36dp"
-                app:iconTint="#797979"
+                app:iconTint="@color/lightgrey"
                 />
 
         </LinearLayout>

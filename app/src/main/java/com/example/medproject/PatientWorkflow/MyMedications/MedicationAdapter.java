@@ -2,6 +2,7 @@ package com.example.medproject.PatientWorkflow.MyMedications;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.BasicActions;
@@ -17,8 +21,10 @@ import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyDrugs.MyDrugs;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.data.model.Doctor;
 import com.example.medproject.data.model.Medication;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -27,9 +33,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.view.View.GONE;
 
@@ -105,7 +114,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     public MedicationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.medication, parent, false);
+                .inflate(R.layout.card_view, parent, false);
 
         return new MedicationViewHolder(itemView);
     }
@@ -115,7 +124,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         Medication medication = medications.get(position);
         holder.bind(medication);
         if(!loggedAsDoctor)
-            holder.deleteIcon.setVisibility(GONE);
+            holder.deleteMedicationButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -125,11 +134,45 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
 
     public class MedicationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         private final TextView diagnostic;
         private final TextView numeDoctor;
-        private final Button deleteIcon;
+        private CircleImageView medicationIcon;
+        private MaterialButton deleteMedicationButton;
+
         private boolean canEditMedicationFlag = false;
+
+        MedicationViewHolder(View itemView) {
+            super(itemView);
+
+            diagnostic = itemView.findViewById(R.id.cardView_title);
+            numeDoctor = itemView.findViewById(R.id.cardView_subtitle);
+            medicationIcon = itemView.findViewById(R.id.cardView_icon);
+
+            deleteMedicationButton = itemView.findViewById(R.id.cardView_button);
+            deleteMedicationButton.setIconResource(R.drawable.ic_delete_black_24dp);
+            deleteMedicationButton.setOnClickListener(this);
+            itemView.setOnClickListener(this);
+        }
+
+        void bind(Medication medication) {
+            deleteMedicationButton.setVisibility(View.INVISIBLE);
+            diagnostic.setText(medication.getDiagnostic());
+            numeDoctor.setText(medication.getDoctorName());
+
+            String imageUrl = ResourcesHelper.ICONS.get("defaultMedicationIconURL");
+            if(medication.getDoctorSpecialization() != null) {
+                String helperUrl = ResourcesHelper.ICONS.get(medication.getDoctorSpecialization());
+                if(helperUrl != null)
+                    imageUrl = helperUrl;
+            }
+            Picasso.get()
+                    .load(imageUrl)
+                    .into(medicationIcon);
+
+            if(loggedAsDoctor) {
+                canEdit(medication.getDoctorName());
+            }
+        }
 
         void canEdit(final String numeDoctor) {
             DatabaseReference doctorsRef = FirebaseDatabase.getInstance().getReference("Doctors");
@@ -140,7 +183,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                     Doctor doctor = dataSnapshot.getValue(Doctor.class);
                     String name = doctor.getName();
                     if(name.equals(numeDoctor)) {
-                        deleteIcon.setVisibility(View.VISIBLE);
+                        deleteMedicationButton.setVisibility(View.VISIBLE);
                         canEditMedicationFlag = true;
                     }
                 }
@@ -153,60 +196,38 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
         }
 
-        MedicationViewHolder(View itemView) {
-            super(itemView);
-            diagnostic = itemView.findViewById(R.id.medicationDiagnostic);
-            numeDoctor = itemView.findViewById(R.id.doctorName);
-            deleteIcon = itemView.findViewById(R.id.deleteIcon);
-            deleteIcon.setOnClickListener(this);
-            itemView.setOnClickListener(this);
-        }
-
-        void bind(Medication medication) {
-            deleteIcon.setVisibility(View.INVISIBLE);
-            diagnostic.setText(medication.getDiagnostic());
-            numeDoctor.setText(medication.getDoctorName());
-            if(loggedAsDoctor) {
-                canEdit(medication.getDoctorName());
-            }
-        }
-
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
             final Medication selectedMedication = medications.get(position);
             final View context = view;
 
-            switch (view.getId()) {
-                case R.id.deleteIcon:
-                    new MaterialAlertDialogBuilder(view.getContext())
-                            .setTitle("Ștergere " + selectedMedication.getDiagnostic())
-                            .setMessage("Sunteți sigur că doriți să ștergeți această medicație?")
-                            .setNegativeButton("Anulare", /* listener = */ null)
-                            .setPositiveButton("Ștergere", (dialog, which) -> {
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                databaseReference.child("PatientToMedications")
-                                        .child(patientIdCopy)
-                                        .child(selectedMedication.getId())
-                                        .removeValue();
+            if (view.getId() == R.id.cardView_button) {
+                new MaterialAlertDialogBuilder(view.getContext())
+                        .setTitle("Ștergere " + selectedMedication.getDiagnostic())
+                        .setMessage("Sunteți sigur că doriți să ștergeți această medicație?")
+                        .setNegativeButton("Anulare", /* listener = */ null)
+                        .setPositiveButton("Ștergere", (dialog, which) -> {
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child("PatientToMedications")
+                                    .child(patientIdCopy)
+                                    .child(selectedMedication.getId())
+                                    .removeValue();
 
-                                databaseReference.child("Medications")
-                                        .child(selectedMedication.getId())
-                                        .removeValue();
+                            databaseReference.child("Medications")
+                                    .child(selectedMedication.getId())
+                                    .removeValue();
 
-                                BasicActions.displaySnackBar(context, "Medicația " + selectedMedication.getDiagnostic() + " a fost ștearsă cu succes");
-                            }).show();
-                    break;
-
-                default:
-                    String medicationID = selectedMedication.getId();
-                    Intent intent = new Intent(view.getContext(), MyDrugs.class);
-                    intent.putExtra("diagnostic", selectedMedication.getDiagnostic());
-                    intent.putExtra("MedicationID", medicationID);
-                    intent.putExtra("canEditMedicationFlag", canEditMedicationFlag);
-                    intent.putExtra("loggedAsDoctor", loggedAsDoctor);
-                    view.getContext().startActivity(intent);
-                    break;
+                            BasicActions.displaySnackBar(context, "Medicația " + selectedMedication.getDiagnostic() + " a fost ștearsă cu succes");
+                        }).show();
+            } else {
+                String medicationID = selectedMedication.getId();
+                Intent intent = new Intent(view.getContext(), MyDrugs.class);
+                intent.putExtra("diagnostic", selectedMedication.getDiagnostic());
+                intent.putExtra("MedicationID", medicationID);
+                intent.putExtra("canEditMedicationFlag", canEditMedicationFlag);
+                intent.putExtra("loggedAsDoctor", loggedAsDoctor);
+                view.getContext().startActivity(intent);
             }
         }
     }

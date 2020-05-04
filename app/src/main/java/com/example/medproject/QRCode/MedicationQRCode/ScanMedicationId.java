@@ -131,7 +131,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {     // medicația pe care o salvezi ulterior în patient to medication
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if(!Objects.equals(postSnapshot.getKey(), "diagnostic") && !Objects.equals(postSnapshot.getKey(), "doctorName")) {
+                    if(!Objects.equals(postSnapshot.getKey(), "diagnostic") && !Objects.equals(postSnapshot.getKey(), "doctorName" ) && !Objects.equals(postSnapshot.getKey(), "doctorSpecialization") ) {
                         MedicationAdministration med = postSnapshot.getValue(MedicationAdministration.class);
                         med.setDrugId(postSnapshot.getKey());
                         medicationAdministrationList.add(med);
