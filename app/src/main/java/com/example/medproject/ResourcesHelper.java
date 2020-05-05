@@ -6,7 +6,7 @@ import java.util.Map;
 public class ResourcesHelper {
 
     public static Map<String, String> ICONS = new HashMap<String, String>() {{
-        put("defaultPatientIconURL", "https://firebasestorage.googleapis.com/v0/b/medproject-d78df.appspot.com/o/icons%2Fpatient.jpg?alt=media&token=9b2cdef8-4d33-4c3d-8444-d1d036b2d537");
+        put("defaultUserIconURL", "https://firebasestorage.googleapis.com/v0/b/medproject-d78df.appspot.com/o/icons%2Fpatient.jpg?alt=media&token=9b2cdef8-4d33-4c3d-8444-d1d036b2d537");
         put("noResultsFound", "https://firebasestorage.googleapis.com/v0/b/medproject-d78df.appspot.com/o/icons%2FnoResultFound.png?alt=media&token=fdc2d324-bb77-4b83-bf0a-488026fc6cb0");
 
         //Medications

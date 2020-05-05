@@ -18,6 +18,7 @@ import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.data.model.Doctor;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
     public boolean noDoctorsToDisplay = true;
     private final ArrayList<Doctor> doctors;
 
-    public DoctorAdapter(boolean loggedAsDoctor){
+    DoctorAdapter(boolean loggedAsDoctor){
 
         String loggedPatientUid = FirebaseAuth.getInstance().getUid();
 
@@ -134,7 +135,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
     public DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.doctor, parent, false);
+                .inflate(R.layout.card_view, parent, false);
 
         return new DoctorViewHolder(itemView);
     }
@@ -154,77 +155,52 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
 
         private final TextView name;
         private final TextView specialization;
-        private final TextView phoneNumber;
         private CircleImageView userIcon;
 
         DoctorViewHolder(View itemView){
             super(itemView);
 
-            name = itemView.findViewById(R.id.doctorName);
-            specialization = itemView.findViewById(R.id.doctorSpecialization);
-            phoneNumber = itemView.findViewById(R.id.doctorPhoneNumber);
-            //userIcon = itemView.findViewById(R.id.cardView_icon);
+            name = itemView.findViewById(R.id.cardView_title);
+            specialization = itemView.findViewById(R.id.cardView_subtitle);
+            userIcon = itemView.findViewById(R.id.cardView_icon);
 
-            Button deleteIcon = itemView.findViewById(R.id.deleteIcon);
-            deleteIcon.setOnClickListener(this);
+//            Button deleteIcon = itemView.findViewById(R.id.deleteIcon);
+//            deleteIcon.setOnClickListener(this);
 
-            Button seeDoctorDetails = itemView.findViewById(R.id.seeDoctorDetails);
-            seeDoctorDetails.setOnClickListener(this);
+            Button seeMedicationsByDoctor = itemView.findViewById(R.id.cardView_button);
+            seeMedicationsByDoctor.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
 
         void bind(Doctor doctor){
             name.setText(doctor.getName());
             specialization.setText(doctor.getSpecialization());
-            phoneNumber.setText(doctor.getPhone());
-//            String imageUrl = patient.getImage().getImageUrl();
-//            if (imageUrl != null) {
-//                Picasso.get()
-//                        .load(imageUrl)
-//                        .into(userIcon);
-//            } else {
-//                userIcon.setBackgroundResource(R.drawable.icon_male);
-//            }
+            String imageUrl = ResourcesHelper.ICONS.get("defaultUserIconURL");
+            if(doctor.getImage() != null) {
+                imageUrl = doctor.getImage().getImageUrl();
+            }
+            Picasso.get()
+                    .load(imageUrl)
+                    .into(userIcon);
         }
 
         @Override
         public void onClick(View view) {
-
             int position = getAdapterPosition();
             final Doctor selectedDoctor = doctors.get(position);
-            final View context = view;
-            switch (view.getId()) {
-                case R.id.deleteIcon:
-                    new MaterialAlertDialogBuilder(view.getContext())
-                            .setTitle("Ștergere dr. " + selectedDoctor.getName())
-                            .setMessage("Sunteți sigur că doriți să nu mai fiți pacientul acestui doctor?")
-                            .setNegativeButton("Înapoi", /* listener = */ null)
-                            .setPositiveButton("Ștergere", (dialog, which) -> {
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                String patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                databaseReference.child("DoctorsToPatients")
-                                        .child(selectedDoctor.getId())
-                                        .child(patientId)
-                                        .removeValue();
 
-                                BasicActions.displaySnackBar(context, "Doctorul " + selectedDoctor.getName() + " a fost șters cu succes.");
-                            }).show();
-                    break;
-
-                case R.id.seeDoctorDetails:
-                    Intent intent = new Intent(view.getContext(), DoctorDetails.class);
-                    intent.putExtra("doctorID", selectedDoctor.getId());
-                    intent.putExtra("loggedAsDoctor", false);
-                    view.getContext().startActivity(intent);
-                    break;
-
-                default:
-                    Intent displayMedicationsEnteredByThisDoctor = new Intent(view.getContext(), MyMedications.class);
-                    displayMedicationsEnteredByThisDoctor.putExtra("doctorId", selectedDoctor.getId());
-                    displayMedicationsEnteredByThisDoctor.putExtra("doctorName", selectedDoctor.getName());
-                    displayMedicationsEnteredByThisDoctor.putExtra("loggedAsDoctor", false);
-                    view.getContext().startActivity(displayMedicationsEnteredByThisDoctor);
-                    break;
+            if (view.getId() == R.id.cardView_button) {
+                Intent displayMedicationsEnteredByThisDoctor = new Intent(view.getContext(), MyMedications.class);
+                displayMedicationsEnteredByThisDoctor.putExtra("doctorId", selectedDoctor.getId());
+                displayMedicationsEnteredByThisDoctor.putExtra("doctorName", selectedDoctor.getName());
+                displayMedicationsEnteredByThisDoctor.putExtra("loggedAsDoctor", false);
+                view.getContext().startActivity(displayMedicationsEnteredByThisDoctor);
+            } else {
+                Intent intent = new Intent(view.getContext(), DoctorDetails.class);
+                intent.putExtra("doctorID", selectedDoctor.getId());
+                intent.putExtra("doctorName", selectedDoctor.getName());
+                intent.putExtra("loggedAsDoctor", false);
+                view.getContext().startActivity(intent);
             }
         }
 
