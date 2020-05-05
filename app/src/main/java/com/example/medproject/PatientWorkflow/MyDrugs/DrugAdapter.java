@@ -17,6 +17,7 @@ import com.example.medproject.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.DrugDetails.DrugDetailsAndAdministration;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.data.model.Drug;
 import com.example.medproject.data.model.MedicationLink;
 import com.google.firebase.database.ChildEventListener;
@@ -25,9 +26,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder> {
 
@@ -86,7 +91,7 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     public DrugViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.drug, parent, false);
+                .inflate(R.layout.card_view, parent, false);
 
         return new DrugViewHolder(itemView);
     }
@@ -103,23 +108,25 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     }
 
     public class DrugViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        final TextView drugName;
+        final TextView drugNameAndUnit;
         final TextView drugScop;
-        final TextView drugUnitate;
-        final ImageView drugIcon;
+        final CircleImageView drugIcon;
 
         DrugViewHolder(@NonNull View itemView) {
             super(itemView);
-            drugName = itemView.findViewById(R.id.drugName);
-            drugScop = itemView.findViewById(R.id.drugScop);
-            drugUnitate = itemView.findViewById(R.id.drugUnitate);
-            drugIcon = itemView.findViewById(R.id.imageDrug);
+            drugNameAndUnit = itemView.findViewById(R.id.cardView_title);
+            drugScop = itemView.findViewById(R.id.cardView_subtitle);
+            drugIcon = itemView.findViewById(R.id.cardView_icon);
+            itemView.findViewById(R.id.cardView_button).setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 
         void bind(MedicationLink medLink){
+            String defaultDrugIconURL = ResourcesHelper.ICONS.get("defaultDrugIconURL");
+            Picasso.get()
+                    .load(defaultDrugIconURL)
+                    .into(drugIcon);
             String drugNameString = medLink.getDrugName();
-            drugName.setText(drugNameString);
             final DatabaseReference drugsRef = FirebaseDatabase.getInstance().getReference().child("Drugs");
             drugsRef.orderByChild("nume").equalTo(drugNameString).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -133,10 +140,18 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
                             // Data is ordered by increasing height, so we want the first entry
                             Drug drug = dataSnapshot.getValue(Drug.class);
                             drugScop.setText(drug.getScop());
-                            drugUnitate.setText(drug.getUnitate());
-                            if(drug.getUnitate().equals("ml.")) {
-                                drugIcon.setImageDrawable(syrupBottleCopy);
+                            drugNameAndUnit.setText(String.format(Locale.forLanguageTag("ro_RO"),"%s", drugNameString + ", " + drug.getUnitate()));
+                            String unit = drug.getUnitate();
+                            String imageUrl = defaultDrugIconURL;
+                            if(unit.equals("ml.")) {
+                                imageUrl = ResourcesHelper.ICONS.get("DrugSyrupIconURL");
+                            } else if (unit.equals("comprimate")) {
+                                imageUrl = ResourcesHelper.ICONS.get("DrugPillsIconURL");
                             }
+
+                            Picasso.get()
+                                    .load(imageUrl)
+                                    .into(drugIcon);
                         }
 
                         @Override

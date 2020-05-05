@@ -61,6 +61,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private String diagnostic;
     private String drugName;
     private String doctorName;
+    private String doctorSpecialization;
     private static int noOfDrugs = 0;
     private ProgressBar progressBar;
     private Locale locale = Locale.forLanguageTag("ro_RO");
@@ -179,6 +180,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Doctor doctor = dataSnapshot.getValue(Doctor.class);
                 doctorName = doctor.getLastName() + " " + doctor.getFirstName();
+                doctorSpecialization = doctor.getSpecialization();
             }
 
             @Override
@@ -242,6 +244,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
         mDatabaseReference.child("diagnostic").setValue(diagnostic);
         mDatabaseReference.child("doctorName").setValue(doctorName);
+        mDatabaseReference.child("doctorSpecialization").setValue(doctorSpecialization);
 
         finish();
         getDataForQRCode(medicationLinkId);

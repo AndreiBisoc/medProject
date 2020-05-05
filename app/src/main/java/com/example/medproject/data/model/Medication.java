@@ -12,13 +12,15 @@ public class Medication implements Serializable {
     private String doctorId;
     private List<Drug> drugList;
     private List<DrugAdministration> drugAdministrationList;
+    private String doctorSpecialization;
 
     public Medication(){}
 
-    public Medication(String diagnostic, String doctorName, String doctorId){
+    public Medication(String diagnostic, String doctorName, String doctorId, String doctorSpecialization){
         this.diagnostic = diagnostic;
         this.doctorName = doctorName;
         this.doctorId = doctorId;
+        this.doctorSpecialization = doctorSpecialization;
     }
 
     public Medication(String id, String diagnostic, String doctorName, String doctorId, List<Drug> drugList, List<DrugAdministration> drugAdministrationList) {
@@ -83,6 +85,14 @@ public class Medication implements Serializable {
 
     public void setDrugAdministrationList(List<DrugAdministration> drugAdministrationList) {
         this.drugAdministrationList = drugAdministrationList;
+    }
+
+    public String getDoctorSpecialization() {
+        return doctorSpecialization;
+    }
+
+    public void setDoctorSpecialization(String doctorSpecialization) {
+        this.doctorSpecialization = doctorSpecialization;
     }
 
 }
