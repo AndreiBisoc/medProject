@@ -17,20 +17,16 @@
         android:roundIcon="@drawable/iconita"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-
         <!-- Prototypes -->
         <activity android:name=".NotificationActivity" />
         <activity android:name=".SpeechToText" />
-        <activity android:name=".DoctorWorkflow.Profile_details"
+        <activity
+            android:name=".DoctorWorkflow.Profile_details"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="InnerclassSeparator">
-        </activity>
-        <!-- Administrator -->
+            tools:ignore="InnerclassSeparator" /> <!-- Administrator -->
         <activity
             android:name=".Administrator.AddDrug"
-            tools:ignore="InnerclassSeparator" />
-
-        <!-- Notifications -->
+            tools:ignore="InnerclassSeparator" /> <!-- Notifications -->
         <receiver
             android:name=".Notifications.ReminderBroadcast"
             tools:ignore="InnerclassSeparator" />
@@ -39,9 +35,7 @@
             tools:ignore="InnerclassSeparator" />
         <receiver
             android:name=".Notifications.SnoozeActionBroadcast"
-            tools:ignore="InnerclassSeparator" />
-
-        <!-- QR Codes -->
+            tools:ignore="InnerclassSeparator" /> <!-- QR Codes -->
         <activity
             android:name=".QRCode.MedicationQRCode.ScanMedicationId"
             tools:ignore="InnerclassSeparator" />
@@ -50,14 +44,14 @@
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".QRCode.PatientQRCode.ScanPatientId"
-            tools:ignore="InnerclassSeparator">
-        </activity>
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".QRCode.PatientQRCode.GeneratePatientQRCode"
-            tools:ignore="InnerclassSeparator">
-        </activity>
-
+            tools:ignore="InnerclassSeparator" />
         <!-- Auth workflow -->
+        <activity
+            android:name=".auth.LandingPage"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".auth.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
@@ -67,12 +61,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".auth.ForgotPassword" />
         <activity android:name=".auth.AddDetailsToPatient" />
         <activity android:name=".auth.RegisterActivity" />
         <activity android:name=".auth.RegisterPacientActivity" />
-        <activity android:name=".auth.RegisterDoctorActivity" />
-
-        <!-- Patient workflow -->
+        <activity android:name=".auth.RegisterDoctorActivity" /> <!-- Patient workflow -->
         <activity
             android:name=".PatientWorkflow.MyMedications.MyMedications"
             tools:ignore="InnerclassSeparator" />
@@ -82,20 +75,18 @@
         <activity
             android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"
             android:windowSoftInputMode="stateVisible|adjustNothing"
-            tools:ignore="InnerclassSeparator" />
-
-        <!-- Doctor workflow -->
+            tools:ignore="InnerclassSeparator" /> <!-- Doctor workflow -->
         <activity
             android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".DoctorWorkflow.MyPacients.PatientDetails"
-            tools:ignore="InnerclassSeparator"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".DoctorWorkflow.DoctorDetails"
-            tools:ignore="InnerclassSeparator"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity"
             tools:ignore="InnerclassSeparator" />
