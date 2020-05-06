@@ -15,6 +15,6 @@ public class LandingPage extends AppCompatActivity {
 
 //        TO DO: de schimbat imaginea in XML odata ce e redimensionata
 //               de pus activitatea asta cu intent-filter din manifest
-//               de adaugat spinner - da sau nu? 
+//               de adaugat spinner - da sau nu?  => da + pe toate celelalte acitvitati
     }
 }

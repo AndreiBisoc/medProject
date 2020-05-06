@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressBar progressBar;
     private Button loginButton;
     private Button registerButton;
-    private Button forgotPasswordButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressBar = findViewById(R.id.progressBar);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
-        forgotPasswordButton = findViewById(R.id.forgotPassword);
+        Button forgotPasswordButton = findViewById(R.id.forgotPassword);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         forgotPasswordButton.setOnClickListener(this);
