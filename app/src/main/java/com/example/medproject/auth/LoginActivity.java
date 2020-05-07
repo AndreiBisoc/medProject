@@ -18,9 +18,6 @@ import com.example.medproject.BasicActions;
 import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,8 +59,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressBar = findViewById(R.id.progressBar);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
+        Button forgotPasswordButton = findViewById(R.id.forgotPassword);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
+        forgotPasswordButton.setOnClickListener(this);
     }
 
     @Override
@@ -205,6 +204,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 intentToRegister.putExtra("email", txtEmail.getText().toString());
                 intentToRegister.putExtra("password", txtPassword.getText().toString());
                 startActivity(intentToRegister);
+                break;
+
+            case R.id.forgotPassword:
+                progressBar.setVisibility(View.VISIBLE);
+                disableControllers(true);
+                startActivity(new Intent(this, ForgotPassword.class));
                 break;
         }
     }

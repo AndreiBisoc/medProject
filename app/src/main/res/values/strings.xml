@@ -55,6 +55,10 @@
     <string name="emergencyContactName">Nume și prenume</string>
     <string name="emergencyContactRelationship">Relație</string>
 
+    <string name="email_address">Adresa de email</string>
+    <string name="recover_password">Recuperează parola</string>
+    <string name="forgot_password">Mi-am uitat parola</string>
+
     <string name="action_register_short">Crează cont</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
