@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DoctorDetails extends AppCompatActivity implements View.OnClickListener {
 
     private EditText txtLastname, txtFirstname, txtSpecializare, txtPhone, txtAddress;
-    private Button saveChangesButton, deleteDoctorButton;
+    private Button saveChangesOrDeletePatientButton;
     private ProgressBar progressBar;
     private boolean loggedAsDoctor;
     private String loggedUser;
@@ -41,7 +41,6 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
         super.onStart();
         BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.doctor_details);
-        setTitle("Contul meu");
 
         loggedUser = FirebaseAuth.getInstance().getUid();
 
@@ -69,18 +68,23 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
         txtAddress = findViewById(R.id.txtAddress);
         progressBar = findViewById(R.id.progressBar);
 
-        saveChangesButton = findViewById(R.id.saveChangesButton);
-        deleteDoctorButton = findViewById(R.id.buttonDeleteDoctor);
-        saveChangesButton.setOnClickListener(this);
-        deleteDoctorButton.setOnClickListener(this);
+        saveChangesOrDeletePatientButton = findViewById(R.id.saveChangesOrDeletePatientButton);
+        saveChangesOrDeletePatientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String x = "adi";
+            }
+        });
 
         DatabaseReference mDatabaseReference;
         if(loggedAsDoctor) {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + loggedUser);
-            deleteDoctorButton.setVisibility(View.GONE);
+            saveChangesOrDeletePatientButton.setBackgroundColor(getColor(R.color.amber));
+            saveChangesOrDeletePatientButton.setText(getText(R.string.save_changes));
         } else {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Doctors/" + doctorId);
-            saveChangesButton.setVisibility(View.GONE);
+            saveChangesOrDeletePatientButton.setBackgroundColor(getColor(R.color.red));
+            saveChangesOrDeletePatientButton.setText(getText(R.string.delete_doctor));
         }
 
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -105,13 +109,11 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.saveChangesButton:
-                saveChanges();
-                break;
-            case R.id.buttonDeleteDoctor:
-                deleteDoctor();
-                break;
+        if (loggedAsDoctor) {
+            // this if-branch is never used since the DoctorDetails_Fragment activity is used
+            saveChanges();
+        } else {
+            deleteDoctor();
         }
     }
 
@@ -129,12 +131,12 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
                             .removeValue();
 
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Doctorul " + doctorName + " a fost șters cu succes");
+
                 }).show();
     }
 
     private void saveChanges() {
         progressBar.setVisibility(View.VISIBLE);
-        disableControllers(true);
 
         final String prenume = txtFirstname.getText().toString().trim();
         final String nume = txtLastname.getText().toString().trim();
@@ -148,7 +150,7 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
             if (task.isSuccessful()) {
                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
                 progressBar.setVisibility(View.GONE);
-                disableControllers(false);
+                disableControllers(true);
             }
         });
         FirebaseDatabase.getInstance().getReference("Medications")
@@ -213,12 +215,20 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-    private void disableControllers(boolean isEnabled){
-        txtLastname.setEnabled(!isEnabled);
-        txtFirstname.setEnabled(!isEnabled);
-        txtAddress.setEnabled(!isEnabled);
-        txtPhone.setEnabled(!isEnabled);
-        txtSpecializare.setEnabled(!isEnabled);
-        saveChangesButton.setEnabled(!isEnabled);
+    private void disableControllers(boolean shouldBeDisabled){
+        txtLastname.setEnabled(!shouldBeDisabled);
+        txtFirstname.setEnabled(!shouldBeDisabled);
+        txtAddress.setEnabled(!shouldBeDisabled);
+        txtPhone.setEnabled(!shouldBeDisabled);
+        txtSpecializare.setEnabled(!shouldBeDisabled);
+        saveChangesOrDeletePatientButton.setEnabled(!shouldBeDisabled);
+        if(shouldBeDisabled) {
+            int disabledTextColorId = getColor(R.color.grey);
+            txtLastname.setTextColor(disabledTextColorId);
+            txtFirstname.setTextColor(disabledTextColorId);
+            txtAddress.setTextColor(disabledTextColorId);
+            txtPhone.setTextColor(disabledTextColorId);
+            txtSpecializare.setTextColor(disabledTextColorId);
+        }
     }
 }

@@ -37,6 +37,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
     private String loggedUser;
     private String patientID;
     private String patientName;
+    private Button saveChangesOrDeletePatientButton;
 
     @Override
     protected void onStart() {
@@ -72,18 +73,18 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
-        Button buttonDeletePatient = findViewById(R.id.buttonDeletePatient);
-        Button buttonSaveChanges = findViewById(R.id.saveChangesButton);
-        buttonDeletePatient.setOnClickListener(this);
-        buttonSaveChanges.setOnClickListener(this);
+        saveChangesOrDeletePatientButton = findViewById(R.id.saveChangesOrDeletePatientButton);
+        saveChangesOrDeletePatientButton.setOnClickListener(this);
 
         DatabaseReference mDatabaseReference;
         if (!loggedAsDoctor) {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + loggedUser);
-            buttonDeletePatient.setVisibility(View.GONE);
+            saveChangesOrDeletePatientButton.setBackgroundColor(getColor(R.color.amber));
+            saveChangesOrDeletePatientButton.setText(getText(R.string.save_changes));
         } else {
             mDatabaseReference = FirebaseDatabase.getInstance().getReference("Patients/" + patientID);
-            buttonSaveChanges.setVisibility(View.GONE);
+            saveChangesOrDeletePatientButton.setBackgroundColor(getColor(R.color.red));
+            saveChangesOrDeletePatientButton.setText(getText(R.string.delete_patient));
         }
 
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -115,13 +116,10 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.saveChangesButton:
-                saveChanges();
-                break;
-            case R.id.buttonDeletePatient:
-                deletePatient();
-                break;
+        if (loggedAsDoctor) {
+            deletePatient();
+        } else {
+            saveChanges();
         }
     }
 
@@ -139,6 +137,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
                             .removeValue();
 
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul " + patientName + " a fost șters cu succes");
+
                 })
                 .show();
     }

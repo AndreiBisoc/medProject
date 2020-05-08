@@ -232,30 +232,17 @@
         >
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/saveChangesButton"
+            android:id="@+id/saveChangesOrDeletePatientButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center|center_vertical"
             android:backgroundTint="@color/amber"
             android:text="@string/save"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="16sp"
              />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonDeletePatient"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/red"
-            android:text="@string/remove"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            />
     </LinearLayout>
 
     <include layout="@layout/bottom_navigation_view"/>

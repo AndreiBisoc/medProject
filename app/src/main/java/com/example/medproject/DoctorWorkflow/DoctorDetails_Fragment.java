@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DoctorDetails_Fragment extends Fragment {
     private EditText txtLastname, txtFirstname, txtSpecializare, txtPhone, txtAddress;
-    private Button saveChangesButton;
+    private Button saveChangesOrDeletePatientButton;
     private ProgressBar progressBar;
     private String doctorName;
 
@@ -49,8 +49,8 @@ public class DoctorDetails_Fragment extends Fragment {
         txtAddress = getView().findViewById(R.id.txtAddress);
         progressBar = getView().findViewById(R.id.progressBar);
 
-        saveChangesButton = getView().findViewById(R.id.saveChangesButton);
-        saveChangesButton.setOnClickListener(v -> {
+        saveChangesOrDeletePatientButton = getView().findViewById(R.id.saveChangesOrDeletePatientButton);
+        saveChangesOrDeletePatientButton.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             disableControllers(true);
 
@@ -60,6 +60,7 @@ public class DoctorDetails_Fragment extends Fragment {
             String adresaCabinet = txtAddress.getText().toString().trim();
             String specialization = txtSpecializare.getText().toString().trim();
             Doctor doctor = new Doctor(prenume, nume, specialization, telefon, adresaCabinet);
+            doctor.setId(loggedUser);
             FirebaseDatabase.getInstance().getReference("Doctors")
                     .child(loggedUser)
                     .setValue(doctor).addOnCompleteListener(task -> {
@@ -140,6 +141,6 @@ public class DoctorDetails_Fragment extends Fragment {
         txtAddress.setEnabled(!isEnabled);
         txtPhone.setEnabled(!isEnabled);
         txtSpecializare.setEnabled(!isEnabled);
-        saveChangesButton.setEnabled(!isEnabled);
+        saveChangesOrDeletePatientButton.setEnabled(!isEnabled);
     }
 }

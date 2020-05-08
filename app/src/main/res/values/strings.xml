@@ -65,7 +65,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="app_name">"QR Prescription"</string>
-    <string name="delete_drug">Delete Drug</string>
+    <string name="delete_drug">Șterge medicament</string>
 
     <string name="diagnostic">Diagnostic</string>
     <string name="prescriptionDate">Data prescrierii</string>
@@ -78,6 +78,7 @@
     <string name="introdu_spec">Alege specializare</string>
     <string name="drug_name">Nume Medicament</string>
     <string name="adresa_cabinet">Adresă cabinet</string>
+    <string name="delete_doctor">Șterge doctor</string>
 
     <string name="back_toList">Înapoi la listă</string>
 </resources>

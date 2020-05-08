@@ -50,9 +50,7 @@ public class PatientDetails_Fragment extends Fragment {
         txtPhone = getView().findViewById(R.id.txtPhone);
         txtAddress = getView().findViewById(R.id.txtAddress);
         progressBar = getView().findViewById(R.id.progressBar);
-
-        getView().findViewById(R.id.buttonDeletePatient).setVisibility(View.GONE);
-        Button saveChangesButton = getView().findViewById(R.id.saveChangesButton);
+        Button saveChangesButton = getView().findViewById(R.id.saveChangesOrDeletePatientButton);
         saveChangesButton.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             disableControllers(true);

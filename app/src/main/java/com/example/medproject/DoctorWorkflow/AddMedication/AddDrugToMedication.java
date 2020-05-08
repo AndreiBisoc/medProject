@@ -481,12 +481,12 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         return false;
     }
 
-    private void disableControllers(boolean isEnabled){
-        searchDrugName.setEnabled(!isEnabled);
-        txtDosage.setEnabled(!isEnabled);
-        txtNoOfDays.setEnabled(!isEnabled);
-        NoOfTimes.setEnabled(!isEnabled);
-        txtStartDay.setEnabled(!isEnabled);
-        txtStartHour.setEnabled(!isEnabled);
+    private void disableControllers(boolean shouldBeDisabled){
+        searchDrugName.setEnabled(!shouldBeDisabled);
+        txtDosage.setEnabled(!shouldBeDisabled);
+        txtNoOfDays.setEnabled(!shouldBeDisabled);
+        NoOfTimes.setEnabled(!shouldBeDisabled);
+        txtStartDay.setEnabled(!shouldBeDisabled);
+        txtStartHour.setEnabled(!shouldBeDisabled);
     }
 }
