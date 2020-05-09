@@ -13,8 +13,8 @@
     <string name="verify_password">Verificare parolă</string>
     <string name="new_password">Parolă nouă</string>
     <string name="current_password">Parolă curentă</string>
-    <string name="email_not_verified">E-mailul nu a fost validat  </string>
-    <string name="resend_mail">Retrimite e-mail</string>
+    <string name="email_not_verified">Emailul nu e validat.</string>
+    <string name="resend_mail">Retrimite email</string>
     <string name="change_password">Schimbare parolă</string>
     <string name="icon">icon</string>
     <string name="remove">Șterge</string>
