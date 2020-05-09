@@ -12,19 +12,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.data.model.Doctor;
+import com.example.medproject.data.model.UploadedImage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorDetails_Fragment extends Fragment {
     private EditText txtLastname, txtFirstname, txtSpecializare, txtPhone, txtAddress;
     private Button saveChangesOrDeletePatientButton;
     private ProgressBar progressBar;
     private String doctorName;
+    private CircleImageView doctorIcon;
 
     public DoctorDetails_Fragment() {// Required empty public constructor
     }
@@ -42,12 +48,14 @@ public class DoctorDetails_Fragment extends Fragment {
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(getView().findViewById(R.id.container), (AppCompatActivity) getActivity());
 
-        txtLastname = getView().findViewById(R.id.txtLastname);
-        txtFirstname = getView().findViewById(R.id.txtFirstName);
-        txtSpecializare = getView().findViewById(R.id.txtSpecializare);
-        txtPhone = getView().findViewById(R.id.txtPhone);
-        txtAddress = getView().findViewById(R.id.txtAddress);
-        progressBar = getView().findViewById(R.id.progressBar);
+        View view = getView();
+        txtLastname = view.findViewById(R.id.txtLastname);
+        txtFirstname = view.findViewById(R.id.txtFirstName);
+        txtSpecializare = view.findViewById(R.id.txtSpecializare);
+        txtPhone = view.findViewById(R.id.txtPhone);
+        txtAddress = view.findViewById(R.id.txtAddress);
+        progressBar = view.findViewById(R.id.progressBar);
+        doctorIcon = view.findViewById(R.id.doctorIcon);
 
         saveChangesOrDeletePatientButton = getView().findViewById(R.id.saveChangesOrDeletePatientButton);
         saveChangesOrDeletePatientButton.setOnClickListener(v -> {
@@ -65,8 +73,8 @@ public class DoctorDetails_Fragment extends Fragment {
                     .child(loggedUser)
                     .setValue(doctor).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    View view = getActivity().getWindow().getDecorView();
-                    BasicActions.displaySnackBar(view, "Contul a fost editat cu succes");
+                    View myView = getActivity().getWindow().getDecorView();
+                    BasicActions.displaySnackBar(myView, "Contul a fost editat cu succes");
                     progressBar.setVisibility(View.GONE);
                     disableControllers(false);
                 }
@@ -126,6 +134,15 @@ public class DoctorDetails_Fragment extends Fragment {
                 txtPhone.setText(doctor.getPhone());
                 txtAddress.setText(doctor.getAdresaCabinet());
                 doctorName = txtLastname.getText() + " " + txtFirstname.getText();
+                UploadedImage uploadedImage = doctor.getImage();
+                if (uploadedImage != null) {
+                    Picasso.get()
+                            .load(uploadedImage.getImageUrl())
+                            .into(doctorIcon);
+                } else {
+                    Picasso.get().
+                            load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(doctorIcon);
+                }
                 disableControllers(false);
             }
 

@@ -85,7 +85,7 @@
                             android:backgroundTint="@color/white"
                             android:textColor="@color/red"
                             android:text="@string/resend_mail"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             />
 
                     </LinearLayout>
@@ -122,7 +122,7 @@
                             android:backgroundTint="@color/white"
                             android:textColor="@color/amber"
                             android:text="@string/upload_image"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
 
                             />
 
