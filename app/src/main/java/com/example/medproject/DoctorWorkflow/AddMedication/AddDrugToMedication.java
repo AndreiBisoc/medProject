@@ -65,6 +65,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private static int noOfDrugs = 0;
     private ProgressBar progressBar;
     private Locale locale = Locale.forLanguageTag("ro_RO");
+    private TextInputLayout medicineNameInputLayout, NoOfTimesInputLayout;
 
     @Override
     protected void onStart() {
@@ -75,7 +76,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         // hiding keyboard when the container is clicked
         BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
-        TextInputLayout medicineNameInputLayout = findViewById(R.id.medicineNameInputLayout);
+        NoOfTimesInputLayout = findViewById(R.id.NoOfTimesInputLayout);
+        medicineNameInputLayout = findViewById(R.id.medicineNameInputLayout);
         medicineNameInputLayout.setEndIconCheckable(true);
         progressBar = findViewById(R.id.progressBar);
         searchDrugName = findViewById(R.id.searchDrug);
@@ -114,7 +116,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         Button saveMedicationButton = findViewById(R.id.saveMedicationButton);
         Button addDrugDetailsButton = findViewById(R.id.addDrugDetailsButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
-
+        NoOfTimes.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            NoOfTimesInputLayout.setError(null);
+        });
         progressBar.setVisibility(View.GONE);
         disableControllers(false);
 
@@ -271,11 +275,12 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration.setStartDay(txtStartDay.getText().toString().trim());
         drugAdministration.setStartHour(txtStartHour.getText().toString().trim());
         drugAdministration.setNoOfTimes(String.format(locale,"%d", NoOfTimes.getCheckedButtonIds().size()));
-        drugAdministrationList.add(drugAdministration);
 
         if(validareDrugAdministration(drugAdministration)){
             return;
         }
+
+        drugAdministrationList.add(drugAdministration);
         drugName = searchDrugName.getText().toString().trim();
         try {
             String drugID = drugIDs.get(drugs.indexOf(drugName));
@@ -348,6 +353,15 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private int checkNumberOfIntegers(String string) {
+        int count = 0;
+        for (int i=1; i< string.length(); i++) {
+            if(Character.isDigit(string.charAt(i)) && string.charAt(i-1) == ' ')
+                count ++;
+        }
+        return count;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -355,10 +369,13 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         if (requestCode == 13) {
             if (resultCode == RESULT_OK && data != null) {
                 ArrayList<String> resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS); // array of possible versions of text
-                String result = resultArray.get(0); // the first version is the most precise one
-                handleDosage_SpeechRecognition(result);
-                handleDrugName_SpeechRecognition(result);
-                handleNoOfDays_SpeechRecognition(result);
+                int nr1 = checkNumberOfIntegers(resultArray.get(0)); //  First 2 versions are the most precise ones
+                int nr2 = checkNumberOfIntegers(resultArray.get(1));
+                String result = nr1 >= nr2 ? resultArray.get(0) : resultArray.get(1);
+                String formatedResult = result.substring(0,1).toUpperCase() + result.substring(1).toLowerCase();
+                handleDosage_SpeechRecognition(formatedResult);
+                handleDrugName_SpeechRecognition(formatedResult);
+                handleNoOfDays_SpeechRecognition(formatedResult);
             }
         }
     }
@@ -371,14 +388,18 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
         else {
             char dosage = result.charAt(indexOfCate + 5);
-            if (dosage == 'u') { // ..un comprimat
+            if (dosage == 'u') { // ..un comprimat/ml
                 txtDosage.setText("1");
             }
-            else if (dosage == 'd') { // ..două comprimate
+            else if (dosage == 'd') { // ..două comprimate/ml
                 txtDosage.setText("2");
             }
-            else { // 3 - 9 comprimate
-                txtDosage.setText(String.format("%c", dosage));
+            else { // 3+ comprimate/ml
+                int indexOfMl = result.indexOf("ml ");
+                if (indexOfMl == -1)
+                    txtDosage.setText(String.format("%c", dosage));
+                else
+                    txtDosage.setText(String.format("%s", result.substring(indexOfCate + 5, indexOfMl -1)));
             }
         }
     }
@@ -390,18 +411,23 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
             BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
         } else {
             String drugName = result.substring(0, indexOfCate - 1);
-            searchDrugName.setText(String.format("%s%s", drugName.substring(0, 1).toUpperCase(), drugName.substring(1)));
+            searchDrugName.setText(String.format("%s", drugName));
         }
     }
 
     private void handleNoOfDays_SpeechRecognition(String result) {
         int indexOfComprimate = result.indexOf("comprimate ");
         int indexOfComprimat = result.indexOf("comprimat ");
+        int indexOfMl = result.indexOf("ml ");
         boolean comprimate2Exist = result.substring(indexOfComprimate + 11 ,result.length() - 1).contains("comprimate");
-        if ((indexOfComprimat == -1 && indexOfComprimate == -1) || comprimate2Exist) { // Cuvantul "câte " nu a fost rostit
+        if ((indexOfComprimat == -1 && indexOfComprimate == -1 && indexOfMl == -1) || comprimate2Exist) { // Niciun cuvant cheie nu a fost rostit
             BasicActions.displaySnackBar(getWindow().getDecorView(), "Vă rugăm păstrați tiparul din exemplu");
         } else {
-            String str = indexOfComprimat == -1 ? result.substring(indexOfComprimate + 11) : result.substring(indexOfComprimat + 10);
+            String str;
+            if (indexOfMl == -1)
+                str = indexOfComprimat == -1 ? result.substring(indexOfComprimate + 11) : result.substring(indexOfComprimat + 10);
+            else
+                str = result.substring(indexOfMl + 3);
             String number = str.replaceAll("[^0-9]", "");
             int nr = -1;
             if(number.equals("")){ // o sau două
@@ -445,19 +471,24 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         txtStartHour.setText("");
 
         NoOfTimes.clearChecked();
-        NoOfTimes.check(R.id.morningButton);
 
         searchDrugName.clearFocus();
         txtDosage.clearFocus();
         txtNoOfDays.clearFocus();
         txtStartDay.clearFocus();
         txtStartHour.clearFocus();
+
     }
 
     private boolean validareDrugAdministration(DrugAdministration drugAdministration){
         if(drugAdministration.getDosage().isEmpty()){
             txtDosage.setError("Introduceți dozaj");
             txtDosage.requestFocus();
+            return true;
+        }
+
+        if(drugAdministration.getNoOfTimes().equals("0")){
+            NoOfTimesInputLayout.setError("Selectați perioada administrării");
             return true;
         }
 
