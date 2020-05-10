@@ -4,18 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.LandingPage">
+    tools:context=".auth.LandingPage"
+    android:background="@drawable/landing_page">
 
-    <ImageView
-        android:id="@+id/addMedicationImage"
-        android:layout_width="435dp"
-        android:layout_height="780dp"
-        android:layout_gravity="center"
-        android:layout_margin="0dp"
-        android:contentDescription="@string/icon"
-        android:padding="0dp"
-        android:src="@drawable/landing_page"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include layout="@layout/progress_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

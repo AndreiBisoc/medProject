@@ -32,8 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText txtEmail;
     private EditText txtPassword;
     private ProgressBar progressBar;
-    private Button loginButton;
-    private Button registerButton;
+    private Button loginButton, registerButton, forgotPasswordButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,70 +58,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressBar = findViewById(R.id.progressBar);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
-        Button forgotPasswordButton = findViewById(R.id.forgotPassword);
+        forgotPasswordButton = findViewById(R.id.forgotPassword);
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
         forgotPasswordButton.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        progressBar.setVisibility(View.GONE);
-        disableControllers(false);
-        if(mAuth.getCurrentUser() != null){
-            progressBar.setVisibility(View.VISIBLE);
-            disableControllers(true);
-//            Toast.makeText(getApplicationContext(),"Esti deja logat ca si " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
-            final String userID = mAuth.getCurrentUser().getUid();
-            databaseReference.child("Doctors")
-                    .child(userID)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.exists()){ //este doctor
-                                finish();
-                                Intent intent = new Intent(LoginActivity.this, MyPatientsActivity.class);
-                                intent.putExtra("loggedAsDoctor", true);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                            else{ //este pacient sau administrator
-                                databaseReference.child("Patients")
-                                        .child(userID)
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                if(dataSnapshot.exists()){ //este pacient
-                                                    finish();
-                                                    Intent intent = new Intent(LoginActivity.this, MyMedications.class);
-                                                    intent.putExtra("loggedAsDoctor", false);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                    startActivity(intent);
-                                                }
-                                                else{
-                                                    Intent intent = new Intent(LoginActivity.this, AddDrug.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                            }
-                                        });
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-        }
-//        else{
-//            Toast.makeText(getApplicationContext(),"Logare placută",Toast.LENGTH_SHORT).show();
-//        }
     }
 
     private void userLogin(){
@@ -246,5 +185,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtPassword.setEnabled(!isEnabled);
         loginButton.setEnabled(!isEnabled);
         registerButton.setEnabled(!isEnabled);
+        forgotPasswordButton.setEnabled(!isEnabled);
     }
 }
