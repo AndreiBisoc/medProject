@@ -20,7 +20,7 @@
             android:useLevel="false"
             android:startColor="@color/white"
             android:endColor="@color/amber"
-            android:angle="0"/>
+            android:angle="90"/>
 
     </shape>
 
