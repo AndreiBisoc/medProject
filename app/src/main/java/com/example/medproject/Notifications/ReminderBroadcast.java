@@ -10,7 +10,7 @@ import android.graphics.Color;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.example.medproject.R;
-import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.Authentication.LoginActivity;
 
 import static android.content.Context.ALARM_SERVICE;
 

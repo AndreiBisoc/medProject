@@ -1,6 +1,5 @@
 package com.example.medproject.DoctorWorkflow.MyPacients;
 
-import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,12 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.DoctorDetails;
-import com.example.medproject.FirebaseUtil;
+import com.example.medproject.GeneralActivities.BasicActions;
+import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.R;
-import com.example.medproject.data.model.DoctorToPatientLink;
-import com.example.medproject.data.model.Patient;
+import com.example.medproject.data.Models.DoctorToPatientLink;
+import com.example.medproject.data.Models.Patient;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;

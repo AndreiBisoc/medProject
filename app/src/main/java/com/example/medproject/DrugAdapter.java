@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.medproject.Administrator.AddDrug;
-import com.example.medproject.data.model.Drug;
+import com.example.medproject.AdministratorWorkflow.AddDrug;
+import com.example.medproject.GeneralActivities.FirebaseUtil;
+import com.example.medproject.data.Models.Drug;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

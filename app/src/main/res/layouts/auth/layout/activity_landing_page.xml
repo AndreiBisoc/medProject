@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.LandingPage"
+    tools:context=".GeneralActivities.LandingPage"
     android:background="@drawable/landing_page">
 
     <include layout="@layout/progress_bar" />

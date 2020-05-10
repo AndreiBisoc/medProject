@@ -11,13 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.BasicActions;
-import com.example.medproject.DoctorWorkflow.MyPacients.MyPatientsActivity;
+import com.example.medproject.GeneralActivities.BasicActions;
+import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
 import com.example.medproject.R;
-import com.example.medproject.auth.LoginActivity;
-import com.example.medproject.data.model.DoctorToPatientLink;
-import com.example.medproject.data.model.Exceptions.DoctorNotLinkedToPatientException;
-import com.example.medproject.data.model.Patient;
+import com.example.medproject.Authentication.LoginActivity;
+import com.example.medproject.data.Models.DoctorToPatientLink;
+import com.example.medproject.data.Models.Exceptions.DoctorNotLinkedToPatientException;
+import com.example.medproject.data.Models.Patient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -131,7 +131,7 @@ public class ScanPatientId extends AppCompatActivity implements ZXingScannerView
     }
 
     private void goToMyPatientsActivity() {
-        Intent toMyPatientsActivity = new Intent(getApplicationContext(), MyPatientsActivity.class);
+        Intent toMyPatientsActivity = new Intent(getApplicationContext(), MyPatientsOrMyDoctorsActivity.class);
         toMyPatientsActivity.putExtra("loggedAsDoctor", true);
         startActivity(toMyPatientsActivity);
     }

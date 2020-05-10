@@ -13,11 +13,11 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.BasicActions;
+import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
-import com.example.medproject.ResourcesHelper;
-import com.example.medproject.auth.LoginActivity;
-import com.example.medproject.data.model.Patient;
+import com.example.medproject.GeneralActivities.ResourcesHelper;
+import com.example.medproject.Authentication.LoginActivity;
+import com.example.medproject.data.Models.Patient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Map;
+
 
 public class PatientDetails extends AppCompatActivity implements View.OnClickListener {
     private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
@@ -37,7 +39,6 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
     private String loggedUser;
     private String patientID;
     private String patientName;
-    private Button saveChangesOrDeletePatientButton;
 
     @Override
     protected void onStart() {
@@ -73,7 +74,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         BasicActions.manageNavigationView(this, bottomNavigationView, loggedAsDoctor);
 
-        saveChangesOrDeletePatientButton = findViewById(R.id.saveChangesOrDeletePatientButton);
+        Button saveChangesOrDeletePatientButton = findViewById(R.id.saveChangesOrDeletePatientButton);
         saveChangesOrDeletePatientButton.setOnClickListener(this);
 
         DatabaseReference mDatabaseReference;
@@ -119,6 +120,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
         if (loggedAsDoctor) {
             deletePatient();
         } else {
+            // never used
             saveChanges();
         }
     }
@@ -143,19 +145,21 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
     }
 
     private void saveChanges() {
+        // never used - see PatientDetails_Fragment.saveChanges()
         progressBar.setVisibility(View.VISIBLE);
         disableControllers(true);
 
-        String prenume = txtFirstname.getText().toString().trim();
-        String nume = txtLastname.getText().toString().trim();
-        String telefon = txtPhone.getText().toString().trim();
-        String adresaCabinet = txtAddress.getText().toString().trim();
+        String firstName = txtFirstname.getText().toString().trim();
+        String lastName = txtLastname.getText().toString().trim();
+        String phone = txtPhone.getText().toString().trim();
+        String address = txtAddress.getText().toString().trim();
         String CNP = txtCNP.getText().toString().trim();
         String birthDate = txtBirthDate.getText().toString().trim();
-        final Patient patient = new Patient(prenume, nume, birthDate, telefon, adresaCabinet, CNP);
+        Patient patient = new Patient();
+        Map<String, Object> detailsToUpdate = patient.setBasicDetails(firstName, lastName, phone, address, CNP, birthDate);
         FirebaseDatabase.getInstance().getReference("Patients")
                 .child(loggedUser)
-                .setValue(patient).addOnCompleteListener(task -> {
+                .updateChildren(detailsToUpdate).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Contul a fost editat cu succes");
                 progressBar.setVisibility(View.GONE);

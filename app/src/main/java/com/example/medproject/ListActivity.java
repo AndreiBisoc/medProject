@@ -12,11 +12,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.medproject.Administrator.AddDrug;
-import com.example.medproject.data.model.Drug;
+import com.example.medproject.AdministratorWorkflow.AddDrug;
+import com.example.medproject.GeneralActivities.FirebaseUtil;
+import com.example.medproject.data.Models.Drug;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

@@ -12,10 +12,10 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.BasicActions;
+import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
-import com.example.medproject.auth.LoginActivity;
-import com.example.medproject.data.model.Doctor;
+import com.example.medproject.Authentication.LoginActivity;
+import com.example.medproject.data.Models.Doctor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
