@@ -21,7 +21,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         int totalTimes = intent.getIntExtra("totalTimes", -1);
         int index = intent.getIntExtra("index", -1);
         long timeToNextAlarm = intent.getLongExtra("timeToNextAlarm",-1);
-        int dosage = intent.getIntExtra("dosage", -1);
+        String dosage = intent.getStringExtra("dosage");
         String drugName = intent.getStringExtra("drugName");
 
         int notificationUniqueId = (int) System.currentTimeMillis();
@@ -51,7 +51,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context, "channel")
                 .setSmallIcon(R.drawable.doctor)
                 .setContentTitle("Reminder")
-                .setContentText("Este timpul să luați " + dosage + " pastile de " + drugName)
+                .setContentText("Este timpul să luați " + dosage + " de " + drugName)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setColor(Color.BLUE)

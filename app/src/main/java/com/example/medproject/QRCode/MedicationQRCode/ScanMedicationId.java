@@ -198,8 +198,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
             broadcastIntent.putExtra("index",  1);
             broadcastIntent.putExtra("timeToNextAlarm", timeToNextAlarm);
             broadcastIntent.putExtra("drugName", drugName);
-            int dosage = Integer.parseInt(drugAdministration.getDosage());
-            broadcastIntent.putExtra("dosage", dosage);
+            broadcastIntent.putExtra("dosage", drugAdministration.getDosage());
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
                     (int) now.getTime(), broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);

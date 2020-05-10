@@ -58,7 +58,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/searchDrug"
                     android:layout_below="@+id/add_patient_message"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:ems="10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -98,6 +98,7 @@
                         android:id="@+id/txtDosage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
                         android:inputType="number"
                     />
 
@@ -119,6 +120,7 @@
                         android:id="@+id/txtNoOfDays"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
                         android:inputType="number"
                     />
 
@@ -202,6 +204,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         android:focusable="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -223,6 +226,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:textSize="14sp"
                         android:focusable="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
