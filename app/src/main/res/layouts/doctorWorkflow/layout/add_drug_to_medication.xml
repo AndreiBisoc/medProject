@@ -126,49 +126,56 @@
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/NoOfTimes"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/NoOfTimesInputLayout"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="3"
-                app:checkedButton="@id/morningButton"
-                app:selectionRequired="true">
+                >
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/morningButton"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/NoOfTimes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dimineața"
-                    android:textSize="12dp"
-                    android:layout_weight="1"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_sun_black_24dp"
-                />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/noonButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Prânz"
-                    android:textSize="12dp"
-                    android:layout_weight="1"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_wb_sunny_black_24dp"
-                />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/eveningButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Seara"
-                    android:textSize="12dp"
-                    android:layout_weight="1"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_moon_black_24dp"
+                    android:weightSum="3">
 
-                />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/morningButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/morning"
+                        android:textSize="10dp"
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_sun_black_24dp"
+                    />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/noonButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/noon"
+                        android:textSize="10dp"
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_wb_sunny_black_24dp"
+                    />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/eveningButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/evening"
+                        android:textSize="10dp"
+                        android:layout_weight="1"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_moon_black_24dp"
+
+                    />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

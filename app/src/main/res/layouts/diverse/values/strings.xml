@@ -20,4 +20,7 @@
     <string name="remove">Șterge</string>
     <string name="upload_image">Schimbă fotografia</string>
     <string name="change_icon">Schimbare imagine</string>
+    <string name="morning">Dimineața</string>
+    <string name="noon">Prânz</string>
+    <string name="evening">Seara</string>
 </resources>
