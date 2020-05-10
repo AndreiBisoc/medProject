@@ -31,8 +31,6 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
         mAuth = FirebaseAuth.getInstance();
 
         Intent intent = getIntent();
-        Resources res = getResources();
-        Drawable syrupBottle = res.getDrawable(R.drawable.medicine_bottle);
 
         boolean loggedAsDoctor = intent.getBooleanExtra("loggedAsDoctor", false);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -40,7 +38,7 @@ public class MyDrugs extends AppCompatActivity implements View.OnClickListener  
 
 
         boolean canEditMedicationFlag = intent.getBooleanExtra("canEditMedicationFlag", false);
-        DrugAdapter adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), loggedAsDoctor, canEditMedicationFlag, syrupBottle);
+        DrugAdapter adapter = new DrugAdapter(intent.getStringExtra("MedicationID"), canEditMedicationFlag, loggedAsDoctor);
         String diagnostic = intent.getStringExtra("diagnostic");
         setTitle(diagnostic);
 
