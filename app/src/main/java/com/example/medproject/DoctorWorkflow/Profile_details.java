@@ -55,7 +55,7 @@ public class Profile_details extends AppCompatActivity {
             adapter.addFragment(new PatientDetails_Fragment(), "Profil");
             adapter.addFragment(new PatientEmergencyDetails_Fragment(), "Urgență");
         }
-		adapter.addFragment(new AccountDetails_Fragment(), "Cont");
+        adapter.addFragment(new AccountDetails_Fragment(loggedAsDoctor), "Cont");
         viewPager.setAdapter(adapter);
     }
 

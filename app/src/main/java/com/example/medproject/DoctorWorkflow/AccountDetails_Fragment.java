@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.data.model.UploadedImage;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -95,7 +96,8 @@ public class AccountDetails_Fragment extends Fragment implements View.OnClickLis
                                     .load(uploadedImage.getImageUrl())
                                     .into(userIcon);
                         } else {
-                            userIcon.setBackgroundResource(R.drawable.icon_male);
+                            Picasso.get().
+                                    load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(userIcon);
                         }
                     }
 

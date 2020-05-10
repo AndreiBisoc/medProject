@@ -6,7 +6,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,10 +65,8 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Drug drug = dataSnapshot.getValue(Drug.class);
+                setBasicDrugDetails(drug);
                 setTitle(drug.getNume());
-                txtScop.setText(drug.getScop());
-                txtUnitate.setText(drug.getUnitate());
-                txtDescriere.setText(drug.getDescriere());
             }
 
             @Override
@@ -126,6 +123,16 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private void setBasicDrugDetails(Drug drug) {
+        txtScop.setText(drug.getScop());
+        txtUnitate.setText(drug.getUnitate());
+        txtDescriere.setText(drug.getDescriere());
+        int basicDrugDetailsColorId = getColor(R.color.grey);
+        txtDescriere.setTextColor(basicDrugDetailsColorId);
+        txtUnitate.setTextColor(basicDrugDetailsColorId);
+        txtScop.setTextColor(basicDrugDetailsColorId);
     }
 
     private void enableEditTexts(boolean canEditMedicationFlag){

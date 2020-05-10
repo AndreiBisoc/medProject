@@ -36,14 +36,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/appLogo"
-                    android:layout_width="126dp"
-                    android:layout_height="127dp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/doctorIcon"
+                    android:layout_width="134dp"
+                    android:layout_height="125dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="64dp"
+                    android:layout_marginTop="16dp"
                     android:contentDescription="@string/logo"
-                    android:src="@drawable/doctor"
                     tools:srcCompat="@tools:sample/avatars" />
 
             </LinearLayout>
@@ -118,6 +117,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtPhone"
+                        android:inputType="phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -206,29 +206,16 @@
         >
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/saveChangesButton"
+            android:id="@+id/saveChangesOrDeletePatientButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center|center_vertical"
             android:backgroundTint="@color/amber"
             android:text="@string/save"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonDeleteDoctor"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/red"
-            android:text="@string/remove"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="16sp"
             />
     </LinearLayout>
 

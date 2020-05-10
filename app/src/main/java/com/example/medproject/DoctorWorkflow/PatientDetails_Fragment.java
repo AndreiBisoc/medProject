@@ -12,19 +12,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.medproject.BasicActions;
 import com.example.medproject.R;
+import com.example.medproject.ResourcesHelper;
 import com.example.medproject.data.model.Patient;
+import com.example.medproject.data.model.UploadedImage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class PatientDetails_Fragment extends Fragment {
     private EditText txtLastname, txtFirstname, txtCNP, txtBirthDate, txtPhone, txtAddress;
     private boolean loggedAsDoctor;
     private ProgressBar progressBar;
+    private CircleImageView patientIcon;
 
     public PatientDetails_Fragment() {// Required empty public constructor
     }
@@ -49,10 +55,9 @@ public class PatientDetails_Fragment extends Fragment {
         txtBirthDate = getView().findViewById(R.id.txtBirthDate);
         txtPhone = getView().findViewById(R.id.txtPhone);
         txtAddress = getView().findViewById(R.id.txtAddress);
+        patientIcon = getView().findViewById(R.id.patientIcon);
         progressBar = getView().findViewById(R.id.progressBar);
-
-        getView().findViewById(R.id.buttonDeletePatient).setVisibility(View.GONE);
-        Button saveChangesButton = getView().findViewById(R.id.saveChangesButton);
+        Button saveChangesButton = getView().findViewById(R.id.saveChangesOrDeletePatientButton);
         saveChangesButton.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             disableControllers(true);
@@ -110,6 +115,15 @@ public class PatientDetails_Fragment extends Fragment {
                 txtBirthDate.setText(patient.getBirthDate());
                 txtPhone.setText(patient.getPhone());
                 txtAddress.setText(patient.getAddress());
+                UploadedImage uploadedImage = patient.getImage();
+                if (uploadedImage != null) {
+                    Picasso.get()
+                            .load(uploadedImage.getImageUrl())
+                            .into(patientIcon);
+                } else {
+                    Picasso.get().
+                            load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(patientIcon);
+                }
                 disableControllers(loggedAsDoctor);
             }
 
