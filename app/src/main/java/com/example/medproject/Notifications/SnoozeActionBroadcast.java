@@ -13,7 +13,7 @@ import static android.content.Context.ALARM_SERVICE;
 public class SnoozeActionBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        int dosage = intent.getIntExtra("dosage", -1);
+        String dosage = intent.getStringExtra("dosage");
         String drugName = intent.getStringExtra("drugName");
             String notificationUniqueIdName = intent.getStringExtra("notificationUniqueIdName");
             int notificationUniqueId = intent.getIntExtra( notificationUniqueIdName, 0);

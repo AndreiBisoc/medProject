@@ -41,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,8 +50,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private TextView noOfInsertedDrugs;
     private MaterialButtonToggleGroup NoOfTimes;
 
-    private final List<String> drugs = new ArrayList<>();
-    private final List<String> drugIDs = new ArrayList<>();
+    private final HashMap<String, Drug> drugs = new HashMap<>();
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private MedicationLink medicationLink = new MedicationLink();
@@ -151,8 +151,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         Drug drug = dataSnapshot.getValue(Drug.class);
-                        drugs.add(drug.getNume());
-                        drugIDs.add(dataSnapshot.getKey());
+                        drug.setId(dataSnapshot.getKey());
+                        drugs.put(drug.getNume(), drug);
                     }
 
                     @Override
@@ -213,7 +213,6 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addDrugButton:
-                Log.d("MyActivity", " NoOfTimes" + NoOfTimes.getCheckedButtonIds().size());
                 addDrugToMedication();
                 break;
             case R.id.saveMedicationButton:
@@ -266,11 +265,14 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     }
 
     private void addDrugToMedication() {
+        drugName = searchDrugName.getText().toString().trim();
+
         mDatabaseReference = mFirebaseDatabase.getReference("DrugAdministration");
         drugAdministration = new DrugAdministration();
         medicationLink = new MedicationLink();
         drugAdministration.setID(mDatabaseReference.push().getKey());
-        drugAdministration.setDosage(txtDosage.getText().toString().trim());
+        String dosageAndUnit = txtDosage.getText().toString().trim() + " " + drugs.get(drugName).getUnitate();
+        drugAdministration.setDosage(dosageAndUnit);
         drugAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
         drugAdministration.setStartDay(txtStartDay.getText().toString().trim());
         drugAdministration.setStartHour(txtStartHour.getText().toString().trim());
@@ -281,9 +283,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
 
         drugAdministrationList.add(drugAdministration);
-        drugName = searchDrugName.getText().toString().trim();
         try {
-            String drugID = drugIDs.get(drugs.indexOf(drugName));
+            String drugID = drugs.get(drugName).getId();
             if(medicationDrugIDs.contains(drugID)){
                 searchDrugName.setError("Acest medicament este adăugat deja");
                 searchDrugName.requestFocus();
