@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.BasicActions;
-import com.example.medproject.FirebaseUtil;
+import com.example.medproject.GeneralActivities.BasicActions;
+import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.QRCode.ImageDownloaderTask;
 import com.example.medproject.R;
 import com.firebase.ui.auth.AuthUI;

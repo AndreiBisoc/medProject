@@ -18,14 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Prototypes -->
-        <activity android:name=".NotificationActivity" />
-        <activity android:name=".SpeechToText" />
+        <activity android:name=".Notifications.NotificationActivity" />
+        <activity android:name=".SpeechRecognition.SpeechToText" />
         <activity
-            android:name=".DoctorWorkflow.Profile_details"
+            android:name=".MyAccount.ProfileDetails"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="InnerclassSeparator" /> <!-- Administrator -->
         <activity
-            android:name=".Administrator.AddDrug"
+            android:name=".AdministratorWorkflow.AddDrug"
             tools:ignore="InnerclassSeparator" /> <!-- Notifications -->
         <receiver
             android:name=".Notifications.ReminderBroadcast"
@@ -50,7 +50,7 @@
             tools:ignore="InnerclassSeparator" />
         <!-- Auth workflow -->
         <activity
-            android:name=".auth.LandingPage"
+            android:name=".GeneralActivities.LandingPage"
             android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,14 +59,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".auth.LoginActivity"
+            android:name=".Authentication.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
         </activity>
-        <activity android:name=".auth.ForgotPassword" />
-        <activity android:name=".auth.AddDetailsToPatient" />
-        <activity android:name=".auth.RegisterActivity" />
-        <activity android:name=".auth.RegisterPacientActivity" />
-        <activity android:name=".auth.RegisterDoctorActivity" /> <!-- Patient workflow -->
+        <activity android:name=".Authentication.ForgotPassword" />
+        <activity android:name=".MyAccount.AddPatientEmergencyDetails" />
+        <activity android:name=".Authentication.Register.RegisterActivity" />
+        <activity android:name=".Authentication.Register.RegisterPacientActivity" />
+        <activity android:name=".Authentication.Register.RegisterDoctorActivity" /> <!-- Patient workflow -->
         <activity
             android:name=".PatientWorkflow.MyMedications.MyMedications"
             tools:ignore="InnerclassSeparator" />
@@ -74,11 +74,11 @@
             android:name=".PatientWorkflow.MyDrugs.MyDrugs"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"
+            android:name=".PatientWorkflow.SeeDrugDetailsAndAdministration"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="InnerclassSeparator" /> <!-- Doctor workflow -->
         <activity
-            android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity"
+            android:name=".GeneralActivities.MyPatientsOrMyDoctorsActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".DoctorWorkflow.MyPacients.PatientDetails"

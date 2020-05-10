@@ -1,8 +1,6 @@
 package com.example.medproject.PatientWorkflow.MyDrugs;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.medproject.BasicActions;
+import com.example.medproject.Adapters.DrugAdapter;
+import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
-import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.Authentication.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 

@@ -11,7 +11,6 @@ import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,13 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.BasicActions;
+import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.QRCode.MedicationQRCode.GenerateMedicationQRCode;
 import com.example.medproject.R;
-import com.example.medproject.data.model.Doctor;
-import com.example.medproject.data.model.Drug;
-import com.example.medproject.data.model.DrugAdministration;
-import com.example.medproject.data.model.MedicationLink;
+import com.example.medproject.data.Models.Doctor;
+import com.example.medproject.data.Models.Drug;
+import com.example.medproject.data.Models.DrugAdministration;
+import com.example.medproject.data.Models.MedicationLink;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +41,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
@@ -64,7 +62,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private String doctorSpecialization;
     private static int noOfDrugs = 0;
     private ProgressBar progressBar;
-    private Locale locale = Locale.forLanguageTag("ro_RO");
+    private final Locale locale = Locale.forLanguageTag("ro_RO");
     private TextInputLayout medicineNameInputLayout, NoOfTimesInputLayout;
 
     @Override

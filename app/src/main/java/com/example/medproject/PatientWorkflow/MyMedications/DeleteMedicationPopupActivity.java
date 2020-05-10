@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.medproject.FirebaseUtil;
+import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.R;
-import com.example.medproject.data.model.Medication;
+import com.example.medproject.data.Models.Medication;
 import com.google.firebase.database.DatabaseReference;
 
 public class DeleteMedicationPopupActivity extends Activity {

@@ -14,12 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.medproject.BasicActions;
+import com.example.medproject.Adapters.MedicationAdapter;
+import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.DoctorWorkflow.AddMedication.AddMedication;
 import com.example.medproject.QRCode.MedicationQRCode.ScanMedicationId;
 import com.example.medproject.R;
-import com.example.medproject.ResourcesHelper;
-import com.example.medproject.auth.LoginActivity;
+import com.example.medproject.GeneralActivities.ResourcesHelper;
+import com.example.medproject.Authentication.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
