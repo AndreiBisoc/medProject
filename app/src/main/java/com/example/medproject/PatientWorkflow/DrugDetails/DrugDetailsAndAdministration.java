@@ -1,6 +1,11 @@
 package com.example.medproject.PatientWorkflow.DrugDetails;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,12 +30,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class DrugDetailsAndAdministration extends AppCompatActivity {
+import java.util.Calendar;
+import java.util.Locale;
+
+public class DrugDetailsAndAdministration extends AppCompatActivity implements View.OnClickListener {
     private FirebaseDatabase mFirebaseDatabase;
     private TextInputEditText txtScop, txtUnitate, txtDescriere;
     private TextInputEditText txtDosage, txtNoOfDays, txtNoOfTimes, txtStartDay, txtStartHour;
     private String drugAdministrationID;
     private boolean canEditMedicationFlag;
+    private Locale locale = Locale.forLanguageTag("ro_RO");
 
     @Override
     protected void onStart() {
@@ -125,22 +134,35 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.txtStartDay:
+                openDatePicker();
+                break;
+            case R.id.txtStartHour:
+                openTimePicker();
+                break;
+        }
+    }
+
     private void setBasicDrugDetails(Drug drug) {
         txtScop.setText(drug.getScop());
         txtUnitate.setText(drug.getUnitate());
         txtDescriere.setText(drug.getDescriere());
-        int basicDrugDetailsColorId = getColor(R.color.grey);
-        txtDescriere.setTextColor(basicDrugDetailsColorId);
-        txtUnitate.setTextColor(basicDrugDetailsColorId);
-        txtScop.setTextColor(basicDrugDetailsColorId);
     }
 
     private void enableEditTexts(boolean canEditMedicationFlag){
-        txtDosage.setEnabled(canEditMedicationFlag);
-        txtNoOfDays.setEnabled(canEditMedicationFlag);
-        txtNoOfTimes.setEnabled(canEditMedicationFlag);
-        txtStartDay.setEnabled(canEditMedicationFlag);
-        txtStartHour.setEnabled(canEditMedicationFlag);
+        txtDosage.setFocusable(canEditMedicationFlag);
+        txtNoOfDays.setFocusable(canEditMedicationFlag);
+        txtNoOfTimes.setFocusable(canEditMedicationFlag);
+        txtStartDay.setFocusable(canEditMedicationFlag);
+        txtStartHour.setFocusable(canEditMedicationFlag);
+
+        if(canEditMedicationFlag) {
+            txtStartDay.setOnClickListener(this);
+            txtStartHour.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -159,6 +181,37 @@ public class DrugDetailsAndAdministration extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
         }
         return true;
+    }
+
+    private void openDatePicker(){
+        final Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        // Date picker dialog
+        DatePickerDialog datePickerDialog= new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK,
+                (view, year1, monthOfYear, dayOfMonth) -> {
+                    String d = dayOfMonth < 10 ? "0" + dayOfMonth : "" + dayOfMonth;
+                    String m = monthOfYear < 10 ? "0" + (monthOfYear + 1) : "" + (monthOfYear + 1);
+                    txtStartDay.setText(String.format(locale, "%s/%s/%s", d, m, year1));
+                }, year, month, day);
+        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        datePickerDialog.setTitle("Selectați data de început");
+        datePickerDialog.show();
+    }
+
+    private void openTimePicker(){
+        // Time picker dialog
+        TimePickerDialog timePickerDialog= new TimePickerDialog(this, AlertDialog.THEME_HOLO_DARK,
+                (view, hour, minute) -> {
+                    String h = hour < 10 ? "0" + hour : "" + hour;
+                    String m = minute < 10 ? "0" + minute : "" + minute;
+                    txtStartHour.setText(String.format("%s:%s", h, m));
+                }, 8, 0, true);
+        timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        timePickerDialog.setTitle("Selectați ora de început");
+        timePickerDialog.show();
     }
 
 }

@@ -74,7 +74,7 @@
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".PatientWorkflow.DrugDetails.DrugDetailsAndAdministration"
-            android:windowSoftInputMode="stateVisible|adjustNothing"
+            android:windowSoftInputMode="adjustResize"
             tools:ignore="InnerclassSeparator" /> <!-- Doctor workflow -->
         <activity
             android:name=".DoctorWorkflow.MyPacients.MyPatientsActivity"
