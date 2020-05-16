@@ -1,4 +1,4 @@
-package com.example.medproject.DoctorWorkflow.MyPacients;
+package com.example.medproject.DoctorWorkflow;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.GeneralActivities.BasicActions;
+import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
 import com.example.medproject.R;
 import com.example.medproject.GeneralActivities.ResourcesHelper;
 import com.example.medproject.Authentication.LoginActivity;
@@ -139,7 +140,9 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
                             .removeValue();
 
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul " + patientName + " a fost șters cu succes");
-
+                    Intent toMyPatients = new Intent(this, MyPatientsOrMyDoctorsActivity.class);
+                    toMyPatients.putExtra("loggedAsDoctor", true);
+                    this.startActivity(toMyPatients);
                 })
                 .show();
     }

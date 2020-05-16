@@ -17,6 +17,8 @@
         android:roundIcon="@drawable/iconita"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
+        <activity android:name=".DrugInteraction.DrugInteraction">
+        </activity>
         <!-- Prototypes -->
         <activity android:name=".Notifications.NotificationActivity" />
         <activity android:name=".SpeechRecognition.SpeechToText" />
@@ -47,8 +49,7 @@
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".QRCode.PatientQRCode.GeneratePatientQRCode"
-            tools:ignore="InnerclassSeparator" />
-        <!-- Auth workflow -->
+            tools:ignore="InnerclassSeparator" /> <!-- Auth workflow -->
         <activity
             android:name=".GeneralActivities.LandingPage"
             android:windowSoftInputMode="stateVisible|adjustPan">
@@ -57,6 +58,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".Authentication.LoginActivity"
@@ -81,7 +83,7 @@
             android:name=".GeneralActivities.MyPatientsOrMyDoctorsActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".DoctorWorkflow.MyPacients.PatientDetails"
+            android:name=".DoctorWorkflow.PatientDetails"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="InnerclassSeparator" />
         <activity
