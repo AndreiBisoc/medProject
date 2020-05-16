@@ -21,6 +21,12 @@
         />
     <item
         app:showAsAction="never"
+        android:id="@+id/study_drug_interactions"
+        android:title="@string/drug_interactions"
+        android:icon="@drawable/ic_person_black_24dp"
+        />
+    <item
+        app:showAsAction="never"
         android:id="@+id/my_profile"
         android:title="@string/profile"
         android:icon="@drawable/ic_person_black_24dp"

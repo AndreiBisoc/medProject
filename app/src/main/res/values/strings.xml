@@ -80,5 +80,18 @@
     <string name="adresa_cabinet">Adresă cabinet</string>
     <string name="delete_doctor">Șterge doctor</string>
 
+    <string name="drug_interactions">Verifică medicamente</string>
+    <string name="drug1">Medicament 1</string>
+    <string name="drug2">Medicament 2</string>
+    <string name="drugBankInfo">DrugBank este sursa bioinformatică ce conține detalii despre medicamentele existente pe piață.
+        Pornind de la interacțiunile cunoscute din DrugBank, am prezis altele noi.</string>
+    <string name="introduce_drug_names">Introdu numele medicamentelor:</string>
+    <string name="set_drug_name">Introdu numele medicamentului.</string>
+    <string name="searchInteraction">Caută</string>
+    <string name="interaction">Interacțiune</string>
+    <string name="effect">Efect asupra corpului uman</string>
+    <string name="effect_text">Combinarea acestor două medicamente are un efect negativ asupra corpului uman.</string>
+    <string name="effect_text_maybe">Combinarea acestor două medicamente poate avea un efect negativ asupra corpului uman.</string>
+
     <string name="back_toList">Înapoi la listă</string>
 </resources>

@@ -12,10 +12,13 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.GeneralActivities.BasicActions;
-import com.example.medproject.R;
 import com.example.medproject.Authentication.LoginActivity;
+import com.example.medproject.GeneralActivities.BasicActions;
+import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
+import com.example.medproject.GeneralActivities.ResourcesHelper;
+import com.example.medproject.R;
 import com.example.medproject.data.Models.Doctor;
+import com.example.medproject.data.Models.UploadedImage;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +27,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class DoctorDetails extends AppCompatActivity implements View.OnClickListener {
@@ -69,12 +75,7 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
         progressBar = findViewById(R.id.progressBar);
 
         saveChangesOrDeletePatientButton = findViewById(R.id.saveChangesOrDeletePatientButton);
-        saveChangesOrDeletePatientButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String x = "adi";
-            }
-        });
+        saveChangesOrDeletePatientButton.setOnClickListener(this);
 
         DatabaseReference mDatabaseReference;
         if(loggedAsDoctor) {
@@ -91,6 +92,13 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Doctor doctor = dataSnapshot.getValue(Doctor.class);
+                CircleImageView doctorIcon = findViewById(R.id.doctorIcon);
+                UploadedImage uploadedImage = doctor.getImage();
+                if (uploadedImage != null) {
+                    Picasso.get().load(uploadedImage.getImageUrl()).into(doctorIcon);
+                } else {
+                    Picasso.get().load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(doctorIcon);
+                }
                 txtLastname.setText(doctor.getLastName());
                 txtFirstname.setText(doctor.getFirstName());
                 txtSpecializare.setText(doctor.getSpecialization());
@@ -131,7 +139,9 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
                             .removeValue();
 
                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Doctorul " + doctorName + " a fost șters cu succes");
-
+                    Intent toMyDoctors = new Intent(this, MyPatientsOrMyDoctorsActivity.class);
+                    toMyDoctors.putExtra("loggedAsDoctor", false);
+                    this.startActivity(toMyDoctors);
                 }).show();
     }
 
@@ -221,7 +231,6 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
         txtAddress.setEnabled(!shouldBeDisabled);
         txtPhone.setEnabled(!shouldBeDisabled);
         txtSpecializare.setEnabled(!shouldBeDisabled);
-        saveChangesOrDeletePatientButton.setEnabled(!shouldBeDisabled);
         if(shouldBeDisabled) {
             int disabledTextColorId = getColor(R.color.grey);
             txtLastname.setTextColor(disabledTextColorId);

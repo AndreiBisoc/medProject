@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
-import com.example.medproject.DoctorWorkflow.MyPacients.PatientDetails;
+import com.example.medproject.DoctorWorkflow.PatientDetails;
 import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;

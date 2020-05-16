@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.DrugInteraction.DrugInteraction;
 import com.example.medproject.MyAccount.ProfileDetails;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.Authentication.LoginActivity;
@@ -103,6 +104,14 @@ public class BasicActions {
                     if(!activity.getClass().equals(MyMedications.class)) {
                         activity.finish();
                         intent = new Intent(activity.getApplicationContext(), MyMedications.class);
+                        intent.putExtra("loggedAsDoctor", loggedAsDoctor);
+                        activity.startActivity(intent);
+                    }
+                    break;
+                case R.id.study_drug_interactions:
+                    if(!activity.getClass().equals(DrugInteraction.class)) {
+                        activity.finish();
+                        intent = new Intent(activity.getApplicationContext(), DrugInteraction.class);
                         intent.putExtra("loggedAsDoctor", loggedAsDoctor);
                         activity.startActivity(intent);
                     }
