@@ -69,10 +69,10 @@
         <activity android:name=".Authentication.Register.RegisterPacientActivity" />
         <activity android:name=".Authentication.Register.RegisterDoctorActivity" /> <!-- Patient workflow -->
         <activity
-            android:name=".PatientWorkflow.MyMedications.MyMedications"
+            android:name=".PatientWorkflow.MyMedications"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".PatientWorkflow.MyDrugs.MyDrugs"
+            android:name=".PatientWorkflow.MyDrugs"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".PatientWorkflow.SeeDrugDetailsAndAdministration"
@@ -86,11 +86,8 @@
             android:windowSoftInputMode="adjustPan"
             tools:ignore="InnerclassSeparator" />
         <activity
-            android:name=".DoctorWorkflow.DoctorDetails"
+            android:name=".PatientWorkflow.DoctorDetails"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="InnerclassSeparator" />
-        <activity
-            android:name=".DoctorWorkflow.MyPacients.AddPatientToDoctorActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".DoctorWorkflow.AddMedication.AddMedication"

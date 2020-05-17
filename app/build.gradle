@@ -21,21 +21,17 @@ android {
         main {
             res.srcDirs =
                     [
-                            'src/main/res/layouts/diverse',
-                            'src/main/res/layouts/patietWorkflow/drugDetails',
-                            'src/main/res/layouts/patietWorkflow/myMedications',
-                            'src/main/res/layouts/patietWorkflow/myDrugs',
-                            'src/main/res/layouts/patietWorkflow',
-                            'src/main/res/layouts/auth',
-                            'src/main/res/layouts/auth/register',
-                            'src/main/res/layouts/medications',
-                            'src/main/res/layouts/patients',
-                            'src/main/res/layouts/doctorWorkflow',
-                            'src/main/res/layouts/adminWorkflow',
-                            'src/main/res/layouts/qr',
-                            'src/main/res/layouts/edit-accounts',
+                            'src/main/res',
                             'src/main/res/layouts',
-                            'src/main/res'
+                            'src/main/res/layouts/administratorWorkflow',
+                            'src/main/res/layouts/authentication',
+                            'src/main/res/layouts/authentication/register',
+                            'src/main/res/layouts/doctorWorkflow',
+                            'src/main/res/layouts/drugInteraction',
+                            'src/main/res/layouts/generalResources',
+                            'src/main/res/layouts/myAccount',
+                            'src/main/res/layouts/patietWorkflow',
+                            'src/main/res/layouts/qr'
                     ]
         }
     }

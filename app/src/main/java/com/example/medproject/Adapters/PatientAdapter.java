@@ -16,7 +16,7 @@ import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
 import com.example.medproject.DoctorWorkflow.PatientDetails;
 import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.ListActivity;
-import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
+import com.example.medproject.PatientWorkflow.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.GeneralActivities.ResourcesHelper;
 import com.example.medproject.Models.DoctorToPatientLink;
