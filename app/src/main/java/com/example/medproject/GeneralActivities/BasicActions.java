@@ -58,6 +58,19 @@ public class BasicActions {
                 .show();
     }
 
+    public static void displaySnackBarAndFinish(Activity activity, String message) {
+        Snackbar.make(activity.getWindow().getDecorView().getRootView(), message, Snackbar.LENGTH_SHORT)
+                .setTextColor(Color.parseColor("#ffb300"))
+                .addCallback(new Snackbar.Callback(){
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        super.onDismissed(transientBottomBar, event);
+                        activity.finish();
+                    }
+                })
+                .show();
+    }
+
     public static void displaySnackBarLonger(View context, String message) {
         Snackbar.make(context, message, Snackbar.LENGTH_LONG)
                 .setTextColor(Color.parseColor("#ffb300"))
