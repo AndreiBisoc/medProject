@@ -74,8 +74,6 @@ public class ListActivity extends AppCompatActivity {
         super.onResume();
         FirebaseUtil.openFbReference("Drugs",this);
         RecyclerView rvDrugs = findViewById(R.id.rvDrugs);
-        final DrugAdapter adapter = new DrugAdapter();
-        rvDrugs.setAdapter(adapter);
         LinearLayoutManager drugsLayoutManager =
                 new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rvDrugs.setLayoutManager(drugsLayoutManager);

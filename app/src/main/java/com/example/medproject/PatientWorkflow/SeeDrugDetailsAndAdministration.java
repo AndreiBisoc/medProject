@@ -47,8 +47,7 @@ public class SeeDrugDetailsAndAdministration extends AppCompatActivity implement
         BasicActions.checkIfUserIsLogged(this);
         setContentView(R.layout.drug_details_administration);
 
-        ConstraintLayout container = findViewById(R.id.container1);
-        BasicActions.hideKeyboardWithClick(container, this);
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         txtScop = findViewById(R.id.txtScop);
         txtUnitate = findViewById(R.id.txtUnitate);
