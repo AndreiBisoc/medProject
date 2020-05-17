@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.GeneralActivities.FirebaseUtil;
-import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.SeeDrugDetailsAndAdministration;
 import com.example.medproject.R;
 import com.example.medproject.GeneralActivities.ResourcesHelper;
@@ -40,11 +39,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
     private final boolean loggedAsDoctor;
 
     public DrugAdapter(String medicationID, boolean canEditMedicationFlag, boolean loggedAsDoctor) {
-        final ListActivity l = new ListActivity();
-
         this.canEditMedicationFlag = canEditMedicationFlag;
         this.loggedAsDoctor = loggedAsDoctor;
-        FirebaseUtil.openFbReference("Medications/" + medicationID, l);
+        FirebaseUtil.openFbReference("Medications/" + medicationID);
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medicationLink = FirebaseUtil.mMedicationLink;
         ChildEventListener mChildListener = new ChildEventListener() {

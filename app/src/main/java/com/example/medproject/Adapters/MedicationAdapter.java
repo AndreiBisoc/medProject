@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.GeneralActivities.FirebaseUtil;
-import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyDrugs;
 import com.example.medproject.PatientWorkflow.MyMedications;
 import com.example.medproject.R;
@@ -50,8 +49,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
         boolean displayOnlyOneDoctorsMedication = doctorId != null && !Objects.equals(doctorId, "");
-        final ListActivity l = new ListActivity();
-        FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication, l);
+        FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication);
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
         medications = FirebaseUtil.mMedications;
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
