@@ -1,11 +1,11 @@
-package com.example.medproject.data.Models;
+package com.example.medproject.Models;
 
 import android.os.Build;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.medproject.data.Models.Exceptions.NotLoggedAsPatientException;
+import com.example.medproject.Models.Exceptions.NotLoggedAsPatientException;
 
 import java.io.Serializable;
 import java.time.LocalDate;

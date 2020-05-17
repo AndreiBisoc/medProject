@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import com.example.medproject.AdministratorWorkflow.AddDrug;
 import com.example.medproject.GeneralActivities.FirebaseUtil;
-import com.example.medproject.data.Models.Drug;
+import com.example.medproject.Models.Drug;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;

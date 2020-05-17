@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
 import com.example.medproject.R;
-import com.example.medproject.data.Models.Doctor;
+import com.example.medproject.Models.Doctor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;

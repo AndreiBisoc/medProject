@@ -1,4 +1,4 @@
-package com.example.medproject.data.Models.Exceptions;
+package com.example.medproject.Models.Exceptions;
 
 public class NotLoggedAsPatientException extends RuntimeException {
 

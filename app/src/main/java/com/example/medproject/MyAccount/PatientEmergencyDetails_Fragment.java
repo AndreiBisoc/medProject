@@ -17,8 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
-import com.example.medproject.data.Models.Contact;
-import com.example.medproject.data.Models.Patient;
+import com.example.medproject.Models.Contact;
+import com.example.medproject.Models.Patient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

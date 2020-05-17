@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){ //este doctor
-                                    finish();
+                                    finishAffinity();
                                     Intent intent = new Intent(LoginActivity.this, MyPatientsOrMyDoctorsActivity.class);
                                     intent.putExtra("loggedAsDoctor", true);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -97,13 +97,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     if(dataSnapshot.exists()){ //este pacient
-                                                        finish();
+                                                        finishAffinity();
                                                         Intent intent = new Intent(LoginActivity.this, MyMedications.class);
                                                         intent.putExtra("loggedAsDoctor", false);
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         startActivity(intent);
                                                     }
                                                     else{
+                                                        finishAffinity();
                                                         Intent intent = new Intent(LoginActivity.this, AddDrug.class);
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         startActivity(intent);

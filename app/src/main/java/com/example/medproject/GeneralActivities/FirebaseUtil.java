@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.medproject.ListActivity;
-import com.example.medproject.data.Models.Doctor;
-import com.example.medproject.data.Models.Drug;
-import com.example.medproject.data.Models.Medication;
-import com.example.medproject.data.Models.MedicationLink;
-import com.example.medproject.data.Models.Patient;
+import com.example.medproject.Models.Doctor;
+import com.example.medproject.Models.Drug;
+import com.example.medproject.Models.Medication;
+import com.example.medproject.Models.MedicationLink;
+import com.example.medproject.Models.Patient;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;

@@ -14,7 +14,7 @@ import com.example.medproject.MyAccount.ProfileDetails;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.Authentication.LoginActivity;
 import com.example.medproject.R;
-import com.example.medproject.data.Models.Exceptions.DoctorNotLinkedToPatientException;
+import com.example.medproject.Models.Exceptions.DoctorNotLinkedToPatientException;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
