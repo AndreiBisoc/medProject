@@ -268,7 +268,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration = new DrugAdministration();
         medicationLink = new MedicationLink();
         drugAdministration.setID(mDatabaseReference.push().getKey());
-        String dosageAndUnit = txtDosage.getText().toString().trim() + " " + drugs.get(drugName).getUnitate();
+        String dosageAndUnit = txtDosage.getText().toString().trim();
+        if (drugs.get(drugName) != null)
+            dosageAndUnit = dosageAndUnit + " " + drugs.get(drugName).getUnitate();
         drugAdministration.setDosage(dosageAndUnit);
         drugAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
         drugAdministration.setStartDay(txtStartDay.getText().toString().trim());
