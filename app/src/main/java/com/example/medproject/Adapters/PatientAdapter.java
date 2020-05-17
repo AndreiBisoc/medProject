@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
 import com.example.medproject.DoctorWorkflow.PatientDetails;
 import com.example.medproject.GeneralActivities.FirebaseUtil;
-import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.GeneralActivities.ResourcesHelper;
@@ -44,8 +43,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         if(loggedDoctorUid == null)
             loggedDoctorUid = "";
 
-        final ListActivity l = new ListActivity();
-        FirebaseUtil.openFbReference("DoctorsToPatients", l);
+        FirebaseUtil.openFbReference("DoctorsToPatients");
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference.child(loggedDoctorUid);
         patients = new ArrayList<>();
         ChildEventListener mChildListener = new ChildEventListener() {

@@ -1,5 +1,6 @@
 package com.example.medproject.QRCode.PatientQRCode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.Authentication.LoginActivity;
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.QRCode.ImageDownloaderTask;
@@ -55,16 +57,14 @@ public class GeneratePatientQRCode extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logout_menu) {
-            AuthUI.getInstance()
-                    .signOut(this)
-                    .addOnCompleteListener(task -> {
-                        Log.d("Logout", "Persoana a fost delogată!");
-                        FirebaseUtil.attachListener();
-                    });
-            FirebaseUtil.detachListener();
-            return true;
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            Intent toLoginPage = new Intent(this, LoginActivity.class);
+            toLoginPage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            toLoginPage.putExtra("logOut", "logOut");
+            startActivity(toLoginPage);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 }
