@@ -177,7 +177,10 @@ public class SeeDrugDetailsAndAdministration extends AppCompatActivity implement
         if (item.getItemId() == R.id.logout_menu) {
             FirebaseAuth.getInstance().signOut();
             finish();
-            startActivity(new Intent(this, LoginActivity.class).putExtra("logOut", "logOut"));
+            Intent toLoginPage = new Intent(this, LoginActivity.class);
+            toLoginPage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            toLoginPage.putExtra("logOut", "logOut");
+            startActivity(toLoginPage);
         }
         return true;
     }
