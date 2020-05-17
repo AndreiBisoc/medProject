@@ -20,8 +20,6 @@
         <activity android:name=".DrugInteraction.DrugInteraction">
         </activity>
         <!-- Prototypes -->
-        <activity android:name=".Notifications.NotificationActivity" />
-        <activity android:name=".SpeechRecognition.SpeechToText" />
         <activity
             android:name=".MyAccount.ProfileDetails"
             android:windowSoftInputMode="adjustPan"
@@ -76,7 +74,7 @@
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".PatientWorkflow.SeeDrugDetailsAndAdministration"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustPan"
             tools:ignore="InnerclassSeparator" /> <!-- Doctor workflow -->
         <activity
             android:name=".GeneralActivities.MyPatientsOrMyDoctorsActivity"

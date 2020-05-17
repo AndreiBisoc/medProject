@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,7 +29,8 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drug_interaction);
         setTitle("Studiază interacțiunile");
-//        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
+
+        BasicActions.hideKeyboardWithClick(findViewById(R.id.container), this);
 
         drug1 = findViewById(R.id.drug1);
         drug2 = findViewById(R.id.drug2);
