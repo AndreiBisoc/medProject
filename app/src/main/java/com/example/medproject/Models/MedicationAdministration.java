@@ -1,4 +1,4 @@
-package com.example.medproject.data.Models;
+package com.example.medproject.Models;
 
 public class MedicationAdministration {
     private String drugAdministration;

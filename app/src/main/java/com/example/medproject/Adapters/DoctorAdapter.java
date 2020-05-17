@@ -19,7 +19,7 @@ import com.example.medproject.ListActivity;
 import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.GeneralActivities.ResourcesHelper;
-import com.example.medproject.data.Models.Doctor;
+import com.example.medproject.Models.Doctor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

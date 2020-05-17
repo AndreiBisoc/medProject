@@ -18,7 +18,7 @@ import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
 import com.example.medproject.R;
 import com.example.medproject.GeneralActivities.ResourcesHelper;
 import com.example.medproject.Authentication.LoginActivity;
-import com.example.medproject.data.Models.Patient;
+import com.example.medproject.Models.Patient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;

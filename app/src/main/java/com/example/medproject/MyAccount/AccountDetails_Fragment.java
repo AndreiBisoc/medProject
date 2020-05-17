@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
 import com.example.medproject.GeneralActivities.ResourcesHelper;
-import com.example.medproject.data.Models.UploadedImage;
+import com.example.medproject.Models.UploadedImage;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;

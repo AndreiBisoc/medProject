@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.R;
-import com.example.medproject.data.Models.Medication;
+import com.example.medproject.Models.Medication;
 import com.google.firebase.database.DatabaseReference;
 
 public class DeleteMedicationPopupActivity extends Activity {

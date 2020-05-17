@@ -16,7 +16,7 @@ import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.DoctorWorkflow.AddMedication.AddDrugToMedication;
 import com.example.medproject.R;
 import com.example.medproject.Authentication.LoginActivity;
-import com.example.medproject.data.Models.Drug;
+import com.example.medproject.Models.Drug;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

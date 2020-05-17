@@ -1,4 +1,4 @@
-package com.example.medproject.data.Models;
+package com.example.medproject.Models;
 
 import androidx.annotation.Nullable;
 
