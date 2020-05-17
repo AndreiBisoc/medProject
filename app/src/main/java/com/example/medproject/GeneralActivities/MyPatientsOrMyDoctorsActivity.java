@@ -16,6 +16,7 @@ import com.example.medproject.Adapters.DoctorAdapter;
 import com.example.medproject.Adapters.PatientAdapter;
 import com.example.medproject.Authentication.LoginActivity;
 import com.example.medproject.GeneralActivities.BasicActions;
+import com.example.medproject.QRCode.PatientQRCode.GeneratePatientQRCode;
 import com.example.medproject.QRCode.PatientQRCode.ScanPatientId;
 import com.example.medproject.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,11 +46,11 @@ public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
             PATIENT_ADAPTER = new PatientAdapter();
 //            loggedAsDoctor needs Patient Adapter because the doctor sees his list of patients
             rvList.setAdapter(PATIENT_ADAPTER);
-            initializePage("Pacienții mei", View.VISIBLE);
+            initializePage("Pacienții mei");
         } else {
             DOCTOR_ADAPTER = new DoctorAdapter(loggedAsDoctor);
             rvList.setAdapter(DOCTOR_ADAPTER);
-            initializePage("Doctorii mei", View.GONE);
+            initializePage("Doctorii mei");
         }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -58,7 +59,7 @@ public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
         //progressBar = findViewById(R.id.progressBar);
     }
 
-    private void initializePage(String title, int showAddPatientButton) {
+    private void initializePage(String title) {
         setTitle(title);
 
         emptyView = findViewById(R.id.empty_view);
@@ -70,11 +71,7 @@ public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
         displayMessageOrList(loggedAsDoctor);
 
         ExtendedFloatingActionButton addPatientToDoctor = findViewById(R.id.addPatientToDoctorButton);
-        addPatientToDoctor.setVisibility(showAddPatientButton);
-        if(showAddPatientButton == View.VISIBLE) {
-            addPatientToDoctor.setEnabled(true);
-            addPatientToDoctor.setOnClickListener(v -> goToAddPatientPage());
-        }
+        addPatientToDoctor.setOnClickListener(v -> goToAddPatientPage());
     }
 
     @Override
@@ -99,9 +96,14 @@ public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
     }
 
     private void goToAddPatientPage(){
-        Intent addNewPatient = new Intent(this, ScanPatientId.class);
-        addNewPatient.putExtra("patientsCNPs",PATIENT_ADAPTER.patientsCNPs);
-        startActivity(addNewPatient);
+        if(loggedAsDoctor) {
+            Intent addNewPatient = new Intent(this, ScanPatientId.class);
+            addNewPatient.putExtra("patientsCNPs", PATIENT_ADAPTER.patientsCNPs);
+            startActivity(addNewPatient);
+        } else {
+            Intent addNewDoctor = new Intent(this, GeneratePatientQRCode.class);
+            startActivity(addNewDoctor);
+        }
     }
 
     public static void displayMessageOrList(boolean loggedAsDoctor) {
