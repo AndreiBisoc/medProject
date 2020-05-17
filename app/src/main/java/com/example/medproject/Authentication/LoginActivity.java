@@ -16,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.medproject.AdministratorWorkflow.AddDrug;
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
-import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
+import com.example.medproject.PatientWorkflow.MyMedications;
 import com.example.medproject.R;
 import com.example.medproject.Authentication.Register.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;

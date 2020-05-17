@@ -1,4 +1,4 @@
-package com.example.medproject.PatientWorkflow.MyMedications;
+package com.example.medproject.PatientWorkflow;
 
 import android.content.Intent;
 import android.os.Bundle;

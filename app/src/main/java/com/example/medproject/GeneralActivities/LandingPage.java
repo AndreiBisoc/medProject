@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.AdministratorWorkflow.AddDrug;
 import com.example.medproject.Authentication.LoginActivity;
-import com.example.medproject.PatientWorkflow.MyMedications.MyMedications;
+import com.example.medproject.PatientWorkflow.MyMedications;
 import com.example.medproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
