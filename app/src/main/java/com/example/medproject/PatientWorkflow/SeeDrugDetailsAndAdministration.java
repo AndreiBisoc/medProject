@@ -128,8 +128,7 @@ public class SeeDrugDetailsAndAdministration extends AppCompatActivity implement
                     .child(drugAdministrationID)
                     .setValue(changedAdministration).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Medicația a fost editată cu succes");
-                    finish();
+                    BasicActions.displaySnackBarAndFinish(SeeDrugDetailsAndAdministration.this, "Medicația a fost editată cu succes");
                 }
             });
         });

@@ -146,8 +146,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
                 }
 
                 handleNotifications();
-                BasicActions.displaySnackBar(getWindow().getDecorView(), "Notificarile au fost setate cu succes");
-                finish();
+                BasicActions.displaySnackBarAndFinish(ScanMedicationId.this, "Notificarile au fost setate cu succes");
             }
 
             @Override

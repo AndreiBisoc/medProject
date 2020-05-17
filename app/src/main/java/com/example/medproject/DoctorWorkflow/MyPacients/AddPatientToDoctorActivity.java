@@ -152,8 +152,7 @@ public class AddPatientToDoctorActivity extends AppCompatActivity {
                             .child(patient.getId())
                             .setValue(link).addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
-                                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul a fost adăugat cu succes");
-                                    finish();
+                                    BasicActions.displaySnackBarAndFinish(AddPatientToDoctorActivity.this, "Pacientul a fost adăugat cu succes");
                                 }
                                 else{
                                     BasicActions.displaySnackBar(getWindow().getDecorView(),"Acest pacient este deja înscris");

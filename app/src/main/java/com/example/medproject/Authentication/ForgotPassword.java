@@ -52,8 +52,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Email-ul de recuperare a fost trimis");
-                        finish();
+                        BasicActions.displaySnackBarAndFinish(ForgotPassword.this, "Email-ul de recuperare a fost trimis");
                     }
                     else {
                         BasicActions.displaySnackBar(getWindow().getDecorView(), "Nu există un cont cu această adresă sau aceasta a fost blocată");
