@@ -2,7 +2,6 @@ package com.example.medproject.Authentication.Register;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -15,18 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
-import com.example.medproject.R;
 import com.example.medproject.Models.Doctor;
+import com.example.medproject.R;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
@@ -36,8 +37,8 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
     private ProgressBar progressBar;
     private Button registerButton;
     private FirebaseAuth mAuth;
-    private final String[] SPECIALISATIONS = new String[] {"Cardiolog", "Chirurg","Dermatolog", "Endocrinolog", "Hematolog",
-            "Medic de familie", "Neurolog", "Oncolog", "Pediatru", "Psiholog", "Psihiatru"};
+    private final String[] SPECIALISATIONS = new String[] {"Cardiologie", "Chirurgie generală", "Dermatovenerologie", "Hematologie",
+            "Medicină de familie", "Neurologie", "Oftalmologie", "Psihiatrie"};
 
     @Override
     protected void onStart() {
@@ -168,8 +169,24 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
             int numberOfResults = Integer.parseInt(totalResults);
             if(numberOfResults == 0) {
                 txtPrenume.requestFocus();
-                txtPrenume.setError("Acest doctor nu există");
+                txtPrenume.setError("Acest doctor nu există.");
                 txtNume.setError("");
+                return true;
+            }
+            JsonObject doctorDetails = new JsonParser().parse(result).getAsJsonObject().get("results").getAsJsonArray().get(0).getAsJsonObject();
+            String status = doctorDetails.get("status").toString().toLowerCase().replace("\"","");
+            String specialitate = doctorDetails.get("specialitati").getAsJsonArray().get(0).getAsJsonObject().get("nume").toString().toLowerCase().replace("\"","");
+            if (!status.equals("activ")) {
+                txtPrenume.requestFocus();
+                txtPrenume.setError("Acest doctor nu mai profesează.");
+                txtNume.setError("");
+                return true;
+            }
+            if(!specialitate.equals(txtSpecialisation.getText().toString().toLowerCase())) {
+                TextInputLayout specialisationDropDown = findViewById(R.id.specialisationDropDown);
+                specialisationDropDown.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                txtSpecialisation.requestFocus();
+                txtSpecialisation.setError("Acest doctor nu are această specializare.");
                 return true;
             }
         } catch(NumberFormatException nfe) {
