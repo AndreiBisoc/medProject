@@ -45,6 +45,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
             if(startCode != HttpURLConnection.HTTP_OK) {
                 return null;
             }
+            // throw Exception()
             InputStream inputStream = urlConnection.getInputStream();
             if(inputStream != null) {
                 return BitmapFactory.decodeStream(inputStream);

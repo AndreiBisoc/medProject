@@ -196,4 +196,6 @@
 
     </ScrollView>
 
+    <include layout="@layout/bottom_navigation_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
