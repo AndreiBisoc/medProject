@@ -53,16 +53,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton checkedRadioButton = radioGroup.findViewById(checkedId);
             boolean isChecked = checkedRadioButton.isChecked();
-            if (!isChecked)
-            {   registerButton.setEnabled(false);
-                registerButton.setBackgroundColor(Color.parseColor("#ffe082"));
+            if(!isChecked)
+            {
+                setRegisterButtonStyle(false, "#ffe082");
             } else {
-                registerButton.setEnabled(true);
-                registerButton.setBackgroundColor(Color.parseColor("#ffb300"));
+                setRegisterButtonStyle(true, "#ffb300");
             }
         });
 
         registerButton.setOnClickListener(this);
+    }
+
+    private void setRegisterButtonStyle(boolean isEnabled, String colorString) {
+        registerButton.setEnabled(isEnabled);
+        registerButton.setBackgroundColor(Color.parseColor(colorString));
     }
 
     @Override
@@ -105,7 +109,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private boolean authValidation(String email, String password){
-
         if(email.isEmpty()){
             txtEmail.setError("Introduceți adresa de email");
             txtEmail.requestFocus();
@@ -116,7 +119,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             txtEmail.requestFocus();
             return true;
         }
-
         if(password.isEmpty()){
             txtPassword.setError("Introduceți parola");
             txtPassword.requestFocus();
@@ -127,7 +129,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             txtPassword.requestFocus();
             return true;
         }
-
         return false;
     }
 

@@ -113,9 +113,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
                 finish();
                 goToMyMedicationPage();
             }, 500);
-
         }
-
     }
 
     private void goToMyMedicationPage(){
@@ -129,7 +127,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
         DatabaseReference medicationsDbRef = FirebaseDatabase.getInstance().getReference("Medications/" + medicationId);
         medicationsDbRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {     // medicația pe care o salvezi ulterior în patient to medication
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     if(!Objects.equals(postSnapshot.getKey(), "diagnostic") && !Objects.equals(postSnapshot.getKey(), "doctorName" ) && !Objects.equals(postSnapshot.getKey(), "doctorSpecialization") ) {
                         MedicationAdministration med = postSnapshot.getValue(MedicationAdministration.class);
