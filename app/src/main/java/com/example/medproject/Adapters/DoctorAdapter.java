@@ -41,7 +41,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
     public DoctorAdapter(boolean loggedAsDoctor){
 
         String loggedPatientUid = FirebaseAuth.getInstance().getUid();
-
         FirebaseUtil.openFbReference("DoctorsToPatients");
         DatabaseReference mDatabaseReference = FirebaseUtil.mDatabaseReference;
         doctors = FirebaseUtil.mDoctors;
@@ -124,7 +123,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             }
         };
         mDatabaseReference.addChildEventListener(loadDoctors);
-
     }
 
     @NonNull
@@ -160,9 +158,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             name = itemView.findViewById(R.id.cardView_title);
             specialization = itemView.findViewById(R.id.cardView_subtitle);
             userIcon = itemView.findViewById(R.id.cardView_icon);
-
-//            Button deleteIcon = itemView.findViewById(R.id.deleteIcon);
-//            deleteIcon.setOnClickListener(this);
 
             Button seeMedicationsByDoctor = itemView.findViewById(R.id.cardView_button);
             seeMedicationsByDoctor.setOnClickListener(this);

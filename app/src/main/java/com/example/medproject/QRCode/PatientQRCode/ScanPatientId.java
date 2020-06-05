@@ -11,13 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.Authentication.LoginActivity;
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.GeneralActivities.MyPatientsOrMyDoctorsActivity;
-import com.example.medproject.R;
-import com.example.medproject.Authentication.LoginActivity;
 import com.example.medproject.Models.DoctorToPatientLink;
-import com.example.medproject.Models.Exceptions.DoctorNotLinkedToPatientException;
+import com.example.medproject.Models.Exceptions.NotAPatientAccountException;
 import com.example.medproject.Models.Patient;
+import com.example.medproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,11 +83,10 @@ public class ScanPatientId extends AppCompatActivity implements ZXingScannerView
     @Override
     public void handleResult(Result rawResult) {
         String patientId = rawResult.getText();
-
         try {
             String loggedDoctorId = FirebaseAuth.getInstance().getUid();
             addDoctorToPatientLink(loggedDoctorId, patientId);
-        } catch (DoctorNotLinkedToPatientException e) {
+        } catch (NotAPatientAccountException e) {
             BasicActions.displaySnackBar(getWindow().getDecorView(), e.toString());
         }
     }
@@ -102,6 +101,7 @@ public class ScanPatientId extends AppCompatActivity implements ZXingScannerView
                     public void onDataChange(DataSnapshot snapshot) {
                         if(snapshot == null) {
                             BasicActions.displaySnackBar(getWindow().getDecorView(), "Codul scanat nu e valid. Nu corespunde niciunui pacient.");
+                            throw new NotAPatientAccountException();
                         } else {
                             Patient patientToAdd = snapshot.getValue(Patient.class);
                             DoctorToPatientLink doctorToPatientLink = new DoctorToPatientLink(patientToAdd, registerDate);
