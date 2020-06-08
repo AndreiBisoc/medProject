@@ -141,7 +141,6 @@ public class MyMedications extends AppCompatActivity implements View.OnClickList
         {
             rvMedications.setVisibility(View.VISIBLE);
             noMedicationFoundIcon.setVisibility(View.GONE);
-            String imageUrl = ResourcesHelper.ICONS.get("defaultPatientIconURL");
             emptyView.setVisibility(View.GONE);
 
         }
