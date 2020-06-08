@@ -15,18 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.medproject.Adapters.DoctorAdapter;
 import com.example.medproject.Adapters.PatientAdapter;
 import com.example.medproject.Authentication.LoginActivity;
-import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.QRCode.PatientQRCode.GeneratePatientQRCode;
 import com.example.medproject.QRCode.PatientQRCode.ScanPatientId;
 import com.example.medproject.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
 
     private static RecyclerView rvList;
     private static TextView emptyView;
+    private static CircleImageView nothingToShowIcon;
     private static PatientAdapter PATIENT_ADAPTER;
     private static DoctorAdapter DOCTOR_ADAPTER;
     private boolean loggedAsDoctor;
@@ -41,6 +44,11 @@ public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
         loggedAsDoctor = getIntent().getBooleanExtra("loggedAsDoctor", false);
 
         rvList = findViewById(R.id.rvList);
+        nothingToShowIcon = findViewById(R.id.noResultFound);
+        String imageUrl = ResourcesHelper.ICONS.get("noResultsFound");
+        Picasso.get()
+                .load(imageUrl)
+                .into(nothingToShowIcon);
 
         if(loggedAsDoctor) {
             PATIENT_ADAPTER = new PatientAdapter();
@@ -111,12 +119,14 @@ public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
         if(listIsEmpty)
         {
             rvList.setVisibility(View.GONE);
+            nothingToShowIcon.setVisibility(View.VISIBLE);
             if(!loggedAsDoctor) {
                 emptyView.setText(R.string.no_doctor_to_display);
             }
             emptyView.setVisibility(View.VISIBLE);
         }
         else {
+            nothingToShowIcon.setVisibility(View.GONE);
             rvList.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
