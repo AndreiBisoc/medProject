@@ -17,7 +17,8 @@
         android:roundIcon="@drawable/iconita"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
-        <activity android:name=".DrugInteraction.DrugInteraction">
+        <activity android:name=".DrugInteraction.DrugInteraction"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <!-- Prototypes -->
         <activity

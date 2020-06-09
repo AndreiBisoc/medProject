@@ -23,7 +23,7 @@
         app:showAsAction="never"
         android:id="@+id/study_drug_interactions"
         android:title="@string/drug_interactions"
-        android:icon="@drawable/ic_person_black_24dp"
+        android:icon="@drawable/ic_search_24dp"
         />
     <item
         app:showAsAction="never"

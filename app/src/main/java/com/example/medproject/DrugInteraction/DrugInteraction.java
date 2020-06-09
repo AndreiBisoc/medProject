@@ -7,28 +7,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.GeneralActivities.BasicActions;
-import com.example.medproject.Models.Drug;
 import com.example.medproject.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class DrugInteraction extends AppCompatActivity implements View.OnClickListener {
 
     private TextInputEditText drug1, drug2, interactionText, effectText;
     private TextInputLayout interactionLayout, effectLayout;
     private String drug1Name, drug2Name;
+    private boolean searchAgain = false;
     private Button searchInteractionButton;
     private TextView displayDrunkBankInfo;
     private LinearLayout displayInteraction;
@@ -45,12 +38,6 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
         BasicActions.manageNavigationView(this, bottomNavigationView, true);
 
         drug1 = findViewById(R.id.drug1);
-        drug1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomNavigationView.removeAllViews();
-            }
-        });
         drug2 = findViewById(R.id.drug2);
         searchInteractionButton = findViewById(R.id.searchInteraction);
         searchInteractionButton.setOnClickListener(this);
@@ -66,61 +53,76 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        drug1Name = drug1.getText().toString();
-        drug2Name = drug2.getText().toString();
         drug1.clearFocus();
         drug2.clearFocus();
-        int interactionScore = 0, colorId = getInteractionColor(interactionScore);
-        ColorStateList color = getColorStateList(colorId);
+
+        if(searchAgain) {
+            drug1.setText("");
+            drug2.setText("");
+            findViewById(R.id.searchDrugs).setVisibility(View.VISIBLE);
+            displayInteraction.setVisibility(View.GONE);
+            searchInteractionButton.setText("Caută");
+            searchAgain = false;
+        }
+
+        drug1Name = drug1.getText().toString();
+        drug2Name = drug2.getText().toString();
+
         BasicActions.manageNavigationView(this, bottomNavigationView, true);
         if(validForm()) {
+            searchAgain = true;
+            int[] interactions = DrugInteractionHelper.getInteractionFromDatabase(drug1Name, drug2Name);
 
-            checkInteraction();
+            new android.os.Handler().postDelayed(() -> {
+                    findViewById(R.id.searchDrugs).setVisibility(View.GONE);
+                    displayDrunkBankInfo.setVisibility(View.GONE);
+                    displayInteraction.setVisibility(View.VISIBLE);
+                    searchInteractionButton.setText("Caută din nou");
+                    displayInteraction(interactions);
+            },1500);
+        }
+    }
 
-            displayDrunkBankInfo.setVisibility(View.GONE);
-            displayInteraction.setVisibility(View.VISIBLE);
-            searchInteractionButton.setText("Caută din nou");
-            interactionText.setText(drug1Name + " potențează efectul " + drug2Name);
-            interactionLayout.setEndIconDrawable(R.drawable.ic_check_24dp);
-            interactionLayout.setEndIconTintList(color);
+    private void displayInteraction(int[] interactions) {
+
+        int colorId = getInteractionColor(interactions[0]);
+        ColorStateList color = getColorStateList(colorId);
+        drug1Name = BasicActions.displayWithCapitalLetter(drug1Name);
+        drug2Name = BasicActions.displayWithCapitalLetter(drug2Name);
+        if(interactions[0] == -1) {
+            interactionText.setText(drug1Name + " reduce eficacitatea " + drug2Name + " și invers.");
+            interactionLayout.setEndIconDrawable(R.drawable.ic_warning_black_24dp);
+        } else {
+            if(interactions[0] == 1) {
+                interactionText.setText(drug1Name + " crește eficacitatea " + drug2Name + " și invers.");
+                interactionLayout.setEndIconDrawable(R.drawable.ic_check_24dp);
+            } else {
+                interactionLayout.setEndIconDrawable(R.drawable.ic_not_found_24dp);
+                interactionText.setText("Interacțiunea dintre " + drug1Name + " și " + drug2Name + " e necunoscută.");
+            }
+        }
+        interactionLayout.setEndIconTintList(color);
+        colorId = getInteractionColor(interactions[1]);
+        color = getColorStateList(colorId);
+        if(interactions[1] == -1) {
             effectText.setText(R.string.effect_text);
-
+            effectLayout.setEndIconTintList(color);
+        } else {
+            effectLayout.setEndIconDrawable(R.drawable.ic_not_found_24dp);
+            effectText.setText("Efectul combinării celor două medicamente asupra corpului uman e necunoscut.");
+            effectLayout.setEndIconTintList(color);
         }
 
     }
 
-    private void checkInteraction() {
-        // still hardcoded - nothing finished
-        drug1Name = "Aspirină";
-        DatabaseReference drugsDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Drugs");
-        String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final Drug[] drug1 = new Drug[1];
-        final Drug drug2;
-        drugsDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Drug drug = snapshot.getValue(Drug.class);
-                    if (drug.getNume().equals(drug1Name)) {
-                        drug1[0] = drug;
-                        System.out.println(drug1[0].getDescriere());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
     private int getInteractionColor(int interactionScore) {
-        if(interactionScore >= 0) {
+        if(interactionScore > 0) {
             return R.color.forestgreen;
         } else {
-            return R.color.red;
+            if(interactionScore < 0)
+                return R.color.red;
+            else
+                return R.color.amber;
         }
     }
 
@@ -131,13 +133,11 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
             drug1.requestFocus();
             return false;
         }
-
         if(drug2Name.isEmpty()) {
             drug2.setError(getString(R.string.set_drug_name));
             drug2.requestFocus();
             return false;
         }
-
         return true;
     }
 }
