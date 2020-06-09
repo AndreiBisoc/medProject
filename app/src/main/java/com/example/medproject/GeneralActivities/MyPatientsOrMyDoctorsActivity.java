@@ -115,7 +115,8 @@ public class MyPatientsOrMyDoctorsActivity extends AppCompatActivity {
     }
 
     public static void displayMessageOrList(boolean loggedAsDoctor) {
-        boolean listIsEmpty = loggedAsDoctor ? PATIENT_ADAPTER.noPatientsToDisplay : DOCTOR_ADAPTER.noDoctorsToDisplay;
+        boolean listIsEmpty = loggedAsDoctor ? PATIENT_ADAPTER.noPatientsToDisplay
+                : DOCTOR_ADAPTER.noDoctorsToDisplay;
         if(listIsEmpty)
         {
             rvList.setVisibility(View.GONE);

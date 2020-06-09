@@ -38,6 +38,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:orientation="vertical"
@@ -47,89 +48,62 @@
                 app:layout_constraintTop_toBottomOf="@+id/interaction_icon"
                 app:layout_constraintVertical_bias="0">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/searchDrugs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:justificationMode="inter_word"
-                    android:text="@string/introduce_drug_names"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="@dimen/text_margin_standard"
-                    android:layout_marginEnd="24dp"
-                    android:hint="@string/drug1"
-                    android:inputType="text"
-                    app:boxBackgroundColor="@color/white"
-                    app:boxStrokeColor="@color/amber"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="20dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/drug1"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="@dimen/text_margin_standard"
+                        android:layout_marginEnd="24dp"
+                        android:hint="@string/drug1"
+                        android:inputType="text"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxStrokeColor="@color/amber"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteX="20dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="@dimen/text_margin_standard"
-                    android:layout_marginEnd="24dp"
-                    android:hint="@string/drug2"
-                    android:inputType="textShortMessage"
-                    app:boxBackgroundColor="@color/white"
-                    app:boxStrokeColor="@color/amber"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="20dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/drug1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences|textPersonName"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/drug2"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="@dimen/text_margin_standard"
+                        android:layout_marginEnd="24dp"
+                        android:hint="@string/drug2"
+                        android:inputType="textShortMessage"
+                        app:boxBackgroundColor="@color/white"
+                        app:boxStrokeColor="@color/amber"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteX="20dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/searchInteraction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|center_vertical"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="4dp"
-                    android:backgroundTint="@color/amber"
-                    android:text="@string/searchInteraction"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:icon="@drawable/ic_find_in_page_24dp" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/drug2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences|textPersonName" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/displayDrunkBankInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="40dp"
-                    android:justificationMode="inter_word"
-                    android:text="@string/drugBankInfo"
-                    android:textColor="@color/grey"
-                    android:textSize="18sp"
-                    android:visibility="visible" />
+                </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:id="@+id/displayInteraction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -167,7 +141,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:layout_marginTop="@dimen/text_margin_standard"
+                        android:layout_marginTop="32dp"
                         android:layout_marginEnd="24dp"
                         android:hint="@string/effect"
                         app:boxBackgroundColor="@color/white"
@@ -189,6 +163,34 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/searchInteraction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|center_vertical"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="4dp"
+                    android:backgroundTint="@color/amber"
+                    android:text="@string/searchInteraction"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:icon="@drawable/ic_find_in_page_24dp" />
+
+                <TextView
+                    android:id="@+id/displayDrunkBankInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="40dp"
+                    android:justificationMode="inter_word"
+                    android:text="@string/drugBankInfo"
+                    android:textColor="@color/grey"
+                    android:textSize="18sp"
+                    android:visibility="visible" />
 
             </LinearLayout>
 

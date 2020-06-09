@@ -130,7 +130,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Ștergere " + patientName)
                 .setMessage("Sunteți sigur că doriți să ștergeți acest pacient?")
-                .setNegativeButton("Anulare", /* listener = */ null)
+                .setNegativeButton("Anulare", null)
                 .setPositiveButton("Ștergere", (dialog, which) -> {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();

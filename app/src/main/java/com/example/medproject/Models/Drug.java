@@ -10,6 +10,9 @@ public class Drug implements Serializable {
     private String scop;
     private String unitate;
     private String descriere;
+    private String[] drugsWithHumanBodyEffect;
+    private String[] positiveInteractingDrugs;
+    private String[] negativeInteractingDrugs;
 
     public Drug(){}
 
@@ -18,12 +21,16 @@ public class Drug implements Serializable {
         this.setNume(nume);
     }
 
-    public Drug(String nume, String scop, String unitate, String descriere) {
+    public Drug(String nume, String scop, String unitate, String descriere,String drugsWithHumanBodyEffect,
+                String positiveInteractingDrugs, String negativeInteractingDrugs) {
         this.setId(id);
         this.setNume(nume);
         this.setScop(scop);
         this.setUnitate(unitate);
         this.setDescriere(descriere);
+        this.setDrugsWithHumanBodyEffect(drugsWithHumanBodyEffect);
+        this.setPositiveInteractingDrugs(positiveInteractingDrugs);
+        this.setNegativeInteractingDrugs(negativeInteractingDrugs);
     }
 
     public String getId() {
@@ -72,4 +79,29 @@ public class Drug implements Serializable {
     public void setDescriere(String descriere) {
         this.descriere = descriere;
     }
+
+    public String[] getDrugsWithHumanBodyEffect() {
+        return drugsWithHumanBodyEffect;
+    }
+
+    public void setDrugsWithHumanBodyEffect(String drugsWithHumanBodyEffect) {
+        this.drugsWithHumanBodyEffect = drugsWithHumanBodyEffect.split(",");
+    }
+
+    public String[] getPositiveInteractingDrugs() {
+        return positiveInteractingDrugs;
+    }
+
+    public void setPositiveInteractingDrugs(String positiveInteractingDrugs) {
+        this.positiveInteractingDrugs = positiveInteractingDrugs.split(",");
+    }
+
+    public String[] getNegativeInteractingDrugs() {
+        return negativeInteractingDrugs;
+    }
+
+    public void setNegativeInteractingDrugs(String negativeInteractingDrugs) {
+        this.negativeInteractingDrugs = negativeInteractingDrugs.split(",");
+    }
+
 }

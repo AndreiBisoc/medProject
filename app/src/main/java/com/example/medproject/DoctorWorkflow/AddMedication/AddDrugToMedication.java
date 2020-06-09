@@ -193,8 +193,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
     private void displayInteraction(TextInputLayout medicineNameInputLayout, int iconId, ColorStateList color, String introducedDrugName, String secondDrugName, boolean displayError) {
         medicineNameInputLayout.setErrorIconDrawable(iconId);
-        if (introducedDrugName != null && introducedDrugName.length() > 0)
-            introducedDrugName = introducedDrugName.substring(0, 1).toUpperCase() + introducedDrugName.substring(1);
+        introducedDrugName = BasicActions.displayWithCapitalLetter(introducedDrugName);
         if (displayError) {
             medicineNameInputLayout.setError(introducedDrugName + " NU este recomandat cu " + secondDrugName);
         } else {

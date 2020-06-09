@@ -101,6 +101,12 @@ public class BasicActions {
         }
     }
 
+    public static String displayWithCapitalLetter(String word) {
+        if (word != null && word.length() > 0)
+            return word.substring(0, 1).toUpperCase() + word.substring(1);
+        return "";
+    }
+
     public static void manageNavigationView(AppCompatActivity activity, BottomNavigationView bottomNavigationView, boolean loggedAsDoctor) {
         if(loggedAsDoctor) {
             bottomNavigationView.getMenu().removeItem(R.id.my_medications);
