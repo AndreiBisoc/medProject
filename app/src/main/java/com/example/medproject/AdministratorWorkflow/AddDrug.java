@@ -108,10 +108,6 @@ public class AddDrug extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void deleteDrug(){
-        if(drug == null){
-            BasicActions.displaySnackBar(getWindow().getDecorView(),"Vă rugăm salvați medicamentul înainte să îl ștergeți!");
-            return;
-        }
         mDatabaseReference.child(drug.getId()).removeValue();
     }
 

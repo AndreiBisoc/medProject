@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,7 +49,7 @@ public class DoctorDetails_Fragment extends Fragment {
 
         final String loggedUser = FirebaseAuth.getInstance().getUid();
         // hiding keyboard when the container is clicked
-        BasicActions.hideKeyboardWithClick(getView().findViewById(R.id.container), (AppCompatActivity) getActivity());
+        BasicActions.hideKeyboardWithClick(requireView().findViewById(R.id.container), (AppCompatActivity) getActivity());
 
         View view = getView();
         txtLastname = view.findViewById(R.id.txtLastname);
@@ -71,6 +72,7 @@ public class DoctorDetails_Fragment extends Fragment {
             String specialization = txtSpecializare.getText().toString().trim();
             Doctor doctor = new Doctor();
             Map<String, Object> detailsToUpdate = doctor.updateDoctorDetails(firstName, lastName, phone, adresaCabinet, specialization);
+            assert loggedUser != null;
             FirebaseDatabase.getInstance().getReference("Doctors")
                     .child(loggedUser)
                     .updateChildren(detailsToUpdate).addOnCompleteListener(task -> {
@@ -87,9 +89,9 @@ public class DoctorDetails_Fragment extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshotMedication: dataSnapshot.getChildren()) {
-                                if(snapshotMedication.child("doctorName").getValue().equals(doctorName) ) {
+                                if(Objects.equals(snapshotMedication.child("doctorName").getValue(), doctorName)) {
                                     FirebaseDatabase.getInstance().getReference("Medications")
-                                            .child(snapshotMedication.getKey())
+                                            .child(Objects.requireNonNull(snapshotMedication.getKey()))
                                             .child("doctorName")
                                             .setValue(firstName + " " + lastName);
                                 }
@@ -107,10 +109,10 @@ public class DoctorDetails_Fragment extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshotPatient: dataSnapshot.getChildren()) {
                                 for (DataSnapshot snapshotMedication: snapshotPatient.getChildren()) {
-                                    if(snapshotMedication.child("doctorName").getValue().equals(doctorName)) {
+                                    if(Objects.equals(snapshotMedication.child("doctorName").getValue(), doctorName)) {
                                         FirebaseDatabase.getInstance().getReference("PatientToMedications")
-                                                .child(snapshotPatient.getKey())
-                                                .child(snapshotMedication.getKey())
+                                                .child(Objects.requireNonNull(snapshotPatient.getKey()))
+                                                .child(Objects.requireNonNull(snapshotMedication.getKey()))
                                                 .child("doctorName")
                                                 .setValue(firstName + " " + lastName);
                                     }
@@ -130,6 +132,7 @@ public class DoctorDetails_Fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Doctor doctor = dataSnapshot.getValue(Doctor.class);
+                assert doctor != null;
                 txtLastname.setText(doctor.getLastName());
                 txtFirstname.setText(doctor.getFirstName());
                 txtSpecializare.setText(doctor.getSpecialization());

@@ -1,6 +1,7 @@
 package com.example.medproject.QRCode.MedicationQRCode;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -99,6 +100,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
         try {
             BasicActions.checkDoctorPatientLink(doctorId, patientId);
             String loggedPatientId = FirebaseAuth.getInstance().getUid();
+            assert loggedPatientId != null;
             if(!loggedPatientId.equals(patientId)) {
                 throw new WrongPatientScanningQRException();
             }
@@ -133,6 +135,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     if(!Objects.equals(postSnapshot.getKey(), "diagnostic") && !Objects.equals(postSnapshot.getKey(), "doctorName" ) && !Objects.equals(postSnapshot.getKey(), "doctorSpecialization") ) {
                         MedicationAdministration med = postSnapshot.getValue(MedicationAdministration.class);
+                        assert med != null;
                         med.setDrugId(postSnapshot.getKey());
                         medicationAdministrationList.add(med);
                     }
@@ -166,6 +169,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     DrugAdministration drugAdministration = dataSnapshot.getValue(DrugAdministration.class);
+                    assert drugAdministration != null;
                     createNotifications(drugAdministration, medAdministration.getDrugName());
                 }
 
@@ -180,7 +184,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
     private void createNotifications(DrugAdministration drugAdministration, String drugName){
 
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date now = Calendar.getInstance().getTime();
             Date startingDate = dateFormat.parse(drugAdministration.getStartDay() + " "
                     + drugAdministration.getStartHour() + ":00");
@@ -204,6 +208,8 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
 
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+            assert startingDate != null;
+            assert alarmManager != null;
             alarmManager.set(AlarmManager.RTC,
                     startingDate.getTime(),
                     pendingIntent);
@@ -213,16 +219,15 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
     }
 
     private void createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "PillReminderChannel";
-            String description = "Channel for pill reminder";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("takePill", name, importance);
-            channel.setDescription(description);
+        CharSequence name = "PillReminderChannel";
+        String description = "Channel for pill reminder";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel channel = new NotificationChannel("takePill", name, importance);
+        channel.setDescription(description);
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        assert notificationManager != null;
+        notificationManager.createNotificationChannel(channel);
     }
 
     @Override

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class PatientEmergencyDetails_Fragment extends Fragment {
@@ -56,11 +57,12 @@ public class PatientEmergencyDetails_Fragment extends Fragment {
         super.onStart();
         myView = getView();
         // hiding keyboard when the container is clicked
-        BasicActions.hideKeyboardWithClick(getView().findViewById(R.id.container), (AppCompatActivity) getActivity());
+        BasicActions.hideKeyboardWithClick(requireView().findViewById(R.id.container), (AppCompatActivity) getActivity());
         final String loggedUser = FirebaseAuth.getInstance().getUid();
 
         initializeDropDowns();
         progressBar = myView.findViewById(R.id.progressBar);
+        assert loggedUser != null;
         patientRef = FirebaseDatabase.getInstance().getReference("Patients").child(loggedUser);
         age = myView.findViewById(R.id.age);
         radioGroup = myView.findViewById(R.id.gender);
@@ -79,7 +81,7 @@ public class PatientEmergencyDetails_Fragment extends Fragment {
     private void initializeDropDowns() {
         List<String> bloodTypes = new ArrayList<>( Arrays.asList("0 (I)", "A (II)", "B (III)", "AB (IV)"));
         ArrayAdapter adapter = new ArrayAdapter< >
-                (this.getContext(), android.R.layout.select_dialog_item, bloodTypes);
+                (this.requireContext(), android.R.layout.select_dialog_item, bloodTypes);
         chooseBloodType = myView.findViewById(R.id.bloodType);
         chooseBloodType.setOnClickListener(v -> hideKeyboard());
         chooseBloodType.setAdapter(adapter);
@@ -87,7 +89,7 @@ public class PatientEmergencyDetails_Fragment extends Fragment {
 
         List<String> RHTypes = new ArrayList<>( Arrays.asList("RH+", "RH-"));
         ArrayAdapter< String > RHAdapter = new ArrayAdapter<>
-                (this.getContext(), android.R.layout.select_dialog_item, RHTypes);
+                (this.requireContext(), android.R.layout.select_dialog_item, RHTypes);
         chooseRHType =  myView.findViewById(R.id.RHType);
         chooseRHType.setOnClickListener(v -> hideKeyboard());
         chooseRHType.setAdapter(RHAdapter);
@@ -98,22 +100,21 @@ public class PatientEmergencyDetails_Fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
+                assert patient != null;
                 String birthDate = patient.getBirthDate();
-                if(patient!=null) {
-                    age.setText(Integer.toString(Patient.getAge(birthDate)));
-                    if(patient.getGender()!=null && patient.getGender().equals("F")) {
-                        radioGroup.check(R.id.isFemale);
-                    } else {
-                        radioGroup.check(R.id.isMale);
-                    }
-                    chooseBloodType.setText(patient.getBloodType());
-                    chooseRHType.setText(patient.getRH());
-                    allergies.setText(patient.getAllergies());
-                    if(patient.getEmergencyContact()!=null) {
-                        emergencyContactName.setText(patient.getEmergencyContact().getName());
-                        emergencyContactPhone.setText(patient.getEmergencyContact().getPhoneNumber());
-                        emergencyContactRelationship.setText(patient.getEmergencyContact().getRelationship());
-                    }
+                age.setText(Integer.toString(Patient.getAge(birthDate)));
+                if(patient.getGender()!=null && patient.getGender().equals("F")) {
+                    radioGroup.check(R.id.isFemale);
+                } else {
+                    radioGroup.check(R.id.isMale);
+                }
+                chooseBloodType.setText(patient.getBloodType());
+                chooseRHType.setText(patient.getRH());
+                allergies.setText(patient.getAllergies());
+                if(patient.getEmergencyContact()!=null) {
+                    emergencyContactName.setText(patient.getEmergencyContact().getName());
+                    emergencyContactPhone.setText(patient.getEmergencyContact().getPhoneNumber());
+                    emergencyContactRelationship.setText(patient.getEmergencyContact().getRelationship());
                 }
             }
 
@@ -129,21 +130,21 @@ public class PatientEmergencyDetails_Fragment extends Fragment {
         String gender = radioGroup.getCheckedRadioButtonId() == R.id.isMale ? "M" : "F";
         String bloodType = chooseBloodType.getText().toString().trim();
         String RHType = chooseRHType.getText().toString().trim();
-        String allergies = ((TextInputEditText) myView.findViewById(R.id.allergies)).getText().toString();
-        String emergencyContactName = ((TextInputEditText) myView.findViewById(R.id.emergencyContactName)).getText().toString();
-        String emergencyContactPhone = ((TextInputEditText) myView.findViewById(R.id.emergencyContactPhone)).getText().toString();
-        String emergencyContactRelationship = ((TextInputEditText) myView.findViewById(R.id.emergencyContactRelationship)).getText().toString();
+        String allergies = Objects.requireNonNull(((TextInputEditText) myView.findViewById(R.id.allergies)).getText()).toString();
+        String emergencyContactName = Objects.requireNonNull(((TextInputEditText) myView.findViewById(R.id.emergencyContactName)).getText()).toString();
+        String emergencyContactPhone = Objects.requireNonNull(((TextInputEditText) myView.findViewById(R.id.emergencyContactPhone)).getText()).toString();
+        String emergencyContactRelationship = Objects.requireNonNull(((TextInputEditText) myView.findViewById(R.id.emergencyContactRelationship)).getText()).toString();
 
         Patient p = new Patient();
         Contact emergencyContact = new Contact(emergencyContactPhone, emergencyContactName, emergencyContactRelationship);
         Map<String, Object> emergencyDetails = p.setEmergencyDetails(gender, bloodType, RHType, allergies, emergencyContact);
 
         patientRef.updateChildren(emergencyDetails);
-        BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Datele dumneavoastră au fost salvate.");
+        BasicActions.displaySnackBar(requireActivity().getWindow().getDecorView(), "Datele dumneavoastră au fost salvate.");
         progressBar.setVisibility(View.GONE);
     }
 
     private void hideKeyboard() {
-        BasicActions.hideKeyboard((AppCompatActivity)this.getActivity());
+        BasicActions.hideKeyboard((AppCompatActivity) this.requireActivity());
     }
 }

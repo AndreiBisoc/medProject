@@ -51,6 +51,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DoctorToPatientLink doctorToPatientLink = dataSnapshot.getValue(DoctorToPatientLink.class);
+                assert doctorToPatientLink != null;
                 if (doctorToPatientLink.getPatient() != null) {
                     Patient patient = doctorToPatientLink.getPatient();
                     patient.setId(dataSnapshot.getKey());
@@ -67,6 +68,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 DoctorToPatientLink doctorToPatientLink = dataSnapshot.getValue(DoctorToPatientLink.class);
+                assert doctorToPatientLink != null;
                 Patient patient = doctorToPatientLink.getPatient();
                 int position = patientsCNPs.indexOf(patient.getCNP());
                 patients.set(position, patient);
@@ -76,6 +78,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 DoctorToPatientLink doctorToPatientLink = dataSnapshot.getValue(DoctorToPatientLink.class);
+                assert doctorToPatientLink != null;
                 Patient patient = doctorToPatientLink.getPatient();
                 int position = patients.indexOf(patient);
                 patients.remove(patient);

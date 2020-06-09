@@ -37,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
@@ -85,27 +87,30 @@ public class AccountDetails_Fragment extends Fragment implements View.OnClickLis
         databaseReference = loggedAsDoctor ? databaseReference.child("Doctors") : databaseReference.child("Patients");
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        databaseReference.child(user.getUid())
-                .child("image")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        UploadedImage uploadedImage = dataSnapshot.getValue(UploadedImage.class);
-                        if (uploadedImage != null) {
-                            Picasso.get()
-                                    .load(uploadedImage.getImageUrl())
-                                    .into(userIcon);
-                        } else {
-                            Picasso.get().
-                                    load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(userIcon);
+        if (user != null) {
+            databaseReference.child(user.getUid())
+                    .child("image")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            UploadedImage uploadedImage = dataSnapshot.getValue(UploadedImage.class);
+                            if (uploadedImage != null) {
+                                Picasso.get()
+                                        .load(uploadedImage.getImageUrl())
+                                        .into(userIcon);
+                            } else {
+                                Picasso.get().
+                                        load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(userIcon);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Imaginea nu a putut fi încărcată");
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            if (getActivity() != null)
+                                BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Imaginea nu a putut fi încărcată");
+                        }
+                    });
+        }
 
         int max_length = 35;
         txtCurrentPassword.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max_length)});
@@ -114,11 +119,12 @@ public class AccountDetails_Fragment extends Fragment implements View.OnClickLis
         return view;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
         // hiding keyboard when the container is clicked
-        BasicActions.hideKeyboardWithClick(getView().findViewById(R.id.container), (AppCompatActivity) getActivity());
+        BasicActions.hideKeyboardWithClick(requireView().findViewById(R.id.container), (AppCompatActivity) getActivity());
 
         LoadEmailInfo();
     }
@@ -167,12 +173,15 @@ public class AccountDetails_Fragment extends Fragment implements View.OnClickLis
 
     private void sendVerificationMail() {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        user.sendEmailVerification().addOnCompleteListener(task -> {
-            if (task.isSuccessful())
-                BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "E-mail de verificare a fost trimis");
-            else
-                BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "E-mail de verificare nu a putut fi trimis");
-        });
+        if (user != null) {
+            user.sendEmailVerification().addOnCompleteListener(task -> {
+                if (getActivity() != null)
+                    if (task.isSuccessful())
+                        BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "E-mail de verificare a fost trimis");
+                    else
+                        BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "E-mail de verificare nu a putut fi trimis");
+            });
+        }
     }
 
     private void saveChanges() {
@@ -188,17 +197,18 @@ public class AccountDetails_Fragment extends Fragment implements View.OnClickLis
             progressBar.setVisibility(View.VISIBLE);
             disableControllers(true);
             AuthCredential credential = EmailAuthProvider.getCredential(
-                    user.getEmail(),
+                    Objects.requireNonNull(user.getEmail()),
                     currentPassword
             );
             user.reauthenticate(credential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     user.updatePassword(newPassword).addOnCompleteListener(task1 -> {
-                        if (task.isSuccessful()) {
-                            BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Parola a fost schimbată cu succes");
-                        } else {
-                            BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Parola nu a putut fi schimbată");
-                        }
+                        if (getActivity() != null)
+                            if (task.isSuccessful()) {
+                                BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Parola a fost schimbată cu succes");
+                            } else {
+                                BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Parola nu a putut fi schimbată");
+                            }
                         progressBar.setVisibility(View.GONE);
                         disableControllers(false);
                         clean();
@@ -220,21 +230,28 @@ public class AccountDetails_Fragment extends Fragment implements View.OnClickLis
                     fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
                         UploadedImage uploadedImage = new UploadedImage(imageName, uri.toString());
                         databaseReference.child(user.getUid()).child("image").setValue(uploadedImage);
-                        BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Imaginea a fost încărcată cu succes");
+                        if (getActivity() != null)
+                            BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Imaginea a fost încărcată cu succes");
                     });
                 }).addOnFailureListener(e -> {
-                    BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Imaginea nu a putut fi încărcată");
+                    if (getActivity() != null)
+                        BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Imaginea nu a putut fi încărcată");
                 });
             } else {
-                BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Nicio imagine nu a fost încărcată");
+                if (getActivity() != null)
+                    BasicActions.displaySnackBar(getActivity().getWindow().getDecorView(), "Nicio imagine nu a fost încărcată");
             }
         }
     }
 
     private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        if (getActivity() != null) {
+            ContentResolver contentResolver = getActivity().getContentResolver();
+            MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+
+            return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        }
+        return "";
     }
 
     private boolean validatePassword(String currentPassword, String newPassword, String verifyPassword) {

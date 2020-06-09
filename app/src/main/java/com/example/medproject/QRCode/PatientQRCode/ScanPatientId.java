@@ -1,6 +1,7 @@
 package com.example.medproject.QRCode.PatientQRCode;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -94,33 +95,31 @@ public class ScanPatientId extends AppCompatActivity implements ZXingScannerView
 
     private void addDoctorToPatientLink(final String doctorId, final String patientId) {
 
-        String registerDate = new SimpleDateFormat("dd/MM/YYYY").format(new Date());
+        @SuppressLint("SimpleDateFormat") String registerDate = new SimpleDateFormat("dd/MM/YYYY").format(new Date());
         FirebaseDatabase.getInstance().getReference("Patients")
                 .child(patientId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        if(snapshot == null) {
-                            BasicActions.displaySnackBar(getWindow().getDecorView(), "Codul scanat nu e valid. Nu corespunde niciunui pacient.");
-                        } else {
-                            Patient patientToAdd = snapshot.getValue(Patient.class);
-                            DoctorToPatientLink doctorToPatientLink = new DoctorToPatientLink(patientToAdd, registerDate);
-                            ArrayList<String> patientsCNPs = getIntent().getStringArrayListExtra("patientsCNPs");
-                            if(patientsCNPs.contains(patientToAdd.getCNP())){
-                                BasicActions.displaySnackBarLonger(getWindow().getDecorView(), "Pacientul există deja în lista dumneavoastră.");
-                                goToMyPatientsActivity();
-                            }
-                            else {
-                                FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                                        .child(doctorId)
-                                        .child(patientId)
-                                        .setValue(doctorToPatientLink).addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul a fost adăugat cu succes");
-                                        goToMyPatientsActivity();
-                                    }
-                                });
-                            }
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Patient patientToAdd = snapshot.getValue(Patient.class);
+                        DoctorToPatientLink doctorToPatientLink = new DoctorToPatientLink(patientToAdd, registerDate);
+                        ArrayList<String> patientsCNPs = getIntent().getStringArrayListExtra("patientsCNPs");
+                        assert patientToAdd != null;
+                        assert patientsCNPs != null;
+                        if(patientsCNPs.contains(patientToAdd.getCNP())){
+                            BasicActions.displaySnackBarLonger(getWindow().getDecorView(), "Pacientul există deja în lista dumneavoastră.");
+                            goToMyPatientsActivity();
+                        }
+                        else {
+                            FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
+                                    .child(doctorId)
+                                    .child(patientId)
+                                    .setValue(doctorToPatientLink).addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    BasicActions.displaySnackBar(getWindow().getDecorView(), "Pacientul a fost adăugat cu succes");
+                                    goToMyPatientsActivity();
+                                }
+                            });
                         }
                     }
 

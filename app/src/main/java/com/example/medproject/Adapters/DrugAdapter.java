@@ -49,10 +49,12 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 try {
                     MedicationLink medLink = dataSnapshot.getValue(MedicationLink.class);
-                    medLink.setId(dataSnapshot.getKey());
+                    if (medLink != null) {
+                        medLink.setId(dataSnapshot.getKey());
+                    }
                     medicationLink.add(medLink);
                     notifyItemInserted(DrugAdapter.this.medicationLink.size() - 1);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }
@@ -123,15 +125,17 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
             final DatabaseReference drugsRef = FirebaseDatabase.getInstance().getReference().child("Drugs");
             drugsRef.orderByChild("nume").equalTo(drugNameString).addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot drugData) {
+                public void onDataChange(@NonNull DataSnapshot drugData) {
                     Object o = drugData.getValue();
+                    assert o != null;
                     String codMedicament = ((HashMap)o).keySet().toString();
                     codMedicament = codMedicament.substring(1);
                     codMedicament= codMedicament.substring(0, codMedicament.length() - 1);
                     drugsRef.child(codMedicament).addValueEventListener(new ValueEventListener(){
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             // Data is ordered by increasing height, so we want the first entry
                             Drug drug = dataSnapshot.getValue(Drug.class);
+                            assert drug != null;
                             drugScop.setText(drug.getScop());
                             drugNameAndUnit.setText(String.format(Locale.forLanguageTag("ro_RO"),"%s", drugNameString + ", " + drug.getUnitate()));
                             String unit = drug.getUnitate();
@@ -148,14 +152,14 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
                             // ...
                         }
                     });
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                     // ...
                 }
             });

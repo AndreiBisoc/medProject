@@ -92,20 +92,22 @@ public class DoctorDetails extends AppCompatActivity implements View.OnClickList
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Doctor doctor = dataSnapshot.getValue(Doctor.class);
-                CircleImageView doctorIcon = findViewById(R.id.doctorIcon);
-                UploadedImage uploadedImage = doctor.getImage();
-                if (uploadedImage != null) {
-                    Picasso.get().load(uploadedImage.getImageUrl()).into(doctorIcon);
-                } else {
-                    Picasso.get().load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(doctorIcon);
+                if(doctor != null) {
+                    CircleImageView doctorIcon = findViewById(R.id.doctorIcon);
+                    UploadedImage uploadedImage = doctor.getImage();
+                    if (uploadedImage != null) {
+                        Picasso.get().load(uploadedImage.getImageUrl()).into(doctorIcon);
+                    } else {
+                        Picasso.get().load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(doctorIcon);
+                    }
+                    txtLastname.setText(doctor.getLastName());
+                    txtFirstname.setText(doctor.getFirstName());
+                    txtSpecializare.setText(doctor.getSpecialization());
+                    txtPhone.setText(doctor.getPhone());
+                    txtAddress.setText(doctor.getAdresaCabinet());
+                    doctorName = txtLastname.getText() + " " + txtFirstname.getText();
+                    disableControllers(!loggedAsDoctor);
                 }
-                txtLastname.setText(doctor.getLastName());
-                txtFirstname.setText(doctor.getFirstName());
-                txtSpecializare.setText(doctor.getSpecialization());
-                txtPhone.setText(doctor.getPhone());
-                txtAddress.setText(doctor.getAdresaCabinet());
-                doctorName = txtLastname.getText() + " " + txtFirstname.getText();
-                disableControllers(!loggedAsDoctor);
             }
 
             @Override

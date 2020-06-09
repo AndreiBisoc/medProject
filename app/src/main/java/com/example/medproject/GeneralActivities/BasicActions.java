@@ -34,6 +34,7 @@ public class BasicActions {
         if (view == null) {
             view = new View(activity);
         }
+        assert imm != null;
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
@@ -49,7 +50,7 @@ public class BasicActions {
         {
             activity.getSupportActionBar().hide();
         }
-        catch (NullPointerException e){}
+        catch (NullPointerException ignored){}
     }
 
     public static void displaySnackBar(View context, String message) {
@@ -108,6 +109,7 @@ public class BasicActions {
         }
         else {
             bottomNavigationView.getMenu().removeItem(R.id.my_patients);
+            bottomNavigationView.getMenu().removeItem(R.id.study_drug_interactions);
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
     private EditText searchDrugName, txtDosage, txtNoOfDays, txtStartDay, txtStartHour;
@@ -149,6 +150,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         Drug drug = dataSnapshot.getValue(Drug.class);
+                        assert drug != null;
                         drug.setId(dataSnapshot.getKey());
                         drugs.put(drug.getNume(), drug);
                     }
@@ -175,14 +177,16 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                 });
 
         //get Doctor's name
-        String doctorID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String doctorID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         mDatabaseReference = mFirebaseDatabase.getReference("Doctors/" + doctorID);
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Doctor doctor = dataSnapshot.getValue(Doctor.class);
-                doctorName = doctor.getLastName() + " " + doctor.getFirstName();
-                doctorSpecialization = doctor.getSpecialization();
+                if (doctor != null) {
+                    doctorName = doctor.getLastName() + " " + doctor.getFirstName();
+                    doctorSpecialization = doctor.getSpecialization();
+                }
             }
 
             @Override
@@ -270,7 +274,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         drugAdministration.setID(mDatabaseReference.push().getKey());
         String dosageAndUnit = txtDosage.getText().toString().trim();
         if (drugs.get(drugName) != null)
-            dosageAndUnit = dosageAndUnit + " " + drugs.get(drugName).getUnitate();
+            dosageAndUnit = dosageAndUnit + " " + Objects.requireNonNull(drugs.get(drugName)).getUnitate();
         drugAdministration.setDosage(dosageAndUnit);
         drugAdministration.setNoOfDays(txtNoOfDays.getText().toString().trim());
         drugAdministration.setStartDay(txtStartDay.getText().toString().trim());
@@ -283,7 +287,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
         drugAdministrationList.add(drugAdministration);
         try {
-            String drugID = drugs.get(drugName).getId();
+            String drugID = Objects.requireNonNull(drugs.get(drugName)).getId();
             if (medicationDrugIDs.contains(drugID)) {
                 searchDrugName.setError("Acest medicament este adăugat deja");
                 searchDrugName.requestFocus();
@@ -322,7 +326,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                     String m = monthOfYear < 10 ? "0" + (monthOfYear + 1) : "" + (monthOfYear + 1);
                     txtStartDay.setText(String.format(locale, "%s/%s/%s", d, m, year1));
                 }, year, month, day);
-        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(datePickerDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.setTitle("Selectați data de început");
         datePickerDialog.show();
     }

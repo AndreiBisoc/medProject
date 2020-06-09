@@ -17,6 +17,8 @@ import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextInputEditText txtEmail, txtPassword;
@@ -81,8 +83,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void goToNextRegisterPage(String type){
-        final String email = txtEmail.getText().toString();
-        final String password = txtPassword.getText().toString();
+        final String email = Objects.requireNonNull(txtEmail.getText()).toString();
+        final String password = Objects.requireNonNull(txtPassword.getText()).toString();
         Class nextPage;
 
         if(authValidation(email, password)){

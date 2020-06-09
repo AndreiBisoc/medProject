@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -77,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         disableControllers(true);
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                final String userID = mAuth.getCurrentUser().getUid();
+                final String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                 databaseReference.child("Doctors")
                         .child(userID)
                         .addListenerForSingleValueEvent(new ValueEventListener() {

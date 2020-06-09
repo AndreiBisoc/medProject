@@ -1,5 +1,6 @@
 package com.example.medproject.Authentication.Register;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class RegisterPacientActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText txtPrenume, txtNume, txtCNP, txtTelefon, birthDateEditText, txtAdresa;
@@ -34,6 +36,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
     private FirebaseAuth mAuth;
     private DatePickerDialog picker;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
         super.onStart();
@@ -94,7 +97,7 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
             // date picker dialog
             picker = new DatePickerDialog(RegisterPacientActivity.this,
                     (view, year1, monthOfYear, dayOfMonth) -> birthDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1), year, month, day);
-                picker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(picker.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 picker.setTitle("Selectați data nașterii");
             picker.show();
         });
@@ -111,10 +114,8 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.registerButton:
-                registerUser();
-                break;
+        if (v.getId() == R.id.registerButton) {
+            registerUser();
         }
     }
 
@@ -137,13 +138,15 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
         progressBar.setVisibility(View.VISIBLE);
         disableControllers(true);
 
+        assert email != null;
+        assert password != null;
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Patient patient = new Patient(email, prenume, nume, dataNastere, telefon, adresa, CNP);
                         patient.setId(mAuth.getUid());
                         FirebaseDatabase.getInstance().getReference("Patients")
-                                .child(mAuth.getUid())
+                                .child(Objects.requireNonNull(mAuth.getUid()))
                                 .setValue(patient).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
@@ -155,13 +158,13 @@ public class RegisterPacientActivity extends AppCompatActivity implements View.O
                                 if (task1.getException() instanceof FirebaseAuthUserCollisionException) { //deja exista un user cu acest mail
                                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Există deja un cont cu acest email");
                                 } else {
-                                    Toast.makeText(getApplicationContext(), task1.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
                     }
                     else{
-                        Toast.makeText(RegisterPacientActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterPacientActivity.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }

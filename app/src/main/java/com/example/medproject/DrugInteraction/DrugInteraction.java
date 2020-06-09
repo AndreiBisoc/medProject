@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class DrugInteraction extends AppCompatActivity implements View.OnClickListener {
 
     private TextInputEditText drug1, drug2, interactionText, effectText;
@@ -66,8 +68,8 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        drug1Name = drug1.getText().toString();
-        drug2Name = drug2.getText().toString();
+        drug1Name = Objects.requireNonNull(drug1.getText()).toString();
+        drug2Name = Objects.requireNonNull(drug2.getText()).toString();
         drug1.clearFocus();
         drug2.clearFocus();
         int interactionScore = 0, colorId = getInteractionColor(interactionScore);
@@ -93,7 +95,7 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
         // still hardcoded - nothing finished
         drug1Name = "Aspirină";
         DatabaseReference drugsDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Drugs");
-        String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String doctorUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         final Drug[] drug1 = new Drug[1];
         final Drug drug2;
         drugsDatabaseReference.addValueEventListener(new ValueEventListener() {
@@ -101,6 +103,7 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Drug drug = snapshot.getValue(Drug.class);
+                    assert drug != null;
                     if (drug.getNume().equals(drug1Name)) {
                         drug1[0] = drug;
                         System.out.println(drug1[0].getDescriere());

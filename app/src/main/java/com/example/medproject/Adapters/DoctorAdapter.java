@@ -50,26 +50,31 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                    if(ds.getKey().equals(loggedPatientUid)) {
+                    if(Objects.equals(ds.getKey(), loggedPatientUid)) {
                         String doctorId = dataSnapshot.getKey();
                         if(noDoctorsToDisplay) {
                             noDoctorsToDisplay = false;
                             MyPatientsOrMyDoctorsActivity.displayMessageOrList(false);
                         }
-                        DatabaseReference doctorRef = FirebaseDatabase.getInstance().getReference("Doctors").child(doctorId);
-                        doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Doctor doctor = dataSnapshot.getValue(Doctor.class);
-                                doctors.add(doctor);
-                                notifyItemInserted(doctors.size() - 1);
-                            }
+                        DatabaseReference doctorRef = null;
+                        if (doctorId != null) {
+                            doctorRef = FirebaseDatabase.getInstance().getReference("Doctors").child(doctorId);
+                        }
+                        if (doctorRef != null) {
+                            doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Doctor doctor = dataSnapshot.getValue(Doctor.class);
+                                    doctors.add(doctor);
+                                    notifyItemInserted(doctors.size() - 1);
+                                }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
                 }
             }

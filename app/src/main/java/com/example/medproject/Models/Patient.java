@@ -71,7 +71,7 @@ public class Patient implements Serializable {
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof Patient)
-            return ((Patient) obj).cnp == this.cnp;
+            return ((Patient) obj).cnp.equals(this.cnp);
         return false;
     }
 

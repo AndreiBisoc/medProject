@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -47,19 +48,19 @@ public class PatientDetails_Fragment extends Fragment {
         super.onStart();
 
         // hiding keyboard when the container is clicked
-        BasicActions.hideKeyboardWithClick(getView().findViewById(R.id.container), (AppCompatActivity) getActivity());
+        BasicActions.hideKeyboardWithClick(requireView().findViewById(R.id.container), (AppCompatActivity) getActivity());
 
         final String loggedUser = FirebaseAuth.getInstance().getUid();
 
-        txtLastname = getView().findViewById(R.id.txtLastname);
-        txtFirstname = getView().findViewById(R.id.txtFirstName);
-        txtCNP = getView().findViewById(R.id.txtCNP);
-        txtBirthDate = getView().findViewById(R.id.txtBirthDate);
-        txtPhone = getView().findViewById(R.id.txtPhone);
-        txtAddress = getView().findViewById(R.id.txtAddress);
-        patientIcon = getView().findViewById(R.id.patientIcon);
-        progressBar = getView().findViewById(R.id.progressBar);
-        Button saveChangesButton = getView().findViewById(R.id.saveChangesOrDeletePatientButton);
+        txtLastname = requireView().findViewById(R.id.txtLastname);
+        txtFirstname = requireView().findViewById(R.id.txtFirstName);
+        txtCNP = requireView().findViewById(R.id.txtCNP);
+        txtBirthDate = requireView().findViewById(R.id.txtBirthDate);
+        txtPhone = requireView().findViewById(R.id.txtPhone);
+        txtAddress = requireView().findViewById(R.id.txtAddress);
+        patientIcon = requireView().findViewById(R.id.patientIcon);
+        progressBar = requireView().findViewById(R.id.progressBar);
+        Button saveChangesButton = requireView().findViewById(R.id.saveChangesOrDeletePatientButton);
         saveChangesButton.setOnClickListener(v -> {
             progressBar.setVisibility(View.VISIBLE);
             disableControllers(true);
@@ -72,11 +73,12 @@ public class PatientDetails_Fragment extends Fragment {
             String birthDate = txtBirthDate.getText().toString().trim();
             Patient patient = new Patient();
             Map<String, Object> detailsToUpdate = patient.setBasicDetails(firstName, lastName, phone, address, CNP, birthDate);
+            assert loggedUser != null;
             FirebaseDatabase.getInstance().getReference("Patients")
                     .child(loggedUser)
                     .updateChildren(detailsToUpdate).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    View view = getActivity().getWindow().getDecorView();
+                    View view = requireActivity().getWindow().getDecorView();
                     BasicActions.displaySnackBar(view, "Contul a fost editat cu succes");
                     progressBar.setVisibility(View.GONE);
                     disableControllers(false);
@@ -89,9 +91,9 @@ public class PatientDetails_Fragment extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshotDoctors: dataSnapshot.getChildren()) {
                                 for (DataSnapshot snapshotPatient: snapshotDoctors.getChildren()) {
-                                    if(snapshotPatient.getKey().equals(loggedUser)) {
+                                    if(Objects.equals(snapshotPatient.getKey(), loggedUser)) {
                                         FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                                                .child(snapshotDoctors.getKey())
+                                                .child(Objects.requireNonNull(snapshotDoctors.getKey()))
                                                 .child(loggedUser)
                                                 .child("patient")
                                                 .setValue(patient);
@@ -112,22 +114,24 @@ public class PatientDetails_Fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
-                txtLastname.setText(patient.getLastName());
-                txtFirstname.setText(patient.getFirstName());
-                txtCNP.setText(patient.getCNP());
-                txtBirthDate.setText(patient.getBirthDate());
-                txtPhone.setText(patient.getPhone());
-                txtAddress.setText(patient.getAddress());
-                UploadedImage uploadedImage = patient.getImage();
-                if (uploadedImage != null) {
-                    Picasso.get()
-                            .load(uploadedImage.getImageUrl())
-                            .into(patientIcon);
-                } else {
-                    Picasso.get().
-                            load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(patientIcon);
+                if(patient != null) {
+                    txtLastname.setText(patient.getLastName());
+                    txtFirstname.setText(patient.getFirstName());
+                    txtCNP.setText(patient.getCNP());
+                    txtBirthDate.setText(patient.getBirthDate());
+                    txtPhone.setText(patient.getPhone());
+                    txtAddress.setText(patient.getAddress());
+                    UploadedImage uploadedImage = patient.getImage();
+                    if (uploadedImage != null) {
+                        Picasso.get()
+                                .load(uploadedImage.getImageUrl())
+                                .into(patientIcon);
+                    } else {
+                        Picasso.get().
+                                load(ResourcesHelper.ICONS.get("defaultUserIconURL")).into(patientIcon);
+                    }
+                    disableControllers(loggedAsDoctor);
                 }
-                disableControllers(loggedAsDoctor);
             }
 
             @Override

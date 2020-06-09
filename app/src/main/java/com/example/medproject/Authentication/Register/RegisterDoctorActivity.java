@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class RegisterDoctorActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,16 +72,12 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.registerButton:
-                try {
-                    registerUser();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                break;
+        if (v.getId() == R.id.registerButton) {
+            try {
+                registerUser();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -102,13 +99,15 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
         progressBar.setVisibility(View.VISIBLE);
         disableControllers(true);
 
+        assert email != null;
+        assert password != null;
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
                         Doctor doctor = new Doctor(email, prenume, nume, specialisation, telefon, adresaCabinet);
                         doctor.setId(mAuth.getUid());
                         FirebaseDatabase.getInstance().getReference("Doctors")
-                                .child(mAuth.getUid())
+                                .child(Objects.requireNonNull(mAuth.getUid()))
                                 .setValue(doctor).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 BasicActions.displaySnackBar(getWindow().getDecorView(), "Înregistrarea a avut loc cu succes");
@@ -120,13 +119,13 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
                                 if (task1.getException() instanceof FirebaseAuthUserCollisionException) {
                                     BasicActions.displaySnackBar(getWindow().getDecorView(), "Există deja un cont cu acest email");
                                 } else {
-                                    Toast.makeText(getApplicationContext(), task1.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
                     }
                     else{
-                        Toast.makeText(RegisterDoctorActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterDoctorActivity.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }

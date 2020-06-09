@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Map;
+import java.util.Objects;
 
 
 public class PatientDetails extends AppCompatActivity implements View.OnClickListener {
@@ -94,6 +95,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
                 String imageUrl = ResourcesHelper.ICONS.get("defaultPatientIconURL");
+                assert patient != null;
                 if(patient.getImage() != null) {
                     imageUrl = patient.getImage().getImageUrl();
                 }
@@ -133,7 +135,7 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
                 .setNegativeButton("Anulare", /* listener = */ null)
                 .setPositiveButton("Ștergere", (dialog, which) -> {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    String doctorUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String doctorUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                     databaseReference.child("DoctorsToPatients")
                             .child(doctorUid)
                             .child(patientID)
@@ -176,9 +178,9 @@ public class PatientDetails extends AppCompatActivity implements View.OnClickLis
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshotDoctors : dataSnapshot.getChildren()) {
                             for (DataSnapshot snapshotPatient : snapshotDoctors.getChildren()) {
-                                if (snapshotPatient.getKey().equals(loggedUser)) {
+                                if (Objects.equals(snapshotPatient.getKey(), loggedUser)) {
                                     FirebaseDatabase.getInstance().getReference("DoctorsToPatients")
-                                            .child(snapshotDoctors.getKey())
+                                            .child(Objects.requireNonNull(snapshotDoctors.getKey()))
                                             .child(loggedUser)
                                             .child("patient")
                                             .setValue(patient);

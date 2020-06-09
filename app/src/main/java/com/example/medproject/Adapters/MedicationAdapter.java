@@ -46,7 +46,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
     public MedicationAdapter(String patientId, String doctorId) {
         patientIdCopy = patientId;
         loggedAsDoctor = patientId != null;
-        currentUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        currentUser = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         String idToSearchMedication = loggedAsDoctor ? patientId : currentUser;
         boolean displayOnlyOneDoctorsMedication = doctorId != null && !Objects.equals(doctorId, "");
         FirebaseUtil.openFbReference("PatientToMedications/" + idToSearchMedication);
@@ -57,6 +57,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
+                assert medication != null;
                 medication.setId(dataSnapshot.getKey());
                 boolean addMedicationToArray = !displayOnlyOneDoctorsMedication || medication.getDoctorId().equals(doctorId);
                 if(addMedicationToArray) {
@@ -70,6 +71,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
+                assert medication != null;
                 medication.setId(dataSnapshot.getKey());
                 int position = medications.indexOf(medication);
                 medications.set(position, medication);
@@ -79,6 +81,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
+                assert medication != null;
                 medication.setId(dataSnapshot.getKey());
                 int position = medications.indexOf(medication);
                 medications.remove(medication);
@@ -173,6 +176,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Doctor doctor = dataSnapshot.getValue(Doctor.class);
+                    assert doctor != null;
                     String name = doctor.getName();
                     if(name.equals(numeDoctor)) {
                         deleteMedicationButton.setVisibility(View.VISIBLE);

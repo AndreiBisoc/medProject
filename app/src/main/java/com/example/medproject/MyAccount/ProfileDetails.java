@@ -64,9 +64,10 @@ public class ProfileDetails extends AppCompatActivity {
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+            super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT );
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
