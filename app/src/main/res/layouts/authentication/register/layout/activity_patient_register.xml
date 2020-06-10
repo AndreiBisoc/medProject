@@ -76,7 +76,7 @@
                     android:id="@+id/txtPrenume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:inputType="textCapSentences|textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +98,7 @@
                     android:id="@+id/txtNume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:inputType="textCapSentences|textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,7 +165,7 @@
                     android:id="@+id/birthDateEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="date" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,7 +186,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/address"
-                    android:inputType="textMultiLine"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:lines="4"
                     android:minLines="1"
                     android:gravity="top|start"

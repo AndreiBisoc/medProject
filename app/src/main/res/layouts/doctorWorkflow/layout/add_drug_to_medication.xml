@@ -203,7 +203,7 @@
                         android:id="@+id/txtStartDay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
+                        android:inputType="date"
                         android:textSize="14sp"
                         android:focusable="false"/>
 
@@ -225,7 +225,7 @@
                         android:id="@+id/txtStartHour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
+                        android:inputType="date"
                         android:textSize="14sp"
                         android:focusable="false"/>
 

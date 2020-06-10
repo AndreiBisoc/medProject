@@ -31,7 +31,7 @@ android {
                             'src/main/res/layouts/drugInteraction',
                             'src/main/res/layouts/generalResources',
                             'src/main/res/layouts/myAccount',
-                            'src/main/res/layouts/patietWorkflow',
+                            'src/main/res/layouts/patientWorkflow',
                             'src/main/res/layouts/qr'
                     ]
         }
