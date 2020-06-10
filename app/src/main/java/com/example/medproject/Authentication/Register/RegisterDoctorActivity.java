@@ -164,7 +164,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
 
         //Verificare in registrul national al doctorilor
         String result = new JsonTask().execute("https://regmed.cmr.ro/api/v1/public/cautare/" + nume + prenume).get();
-        String totalResults = result.split(",")[0].replaceAll("[^0-9]", "");;
+        String totalResults = result.split(",")[0].replaceAll("[^0-9]", "");
         try {
             int numberOfResults = Integer.parseInt(totalResults);
             if(numberOfResults == 0) {

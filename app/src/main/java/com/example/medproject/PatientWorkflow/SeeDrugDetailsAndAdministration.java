@@ -14,7 +14,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.R;
