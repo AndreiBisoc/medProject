@@ -2,7 +2,6 @@ package com.example.medproject.QRCode.PatientQRCode;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,10 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medproject.Authentication.LoginActivity;
 import com.example.medproject.GeneralActivities.BasicActions;
-import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.QRCode.ImageDownloaderTask;
 import com.example.medproject.R;
-import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class GeneratePatientQRCode extends AppCompatActivity {

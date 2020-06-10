@@ -28,9 +28,9 @@
     <string name="address">Adresă</string>
     <string name="CNP">CNP</string>
 
-    <string name="action_sign_in">Login</string>
-    <string name="action_sign_in_short">Loghează-te</string>
-    <string name="action_register">Înregistrează-te</string>
+    <string name="sign_in">Autentificare</string>
+    <string name="register">Înregistrare</string>
+    <string name="logout">Deconectare</string>
 
     <string name="add_patient_button">Adaugă pacient</string>
     <string name="no_patient_to_display">Momentan nu aveți niciun pacient conectat contului dumneavoastră. Vă rugăm adăugați pacienți.</string>

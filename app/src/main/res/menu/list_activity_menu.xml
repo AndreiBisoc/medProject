@@ -5,6 +5,6 @@
         android:title="Adaugă medicament"
         app:showAsAction="never" />
     <item android:id="@+id/logout_menu"
-        android:title="Logout"
+        android:title="@string/logout"
         app:showAsAction="never" />
 </menu>

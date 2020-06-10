@@ -114,6 +114,7 @@ public class BasicActions {
         }
         else {
             bottomNavigationView.getMenu().removeItem(R.id.my_patients);
+            bottomNavigationView.getMenu().removeItem(R.id.study_drug_interactions);
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {

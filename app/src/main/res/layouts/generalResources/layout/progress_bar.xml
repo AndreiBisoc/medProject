@@ -3,7 +3,6 @@
 
 <ProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/progressBar"
     style="?android:attr/progressBarStyle"
     android:indeterminateDrawable="@drawable/progressbar"
