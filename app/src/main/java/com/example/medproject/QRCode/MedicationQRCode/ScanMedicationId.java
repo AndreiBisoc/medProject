@@ -9,20 +9,21 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medproject.GeneralActivities.BasicActions;
-import com.example.medproject.Notifications.ReminderBroadcast;
-import com.example.medproject.PatientWorkflow.MyMedications;
-import com.example.medproject.R;
 import com.example.medproject.Authentication.LoginActivity;
+import com.example.medproject.GeneralActivities.BasicActions;
 import com.example.medproject.Models.DrugAdministration;
 import com.example.medproject.Models.Exceptions.DoctorNotLinkedToPatientException;
 import com.example.medproject.Models.Exceptions.WrongPatientScanningQRException;
 import com.example.medproject.Models.Medication;
 import com.example.medproject.Models.MedicationAdministration;
+import com.example.medproject.Notifications.ReminderBroadcast;
+import com.example.medproject.PatientWorkflow.MyMedications;
+import com.example.medproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,10 +41,10 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -51,6 +52,7 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
 
     private ZXingScannerView scannerView;
     private final List<MedicationAdministration> medicationAdministrationList = new ArrayList<>();
+    private TextView textToDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
 
 //        Init
         scannerView = findViewById(R.id.zxscan);
+        textToDisplay = findViewById(R.id.empty_view);
+        textToDisplay.setText(R.string.description_scan_medication_QR_code);
 
 //        Request Permission for using camera
         Dexter.withActivity(this)
@@ -124,12 +128,13 @@ public class ScanMedicationId extends AppCompatActivity implements ZXingScannerV
 
     private void addMedicationToDb(final String patientId, final String medicationId) {
 
+        List<String> ignoreKeys = Arrays.asList("diagnostic", "doctorName", "doctorSpecialization", "drugList");
         DatabaseReference medicationsDbRef = FirebaseDatabase.getInstance().getReference("Medications/" + medicationId);
         medicationsDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if(!Objects.equals(postSnapshot.getKey(), "diagnostic") && !Objects.equals(postSnapshot.getKey(), "doctorName" ) && !Objects.equals(postSnapshot.getKey(), "doctorSpecialization") ) {
+                    if(!ignoreKeys.contains(postSnapshot.getKey())) {
                         MedicationAdministration med = postSnapshot.getValue(MedicationAdministration.class);
                         med.setDrugId(postSnapshot.getKey());
                         medicationAdministrationList.add(med);

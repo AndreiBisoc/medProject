@@ -85,45 +85,30 @@ public class DrugInteraction extends AppCompatActivity implements View.OnClickLi
 
     private void displayInteraction(int[] interactions) {
 
-        int colorId = getInteractionColor(interactions[0]);
-        ColorStateList color = getColorStateList(colorId);
-        drug1Name = BasicActions.displayWithCapitalLetter(drug1Name);
-        drug2Name = BasicActions.displayWithCapitalLetter(drug2Name);
+        ColorStateList color = getColorStateList(DrugInteractionHelper.getInteractionColor(interactions[0]));
+        interactionLayout.setEndIconDrawable(DrugInteractionHelper.getInteractionIcon(interactions[0]));
+        drug1Name = BasicActions.capitalizeDrugName(drug1Name);
+        drug2Name = BasicActions.capitalizeDrugName(drug2Name);
         if(interactions[0] == -1) {
             interactionText.setText(drug1Name + " reduce eficacitatea " + drug2Name + " și invers.");
-            interactionLayout.setEndIconDrawable(R.drawable.ic_warning_black_24dp);
         } else {
             if(interactions[0] == 1) {
                 interactionText.setText(drug1Name + " crește eficacitatea " + drug2Name + " și invers.");
-                interactionLayout.setEndIconDrawable(R.drawable.ic_check_24dp);
             } else {
-                interactionLayout.setEndIconDrawable(R.drawable.ic_not_found_24dp);
                 interactionText.setText("Interacțiunea dintre " + drug1Name + " și " + drug2Name + " e necunoscută.");
             }
         }
         interactionLayout.setEndIconTintList(color);
-        colorId = getInteractionColor(interactions[1]);
-        color = getColorStateList(colorId);
+        color = getColorStateList(DrugInteractionHelper.getInteractionColor(interactions[1]));
+        effectLayout.setEndIconTintList(color);
+        effectLayout.setEndIconDrawable(DrugInteractionHelper.getInteractionIcon(interactions[1]));
         if(interactions[1] == -1) {
             effectText.setText(R.string.effect_text);
-            effectLayout.setEndIconTintList(color);
+
         } else {
-            effectLayout.setEndIconDrawable(R.drawable.ic_not_found_24dp);
             effectText.setText("Efectul combinării celor două medicamente asupra corpului uman e necunoscut.");
-            effectLayout.setEndIconTintList(color);
         }
 
-    }
-
-    private int getInteractionColor(int interactionScore) {
-        if(interactionScore > 0) {
-            return R.color.forestgreen;
-        } else {
-            if(interactionScore < 0)
-                return R.color.red;
-            else
-                return R.color.amber;
-        }
     }
 
     private boolean validForm() {

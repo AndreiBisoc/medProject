@@ -101,7 +101,7 @@ public class BasicActions {
         }
     }
 
-    public static String displayWithCapitalLetter(String word) {
+    public static String capitalizeDrugName(String word) {
         if (word != null && word.length() > 0)
             return word.substring(0, 1).toUpperCase() + word.substring(1);
         return "";

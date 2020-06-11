@@ -108,7 +108,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.DrugViewHolder
         DrugViewHolder(@NonNull View itemView) {
             super(itemView);
             drugNameAndUnit = itemView.findViewById(R.id.cardView_title);
+            drugNameAndUnit.setTextSize(20);
             drugScop = itemView.findViewById(R.id.cardView_subtitle);
+            drugScop.setTextSize(16);
             drugIcon = itemView.findViewById(R.id.cardView_icon);
             itemView.findViewById(R.id.cardView_button).setVisibility(View.GONE);
             itemView.setOnClickListener(this);

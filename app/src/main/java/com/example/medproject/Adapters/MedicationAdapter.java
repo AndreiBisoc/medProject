@@ -58,7 +58,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Medication medication = dataSnapshot.getValue(Medication.class);
                 medication.setId(dataSnapshot.getKey());
-                boolean addMedicationToArray = !displayOnlyOneDoctorsMedication || medication.getDoctorId().equals(doctorId);
+                boolean addMedicationToArray = !displayOnlyOneDoctorsMedication || (medication.getDoctorId() != null && medication.getDoctorId().equals(doctorId));
                 if(addMedicationToArray) {
                     noMedicationsToDisplay = false;
                     MyMedications.displayMessageOrMedicationsList();
