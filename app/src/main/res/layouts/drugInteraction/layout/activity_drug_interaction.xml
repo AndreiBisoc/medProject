@@ -145,7 +145,7 @@
                         android:layout_marginEnd="24dp"
                         android:hint="@string/effect"
                         app:boxBackgroundColor="@color/white"
-                        app:endIconDrawable="@drawable/ic_warning_black_24dp"
+                        app:endIconDrawable="@drawable/ic_warning_24dp"
                         app:endIconMode="custom"
                         app:endIconTint="@color/red"
                         app:helperTextTextColor="@color/red"

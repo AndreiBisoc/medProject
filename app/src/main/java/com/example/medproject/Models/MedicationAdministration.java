@@ -4,6 +4,7 @@ public class MedicationAdministration {
     private String drugAdministration;
     private String drugName;
     private String drugId;
+    private String drugList;
 
     public MedicationAdministration(){
     }

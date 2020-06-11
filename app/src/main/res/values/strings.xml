@@ -1,6 +1,6 @@
 <resources>
     <string name="title_activity_my_medications">Medicațiile mele</string>
-    <string name="no_medication_to_display">Nicio medicație pentru acest pacient.</string>
+    <string name="no_medication_to_display">Acestui pacient nu i-a fost prescrisă încă nicio medicație de către niciunul din doctorii săi.</string>
     <string name="adaug_medicatie">Adaugă medicație</string>
     <string name="scan_medication">Scanează medicație</string>
     <string name="delete_medication">Șterge medicație</string>
@@ -42,6 +42,7 @@
     <string name="description_generate_medication_QR_code">Codul QR de mai jos conține informațiile medicației introduse de dumneavoastră.
         Pentru ca pacientul să aibă acces la ea, acesta va trebui să scaneze codul de mai jos.</string>
     <string name="description_scan_patient_QR_code">Scanați codul QR al pacientului pe care doriți să îl adăugați în lista dumneavoastră.</string>
+    <string name="description_scan_medication_QR_code">Scanați codul QR al medicației pe care doriți să v-a prescris-o doctorul.</string>
 
 
     <string name="age">Vârsta</string>
@@ -92,6 +93,8 @@
     <string name="effect">Efect asupra corpului uman</string>
     <string name="effect_text">Combinarea acestor două medicamente are un efect negativ asupra corpului uman.</string>
     <string name="effect_text_maybe">Combinarea acestor două medicamente poate avea un efect negativ asupra corpului uman.</string>
+    <string name="not_found_drug">Acest medicament nu există în baza de date.</string>
+    <string name="already_added_drug">Acest medicament e adăugat deja în medicație.</string>
 
     <string name="administrare">Administrare</string>
     <string name="administrare_zi">Administrare/zi</string>
@@ -124,6 +127,7 @@
     <string name="descriere">Descriere</string>
     <string name="adaug_medicament">Adaugă medicamente</string>
     <string name="adauga">Adaugă</string>
+    <string name="verifica">Verifică interacțiune</string>
     <string name="renunta">Renunță</string>
     <string name="addAnotherDrug">Adaugă alt medicament</string>
     <string name="saveMedication">Salvează Medicația</string>

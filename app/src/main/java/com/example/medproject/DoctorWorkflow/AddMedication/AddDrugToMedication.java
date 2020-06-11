@@ -8,9 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.speech.RecognizerIntent;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,13 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medproject.DrugInteraction.DrugInteractionHelper;
 import com.example.medproject.GeneralActivities.BasicActions;
-import com.example.medproject.QRCode.MedicationQRCode.GenerateMedicationQRCode;
-import com.example.medproject.R;
+import com.example.medproject.GeneralActivities.FirebaseUtil;
 import com.example.medproject.Models.Doctor;
 import com.example.medproject.Models.Drug;
 import com.example.medproject.Models.DrugAdministration;
 import com.example.medproject.Models.MedicationLink;
+import com.example.medproject.QRCode.MedicationQRCode.GenerateMedicationQRCode;
+import com.example.medproject.R;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class AddDrugToMedication extends AppCompatActivity implements View.OnClickListener {
@@ -64,6 +65,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
     private ProgressBar progressBar;
     private final Locale locale = Locale.forLanguageTag("ro_RO");
     private TextInputLayout medicineNameInputLayout, NoOfTimesInputLayout;
+    private String drugList="";
 
     @Override
     protected void onStart() {
@@ -76,33 +78,8 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
         NoOfTimesInputLayout = findViewById(R.id.NoOfTimesInputLayout);
         medicineNameInputLayout = findViewById(R.id.medicineNameInputLayout);
-        medicineNameInputLayout.setEndIconCheckable(true);
         progressBar = findViewById(R.id.progressBar);
         searchDrugName = findViewById(R.id.searchDrug);
-        searchDrugName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String introducedDrugName = s.toString();
-                switch (introducedDrugName.length() % 2) {
-                    case 0:
-                        displayInteraction(medicineNameInputLayout, R.drawable.ic_check_24dp, getColorStateList(R.color.forestgreen), introducedDrugName, "Paracetamol", false);
-                        break;
-                    case 1:
-                        displayInteraction(medicineNameInputLayout, R.drawable.ic_close_24dp, getColorStateList(R.color.red), introducedDrugName, "Paracetamol", true);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
         txtDosage = findViewById(R.id.txtDosage);
         txtNoOfDays = findViewById(R.id.txtNoOfDays);
         NoOfTimes = findViewById(R.id.NoOfTimes);
@@ -113,6 +90,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         Button addAnotherDrugButton = findViewById(R.id.addDrugButton);
         Button saveMedicationButton = findViewById(R.id.saveMedicationButton);
         Button addDrugDetailsButton = findViewById(R.id.addDrugDetailsButton);
+        Button checkDrugInteractionButton = findViewById(R.id.checkDrugInteractionButton);
         noOfInsertedDrugs = findViewById(R.id.noOfInsertedDrugs);
         NoOfTimes.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             NoOfTimesInputLayout.setError(null);
@@ -129,6 +107,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         addAnotherDrugButton.setOnClickListener(this);
         saveMedicationButton.setOnClickListener(this);
         addDrugDetailsButton.setOnClickListener(this);
+        checkDrugInteractionButton.setOnClickListener(this);
         txtStartDay.setOnClickListener(this);
         txtStartHour.setOnClickListener(this);
 
@@ -191,18 +170,25 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         });
     }
 
-    private void displayInteraction(TextInputLayout medicineNameInputLayout, int iconId, ColorStateList color, String introducedDrugName, String secondDrugName, boolean displayError) {
-        medicineNameInputLayout.setErrorIconDrawable(iconId);
-        introducedDrugName = BasicActions.displayWithCapitalLetter(introducedDrugName);
-        if (displayError) {
-            medicineNameInputLayout.setError(introducedDrugName + " NU este recomandat cu " + secondDrugName);
-        } else {
-            medicineNameInputLayout.setError(introducedDrugName + " este recomandat cu " + secondDrugName);
-        }
-        medicineNameInputLayout.setErrorIconTintList(color);
-        medicineNameInputLayout.setErrorTextColor(color);
-        medicineNameInputLayout.setBoxStrokeErrorColor(color);
-        medicineNameInputLayout.setHintTextColor(color);
+    private void displayInteraction(String interactingDrug) {
+        String introducedDrugName = searchDrugName.getText().toString();
+
+//        new android.os.Handler().postDelayed(() -> {
+            boolean existsEffectOnHumanBody = interactingDrug != "";
+            int iconId = existsEffectOnHumanBody == true ? R.drawable.ic_warning_24dp : R.drawable.ic_check_24dp;
+            ColorStateList color = existsEffectOnHumanBody == true ? getColorStateList(R.color.red) : getColorStateList(R.color.forestgreen);
+            medicineNameInputLayout.setErrorIconDrawable(iconId);
+            if (existsEffectOnHumanBody) {
+                medicineNameInputLayout.setError(introducedDrugName + " nu este recomandat cu " + interactingDrug);
+            } else {
+                medicineNameInputLayout.setError(introducedDrugName + " nu interacționează cu niciunul din medicamentele administrate acestui pacient.");
+            }
+            medicineNameInputLayout.setErrorIconTintList(color);
+            medicineNameInputLayout.setErrorTextColor(color);
+            medicineNameInputLayout.setBoxStrokeErrorColor(color);
+            medicineNameInputLayout.setHintTextColor(color);
+//        },1700);
+
     }
 
     @Override
@@ -222,6 +208,84 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.txtStartHour:
                 openTimePicker();
+                break;
+            case R.id.checkDrugInteractionButton:
+                medicineNameInputLayout.setErrorTextColor(getColorStateList(R.color.amber));
+                medicineNameInputLayout.setErrorEnabled(false);
+                medicineNameInputLayout.setHintTextColor(getColorStateList(R.color.amber));
+                String patientId = getIntent().getStringExtra("patientId");
+                final StringBuilder allDrugs = new StringBuilder();
+                DatabaseReference patientToMedicationsDBRef = FirebaseDatabase.getInstance().getReference().child("PatientToMedications").child(patientId);
+                patientToMedicationsDBRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot medication : dataSnapshot.getChildren()){
+                            allDrugs.append(medication.child("drugList").getValue().toString());
+                        }
+                        String allPatientDrugs = allDrugs.toString();
+                        String[] medicineName = new String[1];
+                        medicineName[0] = "";
+                        boolean[] hasShownMessage = {false};
+                        FirebaseUtil.openFbReference("Drugs");
+                        DatabaseReference drugsDatabaseReference = FirebaseUtil.mDatabaseReference;
+                        drugsDatabaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    Drug drug = snapshot.getValue(Drug.class);
+                                    if(drug.getNume().equals(searchDrugName.getText().toString())) {
+                                        if (drug.getDrugsWithHumanBodyEffect() != null) {
+                                            List<String> drugsAdministrated = DrugInteractionHelper.convertToList(allPatientDrugs.split(","));
+                                            List<String> interactingDrugs = DrugInteractionHelper.convertToList(drug.getDrugsWithHumanBodyEffect());
+                                            for(String interactingDrug : interactingDrugs) {
+                                                if(drugsAdministrated.contains(interactingDrug)) {
+                                                    medicineName[0]=interactingDrug;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        String introducedDrugName = searchDrugName.getText().toString();
+
+                                        boolean existsEffectOnHumanBody = medicineName[0] != "";
+                                        int iconId = existsEffectOnHumanBody == true ? R.drawable.ic_warning_24dp : R.drawable.ic_check_24dp;
+                                        ColorStateList color = existsEffectOnHumanBody == true ? getColorStateList(R.color.red) : getColorStateList(R.color.forestgreen);
+                                        medicineNameInputLayout.setErrorIconDrawable(iconId);
+                                        if (existsEffectOnHumanBody) {
+                                            medicineNameInputLayout.setError(introducedDrugName + " nu este recomandat cu " + medicineName[0]);
+                                        } else {
+                                            medicineNameInputLayout.setError(introducedDrugName + " nu interacționează cu niciunul din medicamentele administrate acestui pacient.");
+                                        }
+                                        hasShownMessage[0] = true;
+                                        medicineNameInputLayout.setErrorIconTintList(color);
+                                        medicineNameInputLayout.setErrorTextColor(color);
+                                        medicineNameInputLayout.setBoxStrokeErrorColor(color);
+                                        medicineNameInputLayout.setHintTextColor(color);
+                                    }
+                                }
+                                if(!hasShownMessage[0]) {
+                                    searchDrugName.setError(getString(R.string.not_found_drug));
+                                    searchDrugName.requestFocus();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+//                String interactingDrug = DrugInteractionHelper.getMedicineWhoseCombinationAffectsHumanBody(searchDrugName.getText().toString(), "Paracetamol");
+//                new android.os.Handler().postDelayed(() -> {
+//                    displayInteraction(interactingDrug);
+//                    }, 5000);
+                break;
+            default:
                 break;
         }
     }
@@ -243,7 +307,9 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         }
         mDatabaseReference.child("diagnostic").setValue(diagnostic);
         mDatabaseReference.child("doctorName").setValue(doctorName);
+        mDatabaseReference.child("doctorId").setValue(FirebaseAuth.getInstance().getUid());
         mDatabaseReference.child("doctorSpecialization").setValue(doctorSpecialization);
+        mDatabaseReference.child("drugList").setValue(drugList);
 
         finish();
         getDataForQRCode(medicationLinkId);
@@ -262,6 +328,7 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
     private void addDrugToMedication() {
         drugName = searchDrugName.getText().toString().trim();
+        drugList += drugName + ",";
 
         mDatabaseReference = mFirebaseDatabase.getReference("DrugAdministration");
         drugAdministration = new DrugAdministration();
@@ -284,14 +351,16 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
         try {
             String drugID = drugs.get(drugName).getId();
             if (medicationDrugIDs.contains(drugID)) {
-                searchDrugName.setError("Acest medicament este adăugat deja");
+                medicineNameInputLayout.setErrorIconDrawable(View.AUTOFILL_TYPE_NONE);
+                searchDrugName.setError(getString(R.string.already_added_drug));
                 searchDrugName.requestFocus();
             } else {
                 finishAddingDrug(drugID);
             }
 
         } catch (Exception e) {
-            searchDrugName.setError("Acest medicament nu există");
+            medicineNameInputLayout.setErrorIconDrawable(View.AUTOFILL_TYPE_NONE);
+            searchDrugName.setError(getString(R.string.not_found_drug));
             searchDrugName.requestFocus();
         }
     }
@@ -460,6 +529,14 @@ public class AddDrugToMedication extends AppCompatActivity implements View.OnCli
 
     private void clean() {
         searchDrugName.setText("");
+        ColorStateList color = getColorStateList(R.color.amber);
+        medicineNameInputLayout.setBoxStrokeErrorColor(color);
+        medicineNameInputLayout.setErrorIconDrawable(View.AUTOFILL_TYPE_NONE);
+        medicineNameInputLayout.setErrorIconTintList(color);
+        medicineNameInputLayout.setErrorEnabled(false);
+        medicineNameInputLayout.setHintTextColor(color);
+        medicineNameInputLayout.setBoxStrokeErrorColor(color);
+
         txtDosage.setText("");
         txtNoOfDays.setText("");
         txtStartDay.setText("");
