@@ -159,6 +159,12 @@ public class Patient implements Serializable {
         this.image = image;
     }
 
+    private static String concatenateZero(String string) {
+        if(string.length()<2) {
+            return "0" + string;
+        }
+        return string;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static int getAge(String birthDate) throws NotLoggedAsPatientException {
@@ -166,6 +172,15 @@ public class Patient implements Serializable {
             throw new NotLoggedAsPatientException();
         }
         LocalDate today = LocalDate.now();
+        if(birthDate.length() < 10) {
+            String birthDateCopy[] = birthDate.split("/");
+
+            birthDateCopy[0] = concatenateZero(birthDateCopy[0]);
+            birthDateCopy[1] = concatenateZero(birthDateCopy[1]);
+
+            birthDate = birthDateCopy[0] + "/" + birthDateCopy[1] + "/" + birthDateCopy[2];
+
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

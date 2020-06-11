@@ -41,7 +41,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/appLogo"
+                        android:id="@+id/warning_email"
                         android:layout_width="72dp"
                         android:layout_height="68dp"
                         android:layout_marginStart="48dp"
@@ -91,6 +91,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/changeUserIcon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
