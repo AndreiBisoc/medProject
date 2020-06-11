@@ -14,6 +14,7 @@
     </style>
 
     <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@color/white</item>
         <item name="colorAccent">@color/amber</item>
     </style>
 

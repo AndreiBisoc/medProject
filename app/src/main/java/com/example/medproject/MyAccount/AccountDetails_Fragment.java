@@ -162,6 +162,8 @@ public class AccountDetails_Fragment extends Fragment implements View.OnClickLis
         if (user.isEmailVerified()) {
             verified_email.setVisibility(View.GONE);
             sendVerifyMailButton.setVisibility(View.GONE);
+            getView().findViewById(R.id.warning_email).setVisibility(View.GONE);
+            getView().findViewById(R.id.changeUserIcon).setPadding(0,100,0,100);
         }
     }
 
