@@ -10,20 +10,20 @@
     <string name="logo">Logo</string>
     <string name="title_activity_login">Sign in</string>
 
-    <string name="registerTitle">Crează-ți cont!</string>
+    <string name="registerTitle">Crează-ți cont</string>
     <string name="cont_doctor">Doctor</string>
     <string name="cont_patient">Pacient</string>
     <string name="email">Email</string>
     <string name="password">Parolă</string>
 
-    <string name="register_doctor">Înregistrează-te ca doctor!</string>
+    <string name="register_doctor">Înregistrează-te ca doctor</string>
     <string name="first_name">Prenume</string>
     <string name="last_name">Nume</string>
     <string name="phone">Număr de telefon</string>
     <string name="specialisation">Specializare</string>
     <string name="save">Salvează</string>
 
-    <string name="register_patient">Înregistrează-te ca pacient!</string>
+    <string name="register_patient">Înregistrează-te ca pacient</string>
     <string name="birthDate">Data nașterii</string>
     <string name="address">Adresă</string>
     <string name="CNP">CNP</string>

@@ -8,9 +8,7 @@ public class Contact implements Serializable {
     private String name;
     private String relationship;
 
-    public Contact(){
-
-    }
+    public Contact(){  }
 
     public Contact(String phoneNumber, String name, String relationship) {
         this.phoneNumber = phoneNumber;

@@ -38,7 +38,7 @@ public class RegisterDoctorActivity extends AppCompatActivity implements View.On
     private Button registerButton;
     private FirebaseAuth mAuth;
     private final String[] SPECIALISATIONS = new String[] {"Cardiologie", "Chirurgie generală", "Dermatovenerologie", "Hematologie", "Medicină internă",
-            "Medicină de familie", "Obstetrică-ginecologie", "Neurologie", "Oftalmologie", "Psihiatrie"};
+            "Medicină de familie", "Obstetrică-ginecologie", "Psihiatrie"};
 
     @Override
     protected void onStart() {
