@@ -27,23 +27,13 @@
 
             <ImageView
                 android:id="@+id/appLogo"
-                android:layout_width="144dp"
-                android:layout_height="164dp"
-                android:layout_marginTop="64dp"
+                android:layout_width="226dp"
+                android:layout_height="215dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="28dp"
                 android:contentDescription="@string/logo"
                 android:src="@drawable/newaccount"
                 tools:srcCompat="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/txtCreateAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/black"
-                android:text="@string/registerTitle"
-                android:textSize="24sp"
-                app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
         </LinearLayout>
 
@@ -85,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/text_margin_standard"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/password"
                 app:endIconTint="@color/amber"
@@ -120,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:buttonTint="@color/amber"
                     android:text="@string/cont_doctor" />
 
@@ -129,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:buttonTint="@color/amber"
                     android:text="@string/cont_patient" />
             </RadioGroup>
@@ -144,10 +134,10 @@
             android:layout_gravity="start"
             android:enabled="false"
             android:text="@string/register"
-            android:textSize="16sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputs"
             app:layout_constraintVertical_bias="0.5"
